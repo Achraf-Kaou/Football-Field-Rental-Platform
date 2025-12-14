@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  USER
+}
+
+enum Provider {
+  LOCAL
+  GOOGLE
+  FACEBOOK
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  email        String    @unique
+  password     String?
+  phone        Int
+  role         Role      @default(USER)
+  refreshToken String?
+  googleId     String?   @unique
+  facebookId   String?   @unique
+  provider     Provider? @default(LOCAL)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime? // nullable for soft delete
+
+  // Relations
+  bookings         Booking[]
+  sentMessages     Message[] @relation("sentMessages")
+  receivedMessages Message[] @relation("receivedMessages")
+}
+
+model Field {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  type        String
+  surface     Float
+  price       Float
+  status      String
+  complex     Complex   @relation(fields: [complexId], references: [id])
+  complexId   Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  bookings Booking[]
+}
+
+model Complex {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  address     String
+  phone       Int
+  email       String
+  Fields      Field[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+}
+
+model Booking {
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  field     Field     @relation(fields: [fieldId], references: [id])
+  fieldId   Int
+  startAt   DateTime
+  endAt     DateTime
+  status    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Message {
+  id         Int       @id @default(autoincrement())
+  sender     User      @relation("sentMessages", fields: [senderId], references: [id])
+  senderId   Int
+  receiver   User      @relation("receivedMessages", fields: [receiverId], references: [id])
+  receiverId Int
+  content    String
+  status     String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+}
