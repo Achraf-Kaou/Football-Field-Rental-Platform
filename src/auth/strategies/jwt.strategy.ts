@@ -16,10 +16,10 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
         private configService: ConfigService,
         private prisma: PrismaService,
     ) {
-        const secret = configService.get<string>('JWT_SECRET');
+        const secret = configService.get<string>('JWT_ACCESS_SECRET');
     
         if (!secret) {
-        throw new Error('JWT_SECRET is not defined in environment');
+        throw new Error('JWT_ACCESS_SECRET is not defined in environment');
         }
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
