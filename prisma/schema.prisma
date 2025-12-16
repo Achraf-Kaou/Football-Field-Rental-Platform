@@ -63,8 +63,8 @@ model Complex {
   description String
   address     String
   phone       Int
-  email       String
-  Fields      Field[]
+  email       String    @unique
+  fields      Field[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
