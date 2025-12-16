@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { FieldService } from './field.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
+import { FindAllFieldsDto } from './dto/find-all-fields.dto';
 
 @Controller('field')
 export class FieldController {
@@ -13,8 +14,8 @@ export class FieldController {
   }
 
   @Get()
-  findAll() {
-    return this.fieldService.findAll();
+  findAll(@Query() filters: FindAllFieldsDto) {
+    return this.fieldService.findAll(filters);
   }
 
   @Get(':id')

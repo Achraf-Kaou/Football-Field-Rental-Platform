@@ -1,26 +1,169 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
+import { FindAllFieldsDto } from './dto/find-all-fields.dto';
+import { Field } from '@prisma/client';
 
 @Injectable()
 export class FieldService {
-  create(createFieldDto: CreateFieldDto) {
-    return 'This action adds a new field';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createFieldDto: CreateFieldDto): Promise<Field> {
+    const complex = await this.prisma.complex.findUnique({
+      where: { id: createFieldDto.complexId },
+    });
+
+    if (!complex) {
+      throw new NotFoundException(
+        `Complex with ID ${createFieldDto.complexId} not found`,
+      );
+    }
+
+    const existingField = await this.prisma.field.findFirst({
+      where: {
+        name: createFieldDto.name,
+        complexId: createFieldDto.complexId,
+      },
+    });
+
+    if (existingField) {
+      throw new ConflictException(
+        'Field with this name already exists in this complex',
+      );
+    }
+
+    return this.prisma.field.create({
+      data: {
+        name: createFieldDto.name,
+        description: createFieldDto.description,
+        type: createFieldDto.type,
+        surface: createFieldDto.surface,
+        price: createFieldDto.price,
+        status: createFieldDto.status,
+        complexId: createFieldDto.complexId,
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all field`;
+  async findAll(filters: FindAllFieldsDto): Promise<Field[]> {
+    const {
+      page = 1,
+      limit = 10,
+      search,
+      sortedBy = 'createdAt',
+      sortedDirection = 'desc',
+      complexId,
+      status,
+      type,
+    } = filters;
+
+    return this.prisma.field.findMany({
+      where: {
+        ...(complexId && { complexId }),
+        ...(status && { status }),
+        ...(type && { type }),
+        ...(search && {
+          OR: [
+            { name: { contains: search, mode: 'insensitive' } },
+            { description: { contains: search, mode: 'insensitive' } },
+          ],
+        }),
+      },
+      orderBy: {
+        [sortedBy]: sortedDirection,
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+      include: {
+        complex: true,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} field`;
+  async findOne(id: number): Promise<Field> {
+    const field = await this.prisma.field.findUnique({
+      where: { id },
+      include: {
+        complex: true,
+        bookings: true,
+      },
+    });
+
+    if (!field) {
+      throw new NotFoundException(`Field with ID ${id} not found`);
+    }
+
+    return field;
   }
 
-  update(id: number, updateFieldDto: UpdateFieldDto) {
-    return `This action updates a #${id} field`;
+  async update(id: number, updateFieldDto: UpdateFieldDto): Promise<Field> {
+    const field = await this.prisma.field.findUnique({
+      where: { id },
+    });
+
+    if (!field) {
+      throw new NotFoundException(`Field with ID ${id} not found`);
+    }
+
+    if (updateFieldDto.complexId && updateFieldDto.complexId !== field.complexId) {
+      const complex = await this.prisma.complex.findUnique({
+        where: { id: updateFieldDto.complexId },
+      });
+
+      if (!complex) {
+        throw new NotFoundException(
+          `Complex with ID ${updateFieldDto.complexId} not found`,
+        );
+      }
+    }
+
+    if (
+      (updateFieldDto.name && updateFieldDto.name !== field.name) ||
+      (updateFieldDto.complexId && updateFieldDto.complexId !== field.complexId)
+    ) {
+      const existingField = await this.prisma.field.findFirst({
+        where: {
+          name: updateFieldDto.name ?? field.name,
+          complexId: updateFieldDto.complexId ?? field.complexId,
+          NOT: { id },
+        },
+      });
+
+      if (existingField) {
+        throw new ConflictException(
+          'Field with this name already exists in this complex',
+        );
+      }
+    }
+
+    return this.prisma.field.update({
+      where: { id },
+      data: updateFieldDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} field`;
+  async remove(id: number): Promise<{ message: string; statusCode: number }> {
+    const field = await this.prisma.field.findUnique({
+      where: { id },
+    });
+
+    if (!field) {
+      throw new NotFoundException(`Field with ID ${id} not found`);
+    }
+
+    await this.prisma.field.delete({
+      where: { id },
+    });
+
+    return {
+      message: `Field with ID ${id} successfully deleted`,
+      statusCode: HttpStatus.NO_CONTENT,
+    };
   }
 }
