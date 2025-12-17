@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../../services/theme';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar-main',
@@ -8,10 +9,16 @@ import { ThemeService } from '../../../services/theme';
   styleUrl: './navbar-main.css',
 })
 export class NavbarMain {
-  themeService = inject(ThemeService);
+  private themeService = inject(ThemeService);
+  private router = inject(Router);
+
   isDarkMode = this.themeService.darkMode;
 
   toggleTheme() {
     this.themeService.toggleDarkMode();
+  }
+
+  handleButtonClick() {
+    this.router.navigate(['/login']);
   }
 }

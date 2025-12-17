@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FooterMain } from '../common/footer-main/footer-main';
 import { NavbarMain } from '../common/navbar-main/navbar-main';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -10,5 +11,9 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './main.component.css'
 })
 export class MainComponent {
-  heroSectionImage = 'src/assets/hero-section.png';
+  private router = inject(Router);
+
+  handleButtonClick() {
+    this.router.navigate(['/login']);
+  }
 }

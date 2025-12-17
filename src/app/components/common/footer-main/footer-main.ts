@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer-main',
@@ -7,6 +8,12 @@ import { Component } from '@angular/core';
   styleUrl: './footer-main.css',
 })
 export class FooterMain {
+  private router = inject(Router);
+
+  handleButtonClick() {
+    this.router.navigate(['/login']);
+  }
+
   year() {
     return new Date().getFullYear();
   }

@@ -38,11 +38,11 @@
 
             <!-- Auth Buttons -->
             <div class="flex items-center gap-2">
-                <button
+                <button (click)="handleButtonClick()"
                     class="bg-primary hover:bg-green-400 text-background-dark text-sm font-bold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-primary/50">
                     Sign Up
                 </button>
-                <button
+                <button (click)="handleButtonClick()"
                     class="hidden sm:block border-2 border-gray-300 dark:border-gray-700 bg-transparent hover:bg-gray-100 dark:hover:bg-surface-dark text-gray-900 dark:text-white text-sm font-bold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 hover:border-gray-400 dark:hover:border-gray-600">
                     Sign In
                 </button>
