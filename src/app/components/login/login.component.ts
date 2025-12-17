@@ -11,21 +11,26 @@ export class LoginComponent {
 
   email = signal<string>('');
   password = signal<string>('');
-  name = signal<string>('');
+  firstName = signal<string>('');
+  lastName = signal<string>('');
   phone = signal<string>('');
 
-  handleSignup(){
+  handleGoogleLogin() {
+    console.log("handleGoogleLogin")
+  }
+
+  handleSignup() {
     console.log("handleSignup")
   }
 
-  handleLogin(){
-    console.timeLog("handleLogin")
+  handleLogin() {
+    console.log("handleLogin")
   }
 
-  reset(){
-    this.email.update(()=> '')
-    this.password.update(()=> '')
-    
+  reset() {
+    this.email.update(() => '')
+    this.password.update(() => '')
+
   }
 
 }

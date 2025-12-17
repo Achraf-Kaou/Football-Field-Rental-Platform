@@ -1,0 +1,10 @@
+<label for="theme" class="theme">
+    <span class="theme__toggle-wrap">
+        <input id="theme" class="theme__toggle" type="checkbox" role="switch" name="theme" [checked]="isDarkMode()" (change)="toggleTheme()">
+        <span class="theme__fill"></span>
+        <span class="theme__icon">
+            <mat-icon>light_mode</mat-icon>
+            <mat-icon>dark_mode</mat-icon>
+        </span>
+    </span>
+</label>

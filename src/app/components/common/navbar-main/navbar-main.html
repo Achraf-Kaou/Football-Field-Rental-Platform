@@ -1,0 +1,52 @@
+<nav class="fixed top-0 left-0 right-0 z-50 flex justify-center p-4 animate-slide-down">
+    <div
+        class="w-full bg-white dark:bg-background rounded-full px-6 py-3 flex items-center justify-between shadow-xl shadow-black/10 dark:shadow-black/40 backdrop-blur-lg bg-white/95 dark:bg-background-dark/95 border border-gray-200 dark:border-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-black/20 dark:hover:shadow-black/50">
+
+        <!-- Logo Section -->
+        <div class="flex items-center gap-3 group cursor-pointer">
+            <div
+                class="w-8 h-8 text-primary flex items-center justify-center transition-transform group-hover:scale-110 group-hover:rotate-12">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full">
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
+                </svg>
+            </div>
+            <span
+                class="font-bold text-lg tracking-tight hidden sm:block text-gray-900 dark:text-white transition-colors">
+                Takwirti
+            </span>
+        </div>
+
+        <!-- Right Section -->
+        <div class="flex items-center gap-4 md:gap-6">
+
+            <!-- Theme Switch -->
+            <button (click)="toggleTheme()"
+                class="w-10 h-10 rounded-full bg-gray-100 dark:bg-surface-card border border-gray-200 dark:border-white/10 flex items-center justify-center hover:scale-110 hover:border-primary dark:hover:border-primary transition-all duration-300 group">
+                @if (isDarkMode()) {
+                <span
+                    class="material-icons text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors light-mode-icon hidden text-xl">
+                    light_mode
+                </span>
+                }@else {
+                <span
+                    class="material-icons text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors dark-mode-icon text-xl">
+                    dark_mode
+                </span>
+                }
+            </button>
+
+            <!-- Auth Buttons -->
+            <div class="flex items-center gap-2">
+                <button
+                    class="bg-primary hover:bg-green-400 text-background-dark text-sm font-bold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-primary/50">
+                    Sign Up
+                </button>
+                <button
+                    class="hidden sm:block border-2 border-gray-300 dark:border-gray-700 bg-transparent hover:bg-gray-100 dark:hover:bg-surface-dark text-gray-900 dark:text-white text-sm font-bold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 hover:border-gray-400 dark:hover:border-gray-600">
+                    Sign In
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>

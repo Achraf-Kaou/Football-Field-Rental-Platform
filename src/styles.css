@@ -1,1 +1,32 @@
 @import "tailwindcss";
+
+/* Enable class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    /* Colors that work in both modes */
+    --color-primary: #49e619;
+    --color-accent: #f97316;
+
+    /* Light mode colors (default) */
+    --color-background: #ffffff;
+    --color-surface: #f3f4f6;
+    --color-surface-card: #e5e7eb;
+    --color-text-primary: #111827;
+    --color-text-secondary: #6b7280;
+
+    /* Fonts */
+    --font-display: "Manrope", sans-serif;
+    --font-body: "Noto Sans", sans-serif;
+}
+
+/* Dark mode color overrides */
+@layer theme {
+    :root.dark {
+        --color-background: #152111;
+        --color-surface: #20321a;
+        --color-surface-card: #1a2b16;
+        --color-text-primary: #ffffff;
+        --color-text-secondary: #9ca3af;
+    }
+}
