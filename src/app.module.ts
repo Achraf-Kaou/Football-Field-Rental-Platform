@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma.module';
 import { ComplexModule } from './complex/complex.module';
 import { FieldModule } from './field/field.module';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { FieldModule } from './field/field.module';
     AuthModule,
     ComplexModule,
     FieldModule,
+    BookingModule,
   ],
   controllers: [],
   providers: [],

@@ -1,35 +1,114 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  ParseIntPipe,
+  HttpStatus,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { FieldService } from './field.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
 import { FindAllFieldsDto } from './dto/find-all-fields.dto';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from '@prisma/client';
 
-@Controller('field')
+@ApiTags('Fields')
+@Controller('fields')
 export class FieldController {
-  constructor(private readonly fieldService: FieldService) {}
+  constructor(private readonly fieldService: FieldService) { }
 
   @Post()
+  @Roles(Role.MANAGER)
+  @ApiOperation({ summary: 'Create a new field' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Field successfully created',
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Field with this name already exists in this complex',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Complex not found',
+  })
   create(@Body() createFieldDto: CreateFieldDto) {
     return this.fieldService.create(createFieldDto);
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all fields with filters' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'List of fields retrieved successfully',
+  })
   findAll(@Query() filters: FindAllFieldsDto) {
     return this.fieldService.findAll(filters);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.fieldService.findOne(+id);
+  @ApiOperation({ summary: 'Get a field by ID' })
+  @ApiParam({ name: 'id', description: 'Field ID', type: Number })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Field retrieved successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Field not found',
+  })
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.fieldService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFieldDto: UpdateFieldDto) {
-    return this.fieldService.update(+id, updateFieldDto);
+  @Roles(Role.MANAGER)
+  @ApiOperation({ summary: 'Update a field' })
+  @ApiParam({ name: 'id', description: 'Field ID', type: Number })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Field successfully updated',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Field not found',
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Field with this name already exists in this complex',
+  })
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateFieldDto: UpdateFieldDto,
+  ) {
+    return this.fieldService.update(id, updateFieldDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.fieldService.remove(+id);
+  @ApiOperation({ summary: 'Delete a field' })
+  @ApiParam({ name: 'id', description: 'Field ID', type: Number })
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Field successfully deleted',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Field not found',
+  })
+  @Roles(Role.MANAGER)
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.fieldService.remove(id);
   }
 }

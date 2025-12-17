@@ -1,4 +1,5 @@
-import { Controller, Post, Body, Get, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, HttpStatus } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -12,6 +13,7 @@ import { FacebookAuthGuard } from './guards/facebook-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { ConfigService } from '@nestjs/config';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -20,12 +22,18 @@ export class AuthController {
   ) { }
 
   @Public()
+  @ApiOperation({ summary: 'Register a new user' })
+  @ApiResponse({ status: 201, description: 'User successfully registered', type: AuthResponseDto })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
   @Post('register')
   async register(@Body() registerDto: RegisterDto): Promise<AuthResponseDto> {
     return this.authService.register(registerDto);
   }
 
   @Public()
+  @ApiOperation({ summary: 'Login user' })
+  @ApiResponse({ status: 200, description: 'User successfully logged in', type: AuthResponseDto })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post('login')
   async login(@Body() loginDto: LoginDto): Promise<AuthResponseDto> {
     return this.authService.login(loginDto);
@@ -33,6 +41,9 @@ export class AuthController {
 
   @Public()
   @UseGuards(JwtRefreshGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Refresh access token' })
+  @ApiResponse({ status: 200, description: 'Tokens successfully refreshed' })
   @Post('refresh')
   async refreshTokens(
     @Body() refreshTokenDto: RefreshTokenDto,
@@ -42,6 +53,9 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Logout user' })
+  @ApiResponse({ status: 200, description: 'User successfully logged out' })
   @Post('logout')
   async logout(@CurrentUser() user: any): Promise<{ message: string }> {
     await this.authService.logout(user.id);
@@ -49,6 +63,9 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get current user profile' })
+  @ApiResponse({ status: 200, description: 'User profile retrieved' })
   @Get('profile')
   getProfile(@CurrentUser() user: any) {
     return user;
@@ -57,6 +74,7 @@ export class AuthController {
   // Google OAuth
   @Public()
   @UseGuards(GoogleAuthGuard)
+  @ApiOperation({ summary: 'Google OAuth login' })
   @Get('google')
   async googleAuth() {
     // Guard redirects to Google
@@ -88,6 +106,7 @@ export class AuthController {
   // Facebook OAuth
   @Public()
   @UseGuards(FacebookAuthGuard)
+  @ApiOperation({ summary: 'Facebook OAuth login' })
   @Get('facebook')
   async facebookAuth() {
     // Guard redirects to Facebook
