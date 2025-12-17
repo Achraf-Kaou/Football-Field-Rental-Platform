@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
 import { FindAllFieldsDto } from './dto/find-all-fields.dto';
@@ -12,7 +12,7 @@ import { Field } from '@prisma/client';
 
 @Injectable()
 export class FieldService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(createFieldDto: CreateFieldDto): Promise<Field> {
     const complex = await this.prisma.complex.findUnique({

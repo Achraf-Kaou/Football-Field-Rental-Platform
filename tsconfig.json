@@ -16,6 +16,14 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@/prisma": ["./prisma/prisma.module.ts"],
+      "@/auth": ["./auth/auth.module.ts"],
+      "@/booking": ["./booking/booking.module.ts"],
+      "@/complex": ["./complex/complex.module.ts"],
+      "@/field": ["./field/field.module.ts"],
+      "@/users": ["./users/users.module.ts"],
+    }
   }
 }

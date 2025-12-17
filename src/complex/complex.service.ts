@@ -1,13 +1,13 @@
 import { ConflictException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateComplexDto } from './dto/create-complex.dto';
 import { UpdateComplexDto } from './dto/update-complex.dto';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { FindAllComplexDto } from './dto/find-all-complex.dto';
 
 @Injectable()
 export class ComplexService {
   constructor(private prisma: PrismaService) { }
-  
+
   async create(createComplexDto: CreateComplexDto): Promise<CreateComplexDto> {
     const existingComplex: CreateComplexDto | null = await this.prisma.complex.findUnique({
       where: {
@@ -41,9 +41,9 @@ export class ComplexService {
       where: {
         ...(search && {
           OR: [
-            {name: { contains: search, mode: 'insensitive' }},
-            {address: { contains: search, mode: 'insensitive' }},
-            {description: { contains: search, mode: 'insensitive' }},
+            { name: { contains: search, mode: 'insensitive' } },
+            { address: { contains: search, mode: 'insensitive' } },
+            { description: { contains: search, mode: 'insensitive' } },
           ],
         }),
       },
@@ -61,7 +61,7 @@ export class ComplexService {
         id,
       },
     });
-    if (!complex){
+    if (!complex) {
       throw new NotFoundException(`Complex with ID ${id} not found`);
     }
     return complex;
@@ -73,7 +73,7 @@ export class ComplexService {
         id,
       },
     });
-    if (!complex){
+    if (!complex) {
       throw new NotFoundException(`Complex with ID ${id} not found`);
     }
 
@@ -87,7 +87,7 @@ export class ComplexService {
         throw new ConflictException('Complex with this email already exists');
       }
     }
-    
+
     return this.prisma.complex.update({
       where: {
         id,
@@ -104,7 +104,7 @@ export class ComplexService {
         id,
       },
     });
-    if (!complex){
+    if (!complex) {
       throw new NotFoundException(`Complex with ID ${id} not found`);
     }
 
