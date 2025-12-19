@@ -24,7 +24,7 @@ model User {
   lastName     String
   email        String    @unique
   password     String?
-  phone        Int
+  phone        String?
   role         Role      @default(USER)
   refreshToken String?
   googleId     String?   @unique
@@ -62,7 +62,7 @@ model Complex {
   name        String
   description String
   address     String
-  phone       Int
+  phone       String
   email       String    @unique
   fields      Field[]
   createdAt   DateTime  @default(now())

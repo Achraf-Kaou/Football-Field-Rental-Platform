@@ -5,7 +5,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FindAllUsersDto } from './dto/find-all-users.dto';
 import { UserDto } from './dto/user.dto';
-import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 
 @ApiTags('Users')
@@ -14,7 +13,6 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
   @Post()
-  @Roles(Role.ADMIN)
   @ApiOperation({
     summary: 'Create a new user',
     description: 'Creates a new user account with the provided information. Email must be unique and password will be hashed before storage.'
@@ -76,7 +74,6 @@ export class UsersController {
   }
 
   @Patch(':id')
-  @Roles(Role.ADMIN)
   @ApiOperation({
     summary: 'Update user',
     description: 'Updates user information. If email is changed, it must be unique. Password will be hashed if provided.'
@@ -110,7 +107,6 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @Roles(Role.ADMIN)
   @ApiOperation({
     summary: 'Delete user',
     description: 'Permanently deletes a user from the system.'

@@ -54,10 +54,7 @@ export class AuthService {
     };
   }
 
-  async login(loginDto: LoginDto): Promise<AuthResponseDto> {
-    // Validate user credentials
-    const user = await this.validateUser(loginDto.email, loginDto.password);
-
+  async login(user: User): Promise<AuthResponseDto> {
     // Generate tokens
     const tokens = await this.generateTokens(user.id, user.email, user.role);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
@@ -173,7 +170,7 @@ export class AuthService {
           googleId: profile.googleId,
           facebookId: profile.facebookId,
           provider: profile.googleId ? Provider.GOOGLE : Provider.FACEBOOK,
-          phone: 0, // Default value, user can update later
+          phone: '', // Default value, user can update later
           password: null, // OAuth users don't have passwords
         },
       });

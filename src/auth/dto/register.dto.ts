@@ -24,10 +24,9 @@ export class RegisterDto {
     @MinLength(6)
     password: string;
 
-    @ApiProperty({ example: 12345678, description: 'Phone number' })
+    @ApiProperty({ example: '12345678', description: 'Phone number' })
     @IsNotEmpty()
-    @IsNumber()
-    phone: number;
+    phone: string;
 
     @ApiProperty({ enum: Role, required: false, description: 'User role' })
     @IsOptional()

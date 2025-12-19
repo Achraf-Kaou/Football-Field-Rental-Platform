@@ -13,6 +13,21 @@ async function bootstrap() {
     transform: true, // Automatically transform payloads to be objects typed according to DTO classes
   }));
 
+  app.enableCors({
+    origin: true,
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
+    exposedHeaders: 'Content-Type,Authorization',
+  });
+
+  app.use((req, res, next) => {
+    // Allow popup communication
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+    res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+    next();
+  });
+
   // Swagger configuration
   const config = new DocumentBuilder()
     .setTitle('Takwirti API')

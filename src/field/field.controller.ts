@@ -21,7 +21,6 @@ import { FieldService } from './field.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
 import { FindAllFieldsDto } from './dto/find-all-fields.dto';
-import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 
 @ApiTags('Fields')
@@ -30,7 +29,6 @@ export class FieldController {
   constructor(private readonly fieldService: FieldService) { }
 
   @Post()
-  @Roles(Role.MANAGER)
   @ApiOperation({ summary: 'Create a new field' })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -74,7 +72,6 @@ export class FieldController {
   }
 
   @Patch(':id')
-  @Roles(Role.MANAGER)
   @ApiOperation({ summary: 'Update a field' })
   @ApiParam({ name: 'id', description: 'Field ID', type: Number })
   @ApiResponse({
@@ -107,7 +104,6 @@ export class FieldController {
     status: HttpStatus.NOT_FOUND,
     description: 'Field not found',
   })
-  @Roles(Role.MANAGER)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.fieldService.remove(id);
   }

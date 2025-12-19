@@ -17,11 +17,13 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
             clientID: clientID,
             clientSecret: clientSecret,
             callbackURL: callbackURL,
+            passReqToCallback: true,
             scope: ['email', 'profile'],
         });
     }
 
     async validate(
+        req: Request,
         accessToken: string,
         refreshToken: string,
         profile: any,

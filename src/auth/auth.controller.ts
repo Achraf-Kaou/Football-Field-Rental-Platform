@@ -1,4 +1,5 @@
-import { Controller, Post, Body, Get, UseGuards, Req, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, HttpStatus, Res, UseFilters } from '@nestjs/common';
+import { Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -9,6 +10,7 @@ import { Public } from './decorators/public.decorator';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { GoogleOAuthFilter } from './filters/google-oauth.filter';
 import { FacebookAuthGuard } from './guards/facebook-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { ConfigService } from '@nestjs/config';
@@ -36,7 +38,9 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post('login')
   async login(@Body() loginDto: LoginDto): Promise<AuthResponseDto> {
-    return this.authService.login(loginDto);
+    // Validate user credentials
+    const user = await this.authService.validateUser(loginDto.email, loginDto.password);
+    return this.authService.login(user);
   }
 
   @Public()
@@ -80,27 +84,35 @@ export class AuthController {
     // Guard redirects to Google
   }
 
-  @Public()
-  @UseGuards(GoogleAuthGuard)
+  /**
+   * Google OAuth callback
+   * GET /auth/google/callback
+   */
   @Get('google/callback')
-  async googleAuthCallback(@Req() req: any) {
-    const authResponse = await this.authService.validateOAuthUser({
-      email: req.user.email,
-      firstName: req.user.firstName,
-      lastName: req.user.lastName,
-      googleId: req.user.googleId,
-    });
+  @UseGuards(GoogleAuthGuard)
+  @UseFilters(GoogleOAuthFilter)
+  async googleAuthCallback(@Req() req, @Res() res: Response) {
+    // req.user contains the user data from Google
+    const user = req.user;
 
-    // Redirect to frontend with tokens
+    // Generate tokens using validateOAuthUser which handles user creation/updating
+    const authResponse = await this.authService.validateOAuthUser({
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      googleId: user.googleId,
+    });
+    // Send script to communicate with opener
     const frontendUrl = this.configService.get<string>('FRONTEND_URL') || 'http://localhost:5173';
-    return `
-      <html>
-        <script>
-          window.opener.postMessage(${JSON.stringify(authResponse)}, '${frontendUrl}');
-          window.close();
-        </script>
-      </html>
-    `;
+    const html = `
+        <html>
+          <script>
+            window.opener.postMessage(${JSON.stringify(authResponse)}, '${frontendUrl}');
+            window.close();
+          </script>
+        </html>
+      `;
+    res.send(html);
   }
 
   // Facebook OAuth

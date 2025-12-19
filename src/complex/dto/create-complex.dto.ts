@@ -34,9 +34,9 @@ export class CreateComplexDto {
     example: '+12345678',
     description: 'Numéro de téléphone du complexe',
   })
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  phone: number;
+  phone: string;
 
   @ApiProperty({
     example: 'contact@complexe-foot.tn',
@@ -46,5 +46,5 @@ export class CreateComplexDto {
   @IsNotEmpty()
   email: string;
 
-  
+
 }

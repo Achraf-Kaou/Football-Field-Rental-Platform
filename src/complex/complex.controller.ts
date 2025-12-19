@@ -4,7 +4,6 @@ import { ComplexService } from './complex.service';
 import { CreateComplexDto } from './dto/create-complex.dto';
 import { UpdateComplexDto } from './dto/update-complex.dto';
 import { FindAllComplexDto } from './dto/find-all-complex.dto';
-import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 
 @ApiTags('Complex')
@@ -13,7 +12,6 @@ export class ComplexController {
   constructor(private readonly complexService: ComplexService) { }
 
   @Post()
-  @Roles(Role.MANAGER)
   @ApiOperation({ summary: 'Create a new complex' })
   @ApiResponse({ status: HttpStatus.CREATED, description: 'Complex successfully created', type: CreateComplexDto })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid input' })
@@ -38,7 +36,6 @@ export class ComplexController {
   }
 
   @Patch(':id')
-  @Roles(Role.MANAGER)
   @ApiOperation({ summary: 'Update complex' })
   @ApiParam({ name: 'id', description: 'Complex ID', type: Number })
   @ApiResponse({ status: HttpStatus.OK, description: 'Complex updated successfully' })
@@ -48,7 +45,6 @@ export class ComplexController {
   }
 
   @Delete(':id')
-  @Roles(Role.MANAGER)
   @ApiOperation({ summary: 'Delete complex' })
   @ApiParam({ name: 'id', description: 'Complex ID', type: Number })
   @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Complex deleted successfully' })

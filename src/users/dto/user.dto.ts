@@ -20,8 +20,8 @@ export class UserDto {
     password: string;
 
     @ApiProperty({ example: '123456789' })
-    @IsInt()
-    phone: number;
+    @IsString()
+    phone: string;
 
     @ApiProperty({ example: 'ADMIN' })
     @IsString()
