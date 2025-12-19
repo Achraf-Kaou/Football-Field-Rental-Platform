@@ -1,0 +1,38 @@
+<aside #sidebar class="sidebar" [class.open]="isOpen()">
+    <header>
+        <button type="button" class="sidebar-burger" (click)="toggleOpen()">
+            <i class="ai-close"></i>
+        </button>
+        <img src="whitelogo.png" alt="Logo" /> Takwirti
+    </header>
+    <nav #nav class="menu">
+        <button #navButton type="button" (click)="onButtonClick(0)">
+            <i class="ai-home-alt1"></i>
+            <p>Home</p>
+        </button>
+        <button #navButton type="button" (click)="onButtonClick(1)">
+            <i class="ai-eye-open"></i>
+            <p>Overview</p>
+        </button>
+        <button #navButton type="button" (click)="onButtonClick(2)">
+            <i class="ai-star"></i>
+            <p>Ratings</p>
+        </button>
+        <button #navButton type="button" (click)="onButtonClick(3)">
+            <i class="ai-shipping-box-v1"></i>
+            <p>Products</p>
+        </button>
+        <button #navButton type="button" (click)="onButtonClick(4)">
+            <i class="ai-arrow-up-right"></i>
+            <p>Trends</p>
+        </button>
+        <button #navButton type="button" (click)="onButtonClick(5)">
+            <i class="ai-envelope"></i>
+            <p>Inbox</p>
+        </button>
+        <button #navButton type="button" (click)="onButtonClick(6)">
+            <i class="ai-gear"></i>
+            <p>Settings</p>
+        </button>
+    </nav>
+</aside>

@@ -1,0 +1,272 @@
+<app-navbar-main></app-navbar-main>
+<div class="min-h-screen pt-24 pb-12 bg-background transition-colors duration-300">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <button (click)="goBack()"
+                class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary transition-colors mb-4">
+                <span class="material-icons">arrow_back</span>
+                <span class="font-semibold">Back to Fields</span>
+            </button>
+            <h1 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+                Book Your Field
+            </h1>
+        </div>
+
+        @if(field()) {
+        <div class="grid lg:grid-cols-3 gap-6">
+            <!-- Booking Form -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Field Info Card -->
+                <div class="py-2">
+                    <app-card>
+                        <div class="p-6">
+                            <div class="flex gap-4">
+                                <div class="w-32 h-32 rounded-xl overflow-hidden flex-shrink-0">
+                                    <img [src]="field()!.image" [alt]="field()!.name"
+                                        class="w-full h-full object-cover" />
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                                        {{ field()!.name }}
+                                    </h3>
+                                    <p class="text-gray-600 dark:text-gray-400 mb-3 flex items-center gap-2">
+                                        <span class="material-icons text-lg">location_on</span>
+                                        {{ field()!.location }}
+                                    </p>
+                                    <div class="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-lg">
+                                        <span class="text-2xl font-black text-primary">\${{ field()!.price }}</span>
+                                        <span class="text-gray-600 dark:text-gray-400">/hour</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </app-card>
+                </div>
+
+                <!-- Date Selection Card -->
+                <div class="py-2">
+                    <app-card>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                                <span class="material-icons text-primary">calendar_today</span>
+                                Select Date
+                            </h3>
+
+                            <div
+                                class="bg-gray-50 dark:bg-surface-card rounded-xl p-4 border border-gray-200 dark:border-white/10">
+                                <!-- Simple Date Picker -->
+                                <input type="date" [value]="selectedDate()"
+                                    (change)="onDateChange($any($event.target).value)" [min]="minDate"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-surface text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+                            </div>
+                        </div>
+                    </app-card>
+                </div>
+
+                <!-- Time Selection Card -->
+                <div class="py-2">
+                    <app-card>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                                <span class="material-icons text-primary">schedule</span>
+                                Select Time & Duration
+                            </h3>
+
+                            <div class="space-y-4">
+                                <!-- Start Time -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                                        Start Time
+                                    </label>
+                                    <div class="grid grid-cols-4 sm:grid-cols-5 gap-2">
+                                        @for(slot of timeSlots; track slot) {
+                                        <button (click)="selectedTimeSlot.set(slot)" [class]="getTimeSlotClass(slot)"
+                                            class="px-4 py-3 rounded-xl font-semibold transition-all">
+                                            {{ slot }}
+                                        </button>
+                                        }
+                                    </div>
+                                </div>
+
+                                <!-- Duration -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                                        Duration (hours)
+                                    </label>
+                                    <div class="grid grid-cols-4 gap-2">
+                                        @for(dur of durations; track dur) {
+                                        <button (click)="selectedDuration.set(dur)" [class]="getDurationClass(dur)"
+                                            class="px-4 py-3 rounded-xl font-semibold transition-all">
+                                            {{ dur }}h
+                                        </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </app-card>
+                </div>
+                <!-- Additional Options Card -->
+                <div class="py-2">
+                    <app-card>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                                <span class="material-icons text-primary">add_circle</span>
+                                Additional Services (Optional)
+                            </h3>
+
+                            <div class="space-y-3">
+                                <label
+                                    class="flex items-center gap-3 p-4 rounded-xl border-2 border-gray-200 dark:border-white/10 hover:border-primary dark:hover:border-primary cursor-pointer transition-all group">
+                                    <input type="checkbox" [(ngModel)]="includeEquipment"
+                                        class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
+                                    <div class="flex-1">
+                                        <div
+                                            class="font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                                            Equipment Rental
+                                        </div>
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">
+                                            Balls, cones, and training equipment
+                                        </div>
+                                    </div>
+                                    <div class="font-bold text-primary">+\$10</div>
+                                </label>
+
+                                <label
+                                    class="flex items-center gap-3 p-4 rounded-xl border-2 border-gray-200 dark:border-white/10 hover:border-primary dark:hover:border-primary cursor-pointer transition-all group">
+                                    <input type="checkbox" [(ngModel)]="includeLights"
+                                        class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
+                                    <div class="flex-1">
+                                        <div
+                                            class="font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                                            Floodlights
+                                        </div>
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">
+                                            For evening games
+                                        </div>
+                                    </div>
+                                    <div class="font-bold text-primary">+\$15</div>
+                                </label>
+                            </div>
+                        </div>
+                    </app-card>
+                </div>
+            </div>
+
+            <!-- Booking Summary Sidebar -->
+            <div class="lg:sticky lg:top-24 h-fit">
+                <app-card>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
+                            Booking Summary
+                        </h3>
+
+                        <div class="space-y-4 mb-6">
+                            <!-- Field Name -->
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Field</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">{{ field()!.name }}</span>
+                            </div>
+
+                            <!-- Date -->
+                            @if(selectedDate()) {
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Date</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">{{ formatDate(selectedDate())
+                                    }}</span>
+                            </div>
+                            }
+
+                            <!-- Time -->
+                            @if(selectedTimeSlot()) {
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Time</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">{{ selectedTimeSlot()
+                                    }}</span>
+                            </div>
+                            }
+
+                            <!-- Duration -->
+                            @if(selectedDuration()) {
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Duration</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">{{ selectedDuration() }}
+                                    hour(s)</span>
+                            </div>
+                            }
+                        </div>
+
+                        <!-- Price Breakdown -->
+                        <div class="border-t border-gray-200 dark:border-white/10 pt-4 mb-4">
+                            <div class="space-y-2 text-sm mb-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600 dark:text-gray-400">Field rental</span>
+                                    <span class="text-gray-900 dark:text-white">\${{ basePrice() }}</span>
+                                </div>
+                                @if(includeEquipment()) {
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600 dark:text-gray-400">Equipment</span>
+                                    <span class="text-gray-900 dark:text-white">\$10</span>
+                                </div>
+                                }
+                                @if(includeLights()) {
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600 dark:text-gray-400">Floodlights</span>
+                                    <span class="text-gray-900 dark:text-white">\$15</span>
+                                </div>
+                                }
+                            </div>
+
+                            <div
+                                class="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-white/10">
+                                <span class="text-lg font-bold text-gray-900 dark:text-white">Total</span>
+                                <span class="text-2xl font-black text-primary">\${{ totalPrice() }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Confirm Button -->
+                        <div class="pb-2">
+                            <app-button [variant]="'primary'" (click)="confirmBooking()"
+                                [disabled]="!canConfirmBooking()" class="w-full mb-3">
+                                <span class="material-icons mr-2">payment</span>
+                                Confirm Booking
+                            </app-button>
+                        </div>
+
+                        <!-- Info Text -->
+                        <div class="bg-primary/10 py-2 px-2 rounded-xl p-4 border border-primary/20">
+                            <div class="flex gap-2 text-xs text-gray-700 dark:text-gray-300">
+                                <span class="material-icons text-primary text-sm">info</span>
+                                <div>
+                                    <p class="font-semibold mb-1">Secure payment</p>
+                                    <p>Free cancellation up to 24h before your booking</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </app-card>
+            </div>
+        </div>
+        } @else {
+        <!-- Field Not Found -->
+        <div class="text-center py-16">
+            <div
+                class="w-24 h-24 bg-gray-100 dark:bg-surface-card rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="material-icons text-5xl text-gray-400">error_outline</span>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Field Not Found
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">
+                The field you're looking for doesn't exist
+            </p>
+            <app-button [variant]="'outline'" (click)="goBack()">
+                Go Back
+            </app-button>
+        </div>
+        }
+    </div>
+</div>
+<app-footer-main></app-footer-main>

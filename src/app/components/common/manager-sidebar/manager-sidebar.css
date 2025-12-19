@@ -1,0 +1,121 @@
+.sidebar {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    border-radius: 16px;
+    background: rgb(0 0 0 / 40%);
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+    transition: width 0.4s;
+    z-index: 1000;
+}
+
+.sidebar header {
+    display: flex;
+    align-items: center;
+    height: 72px;
+    padding: 0 1.25rem 0 0;
+    background: rgb(0 0 0 / 8%);
+}
+
+.sidebar header button {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    font-size: 24px;
+    transition: background 0.2s;
+}
+
+.sidebar header button:hover {
+    background: rgb(0 0 0 / 20%);
+}
+
+.sidebar header img {
+    height: 24px;
+}
+
+.sidebar .menu {
+    position: relative;
+    display: grid;
+}
+
+.sidebar .menu::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 56px;
+    width: 6px;
+    background: #6199f7;
+    translate: 0 var(--top, 0px);
+    transition: translate 0.3s;
+}
+
+.sidebar button {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    height: 56px;
+    font-size: 17px;
+    font-family: inherit;
+    text-transform: capitalize;
+    line-height: 1;
+    padding: 0 22px;
+    color: inherit;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.2s;
+}
+
+.sidebar button p {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.sidebar button i {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+}
+
+.sidebar .menu button:hover {
+    background: rgb(0 0 0 / 20%);
+}
+
+.sidebar .menu button.active {
+    background: rgb(0 0 0 / 28%);
+    opacity: 1;
+}
+
+.sidebar.open .menu .active {
+    cursor: default;
+}
+
+/* Collapsed state (optional - if you want to support collapsed mode) */
+.sidebar.collapsed {
+    width: 72px;
+}
+
+.sidebar.collapsed header img {
+    opacity: 0;
+}
+
+.sidebar.collapsed button p {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
