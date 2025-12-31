@@ -1,0 +1,292 @@
+<div class="rounded-xl p-6 md:p-8 shadow-xl border"
+    style="background-color: var(--color-surface); border-color: var(--color-border-green)">
+    <form (submit)="onSubmit()" class="flex flex-col gap-8">
+        <!-- General Info Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex flex-col gap-2 md:col-span-2">
+                <label for="complexName"
+                    class="text-sm font-medium leading-normal flex items-center gap-1 text-black dark:text-white">
+                    Complex Name <span style="color: var(--color-accent)">*</span>
+                </label>
+                <input id="complexName" class="flex w-full resize-none overflow-hidden rounded-lg focus:outline-0 border h-14 px-4 text-base font-normal leading-normal transition-all
+                    text-black dark:text-white bg-input-bg border-input-border placeholder-slate-400"
+                    placeholder="e.g. Downtown Sports Arena" [field]="complexForm.name"
+                    onfocus="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='0 0 0 1px var(--color-primary)'"
+                    onblur="this.style.borderColor='var(--color-input-border)'; this.style.boxShadow='none'" />
+            </div>
+
+            <div class="flex flex-col gap-2 md:col-span-2">
+                <label for="description" class="text-sm font-medium leading-normal text-black dark:text-white">
+                    About the Facility
+                </label>
+                <textarea id="description" class="flex w-full resize-none overflow-hidden rounded-lg focus:outline-0 border min-h-[120px] p-4 text-base font-normal leading-normal transition-all
+                    text-black dark:text-white bg-input-bg border-input-border placeholder-slate-400"
+                    placeholder="Describe the pitch types, amenities, and opening hours..."
+                    [field]="complexForm.description"
+                    onfocus="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='0 0 0 1px var(--color-primary)'"
+                    onblur="this.style.borderColor='var(--color-input-border)'; this.style.boxShadow='none'">
+                </textarea>
+            </div>
+        </section>
+
+        <hr class="opacity-50" style="border-color: var(--color-border-green)" />
+
+        <!-- Contact & Location Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex flex-col gap-2 md:col-span-2">
+                <label for="address"
+                    class="text-sm font-medium leading-normal flex items-center gap-1 text-black dark:text-white">
+                    Location Address <span style="color: var(--color-accent)">*</span>
+                </label>
+                <div class="relative">
+                    <span
+                        class="material-icons absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none text-black dark:text-white">
+                        location_on
+                    </span>
+                    <input id="address" class="flex w-full rounded-lg focus:outline-0 border h-14 pl-12 pr-4 text-base font-normal leading-normal transition-all
+                        text-black dark:text-white bg-input-bg border-input-border placeholder-slate-400"
+                        placeholder="123 Soccer Lane, Sportsville" [field]="complexForm.address"
+                        onfocus="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='0 0 0 1px var(--color-primary)'"
+                        onblur="this.style.borderColor='var(--color-input-border)'; this.style.boxShadow='none'" />
+                </div>
+
+                <!-- Map Preview -->
+                <div class="h-48 w-full mt-2 rounded-lg overflow-hidden border relative"
+                    style="border-color: var(--color-border-green)">
+                    <img class="w-full h-full object-cover opacity-60 hover:opacity-80 transition-opacity"
+                        alt="Map preview for location selection"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl93Eh4HZlbtKlnQHDEEF5OaZ_PhAbZkoppSFzm6XKaWVihYKwid0DtRNDvpoY-WSLgh16LYE9GeeeIE7ea1gq1GddH-fE-k7rKWyuHn69bRjeDUGPyGvin6Iyxgk1L6aybp8iwAzq7oRTo08xOhGrpB_Gm-Ki8r43JIu1cDEMVLAnMHODQ-u8yJGcEof7A5HURstsmEO0JjAMm_nUNhQA_tMIvhRdNfN_C86WnpJXFYXurVFcxOdopONCttr-iCd0ajfDYBFispg" />
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <button type="button" (click)="pinLocation()"
+                            class="backdrop-blur-sm border px-4 py-2 rounded-full flex items-center gap-2 text-sm font-medium transition-colors hover:scale-105"
+                            style="background-color: rgba(26, 43, 22, 0.8); border-color: var(--color-border-green); color: #ffffff">
+                            <span class="material-icons text-lg" style="color: var(--color-primary)">my_location</span>
+                            Pin Location on Map
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="phone"
+                    class="text-sm font-medium leading-normal flex items-center gap-1 text-black dark:text-white">
+                    Contact Phone <span style="color: var(--color-accent)">*</span>
+                </label>
+                <div class="relative">
+                    <span
+                        class="material-icons absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none text-black dark:text-white">
+                        phone
+                    </span>
+                    <input id="phone" type="tel" class="flex w-full rounded-lg focus:outline-0 border h-14 pl-12 pr-4 text-base font-normal leading-normal transition-all
+                        text-black dark:text-white bg-input-bg border-input-border placeholder-slate-400"
+                        placeholder="12345678" [field]="complexForm.phone"
+                        onfocus="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='0 0 0 1px var(--color-primary)'"
+                        onblur="this.style.borderColor='var(--color-input-border)'; this.style.boxShadow='none'" />
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="email"
+                    class="text-sm font-medium leading-normal flex items-center gap-1 text-black dark:text-white">
+                    Business Email <span style="color: var(--color-accent)">*</span>
+                </label>
+                <div class="relative">
+                    <span
+                        class="material-icons absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none text-black dark:text-white">
+                        mail
+                    </span>
+                    <input id="email" type="email" class="flex w-full rounded-lg focus:outline-0 border h-14 pl-12 pr-4 text-base font-normal leading-normal transition-all
+                        text-black dark:text-white bg-input-bg border-input-border placeholder-slate-400"
+                        placeholder="manager@complex.com" [field]="complexForm.email"
+                        onfocus="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='0 0 0 1px var(--color-primary)'"
+                        onblur="this.style.borderColor='var(--color-input-border)'; this.style.boxShadow='none'" />
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="openAt"
+                    class="text-sm font-medium leading-normal flex items-center gap-1 text-black dark:text-white">
+                    Opens At <span style="color: var(--color-accent)">*</span>
+                </label>
+                <input type="time" id="openAt" class="flex w-full rounded-lg focus:outline-0 border h-14 px-4 text-base font-normal leading-normal transition-all
+                    text-black dark:text-white bg-input-bg border-input-border" [field]="complexForm.openAt"
+                    onfocus="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='0 0 0 1px var(--color-primary)'"
+                    onblur="this.style.borderColor='var(--color-input-border)'; this.style.boxShadow='none'" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="closeAt"
+                    class="text-sm font-medium leading-normal flex items-center gap-1 text-black dark:text-white">
+                    Closes at <span style="color: var(--color-accent)">*</span>
+                </label>
+                <input type="time" id="closeAt" class="flex w-full rounded-lg focus:outline-0 border h-14 px-4 text-base font-normal leading-normal transition-all
+                    text-black dark:text-white bg-input-bg border-input-border" [field]="complexForm.closeAt"
+                    onfocus="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='0 0 0 1px var(--color-primary)'"
+                    onblur="this.style.borderColor='var(--color-input-border)'; this.style.boxShadow='none'" />
+            </div>
+        </section>
+
+        <hr class="opacity-50" style="border-color: var(--color-border-green)" />
+
+        <!-- Amenities Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex flex-col gap-3">
+                <label class="text-sm font-medium leading-normal flex items-center gap-1 text-black dark:text-white">
+                    Do you have a shower in your Complex? <span style="color: var(--color-accent)">*</span>
+                </label>
+                <div class="flex items-center gap-4">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="shower" [checked]="hasTag('shower')" (change)="toggleTag('shower')"
+                            class="w-4 h-4 accent-primary" />
+                        <span class="text-sm text-black dark:text-white">Yes</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="shower" [checked]="!hasTag('shower')"
+                            (change)="hasTag('shower') && toggleTag('shower')" class="w-4 h-4 accent-primary" />
+                        <span class="text-sm text-black dark:text-white">No</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <label class="text-sm font-medium leading-normal flex items-center gap-1 text-black dark:text-white">
+                    Do you have parking in your Complex? <span style="color: var(--color-accent)">*</span>
+                </label>
+                <div class="flex items-center gap-4">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="parking" [checked]="hasTag('parking')" (change)="toggleTag('parking')"
+                            class="w-4 h-4 accent-primary" />
+                        <span class="text-sm text-black dark:text-white">Yes</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="parking" [checked]="!hasTag('parking')"
+                            (change)="hasTag('parking') && toggleTag('parking')" class="w-4 h-4 accent-primary" />
+                        <span class="text-sm text-black dark:text-white">No</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <label class="text-sm font-medium leading-normal flex items-center gap-1 text-black dark:text-white">
+                    Do you have a coffee shop in your Complex? <span style="color: var(--color-accent)">*</span>
+                </label>
+                <div class="flex items-center gap-4">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="coffee" [checked]="hasTag('coffee')" (change)="toggleTag('coffee')"
+                            class="w-4 h-4 accent-primary" />
+                        <span class="text-sm text-black dark:text-white">Yes</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="coffee" [checked]="!hasTag('coffee')"
+                            (change)="hasTag('coffee') && toggleTag('coffee')" class="w-4 h-4 accent-primary" />
+                        <span class="text-sm text-black dark:text-white">No</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <label class="text-sm font-medium leading-normal flex items-center gap-1 text-black dark:text-white">
+                    Do you have a restaurant in your Complex? <span style="color: var(--color-accent)">*</span>
+                </label>
+                <div class="flex items-center gap-4">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="restaurant" [checked]="hasTag('restaurant')"
+                            (change)="toggleTag('restaurant')" class="w-4 h-4 accent-primary" />
+                        <span class="text-sm text-black dark:text-white">Yes</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="restaurant" [checked]="!hasTag('restaurant')"
+                            (change)="hasTag('restaurant') && toggleTag('restaurant')" class="w-4 h-4 accent-primary" />
+                        <span class="text-sm text-black dark:text-white">No</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <hr class="opacity-50" style="border-color: var(--color-border-green)" />
+
+        <!-- Images Section -->
+        <section class="flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+                <label class="text-lg font-medium text-black dark:text-white">Complex Images</label>
+                <button type="button" (click)="addImage()"
+                    class="px-4 py-2 bg-primary text-white rounded-lg flex items-center gap-2 text-sm font-medium transition-all hover:scale-105">
+                    <span class="material-icons text-lg">add_photo_alternate</span>
+                    Add Image
+                </button>
+            </div>
+
+            @if (images().length > 0) {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                @for(image of images(); track image.id) {
+                <div class="flex flex-col gap-2 p-3 rounded-lg border"
+                    style="background-color: var(--color-surface-card); border-color: var(--color-border-green)">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-black dark:text-white">
+                            Image {{ $index + 1 }}
+                        </span>
+                        <button type="button" (click)="removeImage(image.id)"
+                            class="text-red-500 hover:text-red-700 transition-colors">
+                            <span class="material-icons text-lg">delete</span>
+                        </button>
+                    </div>
+
+                    @if (image.url) {
+                    <div class="relative">
+                        <img [src]="image.url" [alt]="'Image ' + ($index + 1)"
+                            class="w-full h-32 object-cover rounded-lg" />
+                        <button type="button" (click)="clearImage(image.id)"
+                            class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors">
+                            <span class="material-icons text-sm">close</span>
+                        </button>
+                    </div>
+                    } @else {
+                    <div class="border-2 border-dashed rounded-lg p-4 text-center"
+                        style="border-color: var(--color-border-green)">
+                        <span class="material-icons text-4xl text-gray-400 mb-2">image</span>
+                        <p class="text-xs text-gray-500 mb-3">Upload image or enter URL</p>
+
+                        <input type="file" accept="image/*" class="hidden" #fileInput
+                            (change)="onImageFileSelected($event, image.id)" />
+                        <button type="button" (click)="fileInput.click()"
+                            class="px-3 py-1.5 bg-primary text-white rounded text-xs font-medium transition-colors mb-2">
+                            Choose File
+                        </button>
+
+                        <input type="text" [value]="image.url"
+                            (input)="onImageUrlChange($any($event.target).value, image.id)"
+                            class="w-full px-2 py-1.5 text-xs rounded border mt-2"
+                            style="background-color: var(--color-background); border-color: var(--color-input-border); color: var(--color-text-primary)"
+                            placeholder="Or paste image URL" />
+                    </div>
+                    }
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="text-center py-12 rounded-lg border-2 border-dashed"
+                style="border-color: var(--color-border-green)">
+                <span class="material-icons text-6xl text-gray-400 mb-3">photo_library</span>
+                <p class="text-sm text-gray-500 mb-1">No images yet</p>
+                <p class="text-xs text-gray-400">Click "Add Image" to upload photos</p>
+            </div>
+            }
+        </section>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-end gap-4 pt-4 mt-2 border-t"
+            style="border-color: var(--color-border-green)">
+            <button type="button" (click)="onCancel()"
+                class="px-6 py-3 rounded-lg border font-bold text-base transition-all hover:bg-opacity-10"
+                style="border-color: var(--color-border-green); color: var(--color-text-primary)">
+                Cancel
+            </button>
+            <button type="button" (click)="onSubmit()" [disabled]="isSubmitting()"
+                class="px-8 py-3 rounded-lg font-bold text-base flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105"
+                style="background-color: var(--color-primary); color: var(--color-background); box-shadow: 0 0 15px rgba(73, 230, 25, 0.3)">
+                <span class="material-icons">{{ isSubmitting() ? 'hourglass_empty' : 'add_circle' }}</span>
+                {{ isSubmitting() ? 'Creating...' : 'Create Complex' }}
+            </button>
+        </div>
+    </form>
+</div>

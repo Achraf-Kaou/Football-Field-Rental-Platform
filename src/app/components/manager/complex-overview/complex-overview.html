@@ -1,0 +1,327 @@
+<app-manager-layout>
+    <div class="flex flex-1 justify-center py-6 ">
+        <div class="flex flex-col flex-1 gap-6">
+            <!-- Main Content Grid -->
+            <div class="flex flex-col gap-6">
+                <!-- Complex Details Section -->
+                <div
+                    class="bg-card-light dark:bg-[#1d2e18] rounded-xl overflow-hidden shadow-sm dark:shadow-none border border-[#e5e7eb] dark:border-[#2c4724]">
+                    <!-- Cover Image -->
+                    <div class="h-[200px] w-full bg-cover bg-center relative"
+                        data-alt="Football field at sunset with stadium lights"
+                        style='background-image: linear-gradient(0deg, rgba(21, 33, 17, 0.9) 0%, rgba(21, 33, 17, 0.2) 60%, rgba(21, 33, 17, 0) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBAHsZWBaRNsur1BohdhaPxL81BPgc02VYSSxdADVtJd2CdwhWZH9AXIOfgdJyByhdiZLeQ3MJn3Q-zgoAJQ09wRL0vhLM2mTTIovQWkXOwR5nrRIPI4i6DugrGDFhF4fk02tcajpl5sfQfFfoneWTgTXAOnQOkf6wlKGALnqInsnfNdhdBb5xhcLt8drcf5UOjhAXorZTf3h_t8bee0QavR5Sv2XptqFimpKHe22If_c7XWyqVQebFDT4wPjvLmXZh9vx85QUtYM8");'>
+                        <div class="absolute bottom-0 left-0 p-6 w-full">
+                            <div class="flex flex-col md:flex-row justify-between items-end md:items-center gap-4">
+                                <div class="flex flex-col gap-1">
+                                    <h1 class="text-white text-3xl font-black leading-tight tracking-[-0.033em]">
+                                        Downtown
+                                        Sports Arena</h1>
+                                    <div class="flex items-center gap-2 text-[#e0e0e0]">
+                                        <span class="material-icons text-primary"
+                                            style="font-size: 18px;">location_on</span>
+                                        <span class="text-sm font-medium">123 Stadium Ave, Metro City</span>
+                                    </div>
+                                </div>
+                                <button
+                                    class="flex items-center gap-2 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all border border-white/20">
+                                    <span class="material-icons" style="font-size: 18px;">edit</span>
+                                    <span>Edit Details</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Quick Stats -->
+                    <div
+                        class="p-6 grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-[#e5e7eb] dark:border-[#2c4724]">
+                        <div class="flex flex-col gap-1 p-3 rounded-lg bg-[#f0f2f4] dark:bg-[#2c4724]/30">
+                            <p class="text-[#637588] dark:text-[#9fc893] text-xs font-bold uppercase tracking-wide">
+                                Total
+                                Fields</p>
+                            <p class="text-[#111418] dark:text-white text-xl font-bold">5</p>
+                        </div>
+                        <div class="flex flex-col gap-1 p-3 rounded-lg bg-[#f0f2f4] dark:bg-[#2c4724]/30">
+                            <p class="text-[#637588] dark:text-[#9fc893] text-xs font-bold uppercase tracking-wide">
+                                Opening
+                                Time</p>
+                            <p class="text-[#111418] dark:text-white text-xl font-bold">08:00 AM</p>
+                        </div>
+                        <div class="flex flex-col gap-1 p-3 rounded-lg bg-[#f0f2f4] dark:bg-[#2c4724]/30">
+                            <p class="text-[#637588] dark:text-[#9fc893] text-xs font-bold uppercase tracking-wide">
+                                Closing
+                                Time</p>
+                            <p class="text-[#111418] dark:text-white text-xl font-bold">11:00 PM</p>
+                        </div>
+                        <div class="flex flex-col gap-1 p-3 rounded-lg bg-[#f0f2f4] dark:bg-[#2c4724]/30">
+                            <p class="text-[#637588] dark:text-[#9fc893] text-xs font-bold uppercase tracking-wide">
+                                Overall
+                                Rating</p>
+                            <div class="flex items-center gap-1">
+                                <span class="text-[#111418] dark:text-white text-xl font-bold">4.8</span>
+                                <span class="material-icons text-accent-orange text-sm mb-0.5">star</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fields Management Section -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <h3 class="text-[#111418] dark:text-white text-xl font-bold">Manage Fields</h3>
+                        <!-- Action Bar -->
+                        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                            <div class="relative group flex-1 md:w-64">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="material-icons text-[#637588] dark:text-[#9fc893]"
+                                        style="font-size: 20px;">search</span>
+                                </div>
+                                <input
+                                    class="block w-full pl-10 pr-3 py-2 border-none rounded-lg leading-5 bg-card-light dark:bg-[#1d2e18] text-[#111418] dark:text-white placeholder-[#637588] dark:placeholder-[#64795e] focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm"
+                                    placeholder="Search fields..." type="text" />
+                            </div>
+                            <div class="flex gap-2">
+                                <select
+                                    class="bg-card-light dark:bg-[#1d2e18] border-none text-[#111418] dark:text-white text-sm rounded-lg focus:ring-primary block p-2 pr-8 cursor-pointer">
+                                    <option>All Statuses</option>
+                                    <option>Active</option>
+                                    <option>Maintenance</option>
+                                </select>
+                                <select
+                                    class="bg-card-light dark:bg-[#1d2e18] border-none text-[#111418] dark:text-white text-sm rounded-lg focus:ring-primary block p-2 pr-8 cursor-pointer">
+                                    <option>All Types</option>
+                                    <option>5 vs 5</option>
+                                    <option>6 vs 6</option>
+                                    <option>7 vs 7</option>
+                                </select>
+                            </div>
+                            <button
+                                class="flex items-center justify-center gap-2 bg-primary hover:bg-[#3cd310] text-[#152211] px-4 py-2 rounded-lg text-sm font-bold transition-colors shadow-lg shadow-primary/20 whitespace-nowrap">
+                                <span class="material-icons" style="font-size: 20px;">add</span>
+                                Add Field
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Fields Grid/List -->
+                    <div
+                        class="bg-card-light dark:bg-[#1d2e18] rounded-xl border border-[#e5e7eb] dark:border-[#2c4724] overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead
+                                    class="text-xs text-[#637588] dark:text-[#9fc893] uppercase bg-[#f6f8f6] dark:bg-[#152211] border-b border-[#e5e7eb] dark:border-[#2c4724]">
+                                    <tr>
+                                        <th class="px-6 py-4 font-bold" scope="col">Field Name</th>
+                                        <th class="px-6 py-4 font-bold" scope="col">Type</th>
+                                        <th class="px-6 py-4 font-bold" scope="col">Surface</th>
+                                        <th class="px-6 py-4 font-bold" scope="col">Price / Hour</th>
+                                        <th class="px-6 py-4 font-bold" scope="col">Status</th>
+                                        <th class="px-6 py-4 font-bold text-right" scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-[#e5e7eb] dark:divide-[#2c4724]">
+                                    <!-- Row 1 -->
+                                    <tr class="hover:bg-[#f9fafb] dark:hover:bg-[#23351d] transition-colors group">
+                                        <td class="px-6 py-4 font-medium text-[#111418] dark:text-white">
+                                            <div class="flex items-center gap-3">
+                                                <div class="size-10 rounded bg-[#e5e7eb] dark:bg-[#2c4724] bg-center bg-cover"
+                                                    data-alt="Small synthetic football field"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBI3n-YaKphHomZ0YI8S6IkS5rOZVz_VPsTGxq6awPE2knCQPn1DDd0V3ni5ETWO4igj0G51plWcNdMcfpUrCi204NS2Gn6rb9UZjdMqioi5CiqEvK2DHXOLjdZZzYAWbv6UvIIdu_uNrEETs9ONHnGQlfjVxV2hmyj6h-OpiLCTOQNCzldlmgWivKwB0ClYrVObBgk3vFeB-Afy8vn1O4OPLApflPHcwhHBNlPXj0Y0kS5kqLKpNTQrADS6w_YfD-mXgL7bivENx4");'>
+                                                </div>
+                                                <div>
+                                                    <p class="font-bold">Field A (North)</p>
+                                                    <p class="text-xs text-[#637588] dark:text-[#88a07e]">Standard
+                                                        dimensions</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-[#f0f2f4] dark:bg-[#2c4724] text-[#111418] dark:text-white">
+                                                5 vs 5
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-[#637588] dark:text-[#c4dcc0]">Synthetic Turf</td>
+                                        <td class="px-6 py-4 font-bold text-[#111418] dark:text-white">$50.00</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-[#2c4724] dark:text-primary border border-primary/20">
+                                                <span class="size-1.5 rounded-full bg-primary"></span>
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div
+                                                class="flex items-center justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                                                <button
+                                                    class="p-2 rounded-lg text-[#637588] dark:text-[#9fc893] hover:bg-[#f0f2f4] dark:hover:bg-[#2c4724] hover:text-[#111418] dark:hover:text-white transition-colors"
+                                                    title="Edit">
+                                                    <span class="material-icons" style="font-size: 20px;">edit</span>
+                                                </button>
+                                                <button
+                                                    class="p-2 rounded-lg text-[#637588] dark:text-[#9fc893] hover:bg-accent-orange/10 hover:text-accent-orange transition-colors"
+                                                    title="Delete">
+                                                    <span class="material-icons" style="font-size: 20px;">delete</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Row 2 -->
+                                    <tr class="hover:bg-[#f9fafb] dark:hover:bg-[#23351d] transition-colors group">
+                                        <td class="px-6 py-4 font-medium text-[#111418] dark:text-white">
+                                            <div class="flex items-center gap-3">
+                                                <div class="size-10 rounded bg-[#e5e7eb] dark:bg-[#2c4724] bg-center bg-cover"
+                                                    data-alt="Football field with natural grass"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBI8WZpgZpfgZYjv_yZ_O3U-D-8D2a25cuUfMJaD3XamcAZZG1Uo3LK5iVx66xNR-L4l9GoY2Ykw-cFklD8HS2TX9-cFCNABIeiGHZdfxyAT_gU5ybLmfjpNNqyq6dbTSxhDOPkfDxLAxm_2XX26JClJ9UCvBbgTKVUu0vZpi4ooDWQK6PQuLGJElXHQKmnJqzlzZlYo_xH0xmkyEG91LPOLgAxeRNjMA24z9wrc2cXM3UMOM18RsYOBm9dhSwnB-YpLvRIXxWlUr8");'>
+                                                </div>
+                                                <div>
+                                                    <p class="font-bold">Field B (East)</p>
+                                                    <p class="text-xs text-[#637588] dark:text-[#88a07e]">Premium grass
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-[#f0f2f4] dark:bg-[#2c4724] text-[#111418] dark:text-white">
+                                                6 vs 6
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-[#637588] dark:text-[#c4dcc0]">Natural Grass</td>
+                                        <td class="px-6 py-4 font-bold text-[#111418] dark:text-white">$70.00</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-accent-orange/10 text-accent-orange border border-accent-orange/20">
+                                                <span class="size-1.5 rounded-full bg-accent-orange"></span>
+                                                Maintenance
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div
+                                                class="flex items-center justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                                                <button
+                                                    class="p-2 rounded-lg text-[#637588] dark:text-[#9fc893] hover:bg-[#f0f2f4] dark:hover:bg-[#2c4724] hover:text-[#111418] dark:hover:text-white transition-colors"
+                                                    title="Edit">
+                                                    <span class="material-icons" style="font-size: 20px;">edit</span>
+                                                </button>
+                                                <button
+                                                    class="p-2 rounded-lg text-[#637588] dark:text-[#9fc893] hover:bg-accent-orange/10 hover:text-accent-orange transition-colors"
+                                                    title="Delete">
+                                                    <span class="material-icons" style="font-size: 20px;">delete</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Row 3 -->
+                                    <tr class="hover:bg-[#f9fafb] dark:hover:bg-[#23351d] transition-colors group">
+                                        <td class="px-6 py-4 font-medium text-[#111418] dark:text-white">
+                                            <div class="flex items-center gap-3">
+                                                <div class="size-10 rounded bg-[#e5e7eb] dark:bg-[#2c4724] bg-center bg-cover"
+                                                    data-alt="Indoor synthetic football pitch"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxOTlW5sG9lc3UFHVG_d0mcEe10e8Z0s7K9MK3xWv7QGRRAtrixVC70IodXYtEQmOcDANVHFs7SUhPU6e6zaIFdbcnwRIYqVN4UjOvLyCxtDzjcDkZIT21-kSioPx6_yQArbI9tR5lDLFfLQSai13-2Lzz0UsU3eKk0ikdLoteuHkxrl-7u66Kp-DTvn62JATZFr8gH4VEJ5z-o36lnjjah1Sw5hffTr0BVvkq8i1Vuggun-Sbq1B3BLHZPnwXE01FlM6I2mL5iYA");'>
+                                                </div>
+                                                <div>
+                                                    <p class="font-bold">Field C (Indoor)</p>
+                                                    <p class="text-xs text-[#637588] dark:text-[#88a07e]">Indoor arena
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-[#f0f2f4] dark:bg-[#2c4724] text-[#111418] dark:text-white">
+                                                5 vs 5
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-[#637588] dark:text-[#c4dcc0]">Synthetic Turf</td>
+                                        <td class="px-6 py-4 font-bold text-[#111418] dark:text-white">$65.00</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-[#2c4724] dark:text-primary border border-primary/20">
+                                                <span class="size-1.5 rounded-full bg-primary"></span>
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div
+                                                class="flex items-center justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                                                <button
+                                                    class="p-2 rounded-lg text-[#637588] dark:text-[#9fc893] hover:bg-[#f0f2f4] dark:hover:bg-[#2c4724] hover:text-[#111418] dark:hover:text-white transition-colors"
+                                                    title="Edit">
+                                                    <span class="material-icons" style="font-size: 20px;">edit</span>
+                                                </button>
+                                                <button
+                                                    class="p-2 rounded-lg text-[#637588] dark:text-[#9fc893] hover:bg-accent-orange/10 hover:text-accent-orange transition-colors"
+                                                    title="Delete">
+                                                    <span class="material-icons" style="font-size: 20px;">delete</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Row 4 -->
+                                    <tr class="hover:bg-[#f9fafb] dark:hover:bg-[#23351d] transition-colors group">
+                                        <td class="px-6 py-4 font-medium text-[#111418] dark:text-white">
+                                            <div class="flex items-center gap-3">
+                                                <div class="size-10 rounded bg-[#e5e7eb] dark:bg-[#2c4724] bg-center bg-cover"
+                                                    data-alt="Large football field corner view"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB50XCx7nporhR6Ml1qKUI-6T1BnUZzZEPjreVvcLO8tViN3GGXYefp_3cFhmsGKKnCKONE78K-beD-eaAwv_nCRHAPQgdfvEXvt4sRfDYtsMLLHPBFL_ohRpkE0X1Z5JDwHmi8lTlvRuc6jqTXoU1-CkQJDzk7JiDeUFmJK8J4jQ42uzdgV_qYfoRycyPds8xBYxnAHR57MO1JsW_s3KIy6Zm6rYV_GQAvRd9rc9S85k5ekrg9l4yVa8snU7YCn6NAhuxcHAyxF2Q");'>
+                                                </div>
+                                                <div>
+                                                    <p class="font-bold">Field D (South)</p>
+                                                    <p class="text-xs text-[#637588] dark:text-[#88a07e]">Near parking
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-[#f0f2f4] dark:bg-[#2c4724] text-[#111418] dark:text-white">
+                                                7 vs 7
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-[#637588] dark:text-[#c4dcc0]">Hybrid</td>
+                                        <td class="px-6 py-4 font-bold text-[#111418] dark:text-white">$80.00</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-[#2c4724] dark:text-primary border border-primary/20">
+                                                <span class="size-1.5 rounded-full bg-primary"></span>
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div
+                                                class="flex items-center justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                                                <button
+                                                    class="p-2 rounded-lg text-[#637588] dark:text-[#9fc893] hover:bg-[#f0f2f4] dark:hover:bg-[#2c4724] hover:text-[#111418] dark:hover:text-white transition-colors"
+                                                    title="Edit">
+                                                    <span class="material-icons" style="font-size: 20px;">edit</span>
+                                                </button>
+                                                <button
+                                                    class="p-2 rounded-lg text-[#637588] dark:text-[#9fc893] hover:bg-accent-orange/10 hover:text-accent-orange transition-colors"
+                                                    title="Delete">
+                                                    <span class="material-icons" style="font-size: 20px;">delete</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Pagination -->
+                        <div
+                            class="px-6 py-4 border-t border-[#e5e7eb] dark:border-[#2c4724] flex items-center justify-between bg-[#f6f8f6] dark:bg-[#152211]">
+                            <span class="text-sm text-[#637588] dark:text-[#9fc893]">
+                                Showing <span class="font-bold text-[#111418] dark:text-white">1-4</span> of <span
+                                    class="font-bold text-[#111418] dark:text-white">4</span> fields
+                            </span>
+                            <div class="flex gap-2">
+                                <button
+                                    class="px-3 py-1 text-sm rounded-lg border border-[#e5e7eb] dark:border-[#2c4724] text-[#637588] dark:text-[#9fc893] hover:bg-white dark:hover:bg-[#1d2e18] disabled:opacity-50"
+                                    disabled="">Previous</button>
+                                <button
+                                    class="px-3 py-1 text-sm rounded-lg border border-[#e5e7eb] dark:border-[#2c4724] text-[#637588] dark:text-[#9fc893] hover:bg-white dark:hover:bg-[#1d2e18] disabled:opacity-50"
+                                    disabled="">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-manager-layout>

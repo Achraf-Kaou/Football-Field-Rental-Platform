@@ -1,0 +1,14 @@
+<div class="flex h-screen overflow-hidden bg-background">
+    <!-- Sidebar Component -->
+    <app-manager-sidebar (collapsedOutput)="onSidebarCollapse($event)"></app-manager-sidebar>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col overflow-hidden" [class.ml-72]="!isSidebarCollapsed()"
+        [class.ml-24]="isSidebarCollapsed()">
+        <main class="flex-1 overflow-y-auto md:pt-0">
+            <div class="px-4 md:px-6 lg:px-8 py-4 md:py-6">
+                <ng-content></ng-content>
+            </div>
+        </main>
+    </div>
+</div>

@@ -1,11 +1,11 @@
 // booking-page.component.ts
 import { Component, signal, computed, input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../ui/button/button';
-import { CardComponent } from '../ui/card/card';
+import { ButtonComponent } from '../../ui/button/button';
+import { CardComponent } from '../../ui/card/card';
 import { FormsModule } from '@angular/forms';
-import { NavbarMain } from '../common/navbar-main/navbar-main';
-import { FooterMain } from '../common/footer-main/footer-main';
+import { NavbarMain } from '../../common/navbar-main/navbar-main';
+import { FooterMain } from '../../common/footer-main/footer-main';
 
 interface Field {
   id: string;

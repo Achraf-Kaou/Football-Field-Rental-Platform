@@ -78,7 +78,7 @@ export class LoginComponent {
     this.authService.register(this.registerModel()).subscribe({
       next: () => {
         this.toastService.storeForRedirect('success', "registered successfully");
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/manager']);
       },
       error: (error) => {
         this.errorMessage.set("Registration failed");
@@ -97,7 +97,7 @@ export class LoginComponent {
     this.authService.login(this.loginModel()).subscribe({
       next: () => {
         this.toastService.storeForRedirect('success', "loggedIn successfully");
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/manager']);
       },
       error: (error) => {
         this.errorMessage.set("Login failed");

@@ -1,38 +1,48 @@
-<aside #sidebar class="sidebar" [class.open]="isOpen()">
+<aside #sidebar class="sidebar" [class.collapsed]="isCollapsed()">
     <header>
-        <button type="button" class="sidebar-burger" (click)="toggleOpen()">
-            <i class="ai-close"></i>
+        <button type="button" class="sidebar-toggle" (click)="toggleCollapse()"
+            [attr.aria-label]="isCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'">
+            <span class="material-icons">{{ isCollapsed() ? 'menu' : 'menu_open' }}</span>
         </button>
-        <img src="whitelogo.png" alt="Logo" /> Takwirti
+        @if(isDarkMode()){
+        <img src="whitelogo.png" alt="Takwirti Logo" class="logo" />
+        }
+        @else{
+        <img src="blacklogo.png" alt="Takwirti Logo" class="logo" />
+        }
+        <div class="brand-name">Takwirti</div>
     </header>
     <nav #nav class="menu">
-        <button #navButton type="button" (click)="onButtonClick(0)">
-            <i class="ai-home-alt1"></i>
-            <p>Home</p>
+        @for(item of menu(); track item.id) {
+        <button #navButton type="button" (click)="onButtonClick(item.id, item.path)" [attr.aria-label]="item.name"
+            [attr.data-tooltip]="item.name">
+            <span class="material-icons">{{ item.icon }}</span>
+            <p>{{ item.name }}</p>
         </button>
-        <button #navButton type="button" (click)="onButtonClick(1)">
-            <i class="ai-eye-open"></i>
-            <p>Overview</p>
-        </button>
-        <button #navButton type="button" (click)="onButtonClick(2)">
-            <i class="ai-star"></i>
-            <p>Ratings</p>
-        </button>
-        <button #navButton type="button" (click)="onButtonClick(3)">
-            <i class="ai-shipping-box-v1"></i>
-            <p>Products</p>
-        </button>
-        <button #navButton type="button" (click)="onButtonClick(4)">
-            <i class="ai-arrow-up-right"></i>
-            <p>Trends</p>
-        </button>
-        <button #navButton type="button" (click)="onButtonClick(5)">
-            <i class="ai-envelope"></i>
-            <p>Inbox</p>
-        </button>
-        <button #navButton type="button" (click)="onButtonClick(6)">
-            <i class="ai-gear"></i>
-            <p>Settings</p>
-        </button>
+        }
     </nav>
+
+    <footer class="sidebar-footer">
+        <div class="user-profile">
+            <img class="user-avatar"
+                src="https://images.unsplash.com/photo-1734122415415-88cb1d7d5dc0?q=80&w=320&h=320&auto=format&fit=facearea&facepad=3&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="User Avatar">
+            <span class="user-name" [class.hidden]="isCollapsed()">Mia Hudson</span>
+            <!-- Theme Switch -->
+            <button (click)="toggleTheme()"
+                class="mx-3 w-10 h-10 rounded-full bg-gray-100 dark:bg-surface-card border border-gray-200 dark:border-white/10 flex items-center justify-center hover:scale-110 hover:border-primary dark:hover:border-primary transition-all duration-300 group">
+                @if (isDarkMode()) {
+                <span
+                    class="material-icons text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors light-mode-icon hidden text-xl">
+                    light_mode
+                </span>
+                }@else {
+                <span
+                    class="material-icons text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors dark-mode-icon text-xl">
+                    dark_mode
+                </span>
+                }
+            </button>
+        </div>
+    </footer>
 </aside>

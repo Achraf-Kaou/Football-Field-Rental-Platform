@@ -1,0 +1,418 @@
+<app-manager-layout>
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- Top Navbar -->
+        <header
+            class="h-16 border-b border-surface-dark-lighter flex items-center justify-between px-6 bg-background-dark/80 backdrop-blur-md z-10">
+            <div class="flex items-center gap-4 lg:hidden">
+                <button class="text-black dark:text-white">
+                    <span class="material-icons">menu</span>
+                </button>
+            </div>
+            <!-- Search -->
+            <div class="hidden md:flex flex-1 max-w-md">
+                <div class="relative w-full group">
+                    <span
+                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 group-focus-within:text-primary transition-colors">
+                        <span class="material-icons">search</span>
+                    </span>
+                    <input
+                        class="w-full bg-surface-dark text-black dark:text-white text-sm rounded-lg pl-10 pr-4 py-2.5 border border-transparent focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all placeholder:text-slate-500"
+                        placeholder="Search bookings, customers, or fields..." type="text" />
+                </div>
+            </div>
+            <!-- Actions -->
+            <div class="flex items-center gap-4 ml-auto">
+                <button
+                    class="relative p-2 text-slate-400 hover:text-black dark:text-white hover:bg-surface-dark rounded-full transition-colors">
+                    <span class="material-icons">notifications</span>
+                    <span
+                        class="absolute top-2 right-2 h-2 w-2 rounded-full bg-accent-orange border border-background-dark"></span>
+                </button>
+                <button
+                    class="hidden sm:flex bg-primary hover:bg-primary-dark text-background-dark font-bold text-sm px-4 py-2 rounded-lg items-center gap-2 transition-colors shadow-[0_0_10px_rgba(73,230,25,0.2)]"
+                    (click)="navigateToAddComplex()">
+                    <span class="material-icons text-[20px]">add</span>
+                    <span>New Complex</span>
+                </button>
+            </div>
+        </header>
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-6 md:p-8 pb-20">
+            <div class="max-w-7xl mx-auto flex flex-col gap-8">
+                <!-- Page Heading -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <h2 class="text-3xl font-black text-black dark:text-white tracking-tight">Overview</h2>
+                        <p class="text-slate-400 mt-1 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                            Live Updates • Today, Oct 24
+                        </p>
+                    </div>
+                    <div
+                        class="flex items-center gap-2 bg-surface-dark p-1 rounded-lg border border-surface-dark-lighter">
+                        <button
+                            class="px-3 py-1.5 text-xs font-bold text-background-dark bg-primary rounded shadow-sm">Today</button>
+                        <button
+                            class="px-3 py-1.5 text-xs font-medium text-slate-400 hover:text-black dark:text-white transition-colors">Week</button>
+                        <button
+                            class="px-3 py-1.5 text-xs font-medium text-slate-400 hover:text-black dark:text-white transition-colors">Month</button>
+                    </div>
+                </div>
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Stat Card 1 -->
+                    <div
+                        class="bg-surface-dark border border-surface-dark-lighter p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden group hover:border-primary/30 transition-colors">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <span class="material-icons text-4xl text-primary">payments</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class="text-slate-400 text-sm font-medium">Total Revenue</p>
+                            <h3 class="text-black dark:text-white text-2xl font-bold mt-1">$12,450</h3>
+                        </div>
+                        <div class="flex items-center gap-2 mt-auto">
+                            <span
+                                class="bg-primary/20 text-primary text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1">
+                                <span class="material-icons text-[14px]">trending_up</span>
+                                15%
+                            </span>
+                            <span class="text-slate-500 text-xs">vs last week</span>
+                        </div>
+                    </div>
+                    <!-- Stat Card 2 -->
+                    <div
+                        class="bg-surface-dark border border-surface-dark-lighter p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden group hover:border-primary/30 transition-colors">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <span class="material-icons text-4xl text-primary">stadium</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class="text-slate-400 text-sm font-medium">Occupancy Rate</p>
+                            <h3 class="text-black dark:text-white text-2xl font-bold mt-1">78%</h3>
+                        </div>
+                        <div class="flex items-center gap-2 mt-auto">
+                            <span
+                                class="bg-primary/20 text-primary text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1">
+                                <span class="material-icons text-[14px]">trending_up</span>
+                                5%
+                            </span>
+                            <span class="text-slate-500 text-xs">Peak hours</span>
+                        </div>
+                    </div>
+                    <!-- Stat Card 3 -->
+                    <div
+                        class="bg-surface-dark border border-surface-dark-lighter p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden group hover:border-primary/30 transition-colors">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <span class="material-icons text-4xl text-primary">event_available</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class="text-slate-400 text-sm font-medium">Today's Bookings</p>
+                            <h3 class="text-black dark:text-white text-2xl font-bold mt-1">24</h3>
+                        </div>
+                        <div class="flex items-center gap-2 mt-auto">
+                            <span
+                                class="bg-primary/20 text-primary text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1">
+                                <span class="material-icons text-[14px]">trending_up</span>
+                                2%
+                            </span>
+                            <span class="text-slate-500 text-xs">4 slots left</span>
+                        </div>
+                    </div>
+                    <!-- Stat Card 4 -->
+                    <div
+                        class="bg-surface-dark border border-surface-dark-lighter p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden group hover:border-primary/30 transition-colors">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <span class="material-icons text-4xl text-primary">group_add</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class="text-slate-400 text-sm font-medium">New Customers</p>
+                            <h3 class="text-black dark:text-white text-2xl font-bold mt-1">12</h3>
+                        </div>
+                        <div class="flex items-center gap-2 mt-auto">
+                            <span
+                                class="bg-primary/20 text-primary text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1">
+                                <span class="material-icons text-[14px]">trending_up</span>
+                                8%
+                            </span>
+                            <span class="text-slate-500 text-xs">High retention</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Main Grid Layout -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left Column: Chart & Field Status -->
+                    <div class="lg:col-span-2 flex flex-col gap-6">
+                        <!-- Chart Section -->
+                        <div class="bg-surface-dark border border-surface-dark-lighter p-6 rounded-2xl">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <h3 class="text-black dark:text-white text-lg font-bold">Revenue &amp; Occupancy
+                                    </h3>
+                                    <p class="text-slate-400 text-sm">Weekly trend analysis</p>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-3 h-3 rounded-full bg-primary"></span>
+                                        <span class="text-slate-400 text-xs">Revenue</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-3 h-3 rounded-full bg-white/20"></span>
+                                        <span class="text-slate-400 text-xs">Occupancy</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Custom CSS Chart Implementation -->
+                            <div class="h-64 w-full relative">
+                                <svg class="w-full h-full overflow-visible" preserveaspectratio="none"
+                                    viewbox="0 0 100 50">
+                                    <!-- Gradient Defs -->
+                                    <defs>
+                                        <lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+                                            <stop offset="0%" stop-color="#49e619" stop-opacity="0.2"></stop>
+                                            <stop offset="100%" stop-color="#49e619" stop-opacity="0"></stop>
+                                        </lineargradient>
+                                    </defs>
+                                    <!-- Grid Lines -->
+                                    <line stroke="#2a3d25" stroke-width="0.2" x1="0" x2="100" y1="10" y2="10"></line>
+                                    <line stroke="#2a3d25" stroke-width="0.2" x1="0" x2="100" y1="20" y2="20"></line>
+                                    <line stroke="#2a3d25" stroke-width="0.2" x1="0" x2="100" y1="30" y2="30"></line>
+                                    <line stroke="#2a3d25" stroke-width="0.2" x1="0" x2="100" y1="40" y2="40"></line>
+                                    <!-- Chart Path -->
+                                    <path
+                                        d="M0,45 C10,40 15,35 25,30 C35,25 45,35 55,20 C65,5 75,15 85,10 C95,5 100,2 100,2 L100,50 L0,50 Z"
+                                        fill="url(#chartGradient)"></path>
+                                    <path
+                                        d="M0,45 C10,40 15,35 25,30 C35,25 45,35 55,20 C65,5 75,15 85,10 C95,5 100,2 100,2"
+                                        fill="none" stroke="#49e619" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="0.8"></path>
+                                    <!-- Dashed Line (Secondary Data) -->
+                                    <path
+                                        d="M0,48 C15,45 20,40 30,35 C40,30 50,40 60,35 C70,25 80,30 90,25 C95,20 100,15 100,15"
+                                        fill="none" stroke="#ffffff" stroke-dasharray="2,2" stroke-opacity="0.2"
+                                        stroke-width="0.5"></path>
+                                </svg>
+                                <!-- X Axis Labels -->
+                                <div class="flex justify-between mt-2 text-xs text-slate-500 font-medium px-1">
+                                    <span>Mon</span>
+                                    <span>Tue</span>
+                                    <span>Wed</span>
+                                    <span>Thu</span>
+                                    <span>Fri</span>
+                                    <span>Sat</span>
+                                    <span>Sun</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Live Pitch Status -->
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-black dark:text-white text-lg font-bold">Live Field Status</h3>
+                                <button class="text-primary text-sm font-semibold hover:underline">View All
+                                    Pitches</button>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <!-- Pitch A: Live -->
+                                <div
+                                    class="bg-surface-dark border border-surface-dark-lighter rounded-xl p-4 flex flex-col gap-3 relative overflow-hidden">
+                                    <div
+                                        class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/10 to-transparent -mr-4 -mt-4 rounded-full">
+                                    </div>
+                                    <div class="flex justify-between items-start z-10">
+                                        <div class="flex flex-col">
+                                            <span class="text-black dark:text-white font-bold text-lg">Pitch A</span>
+                                            <span class="text-slate-400 text-xs font-medium">5 vs 5 Standard</span>
+                                        </div>
+                                        <span
+                                            class="flex items-center gap-1.5 bg-primary/20 text-primary text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider animate-pulse border border-primary/20">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                            Live
+                                        </span>
+                                    </div>
+                                    <div class="h-px bg-surface-dark-lighter w-full my-1"></div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex -space-x-2">
+                                            <div
+                                                class="w-7 h-7 rounded-full bg-slate-700 border-2 border-surface-dark flex items-center justify-center text-[10px] text-black dark:text-white font-bold">
+                                                FC</div>
+                                            <div
+                                                class="w-7 h-7 rounded-full bg-slate-600 border-2 border-surface-dark flex items-center justify-center text-[10px] text-black dark:text-white font-bold">
+                                                UTD</div>
+                                        </div>
+                                        <span class="text-black dark:text-white font-mono font-medium text-sm">12m
+                                            left</span>
+                                    </div>
+                                </div>
+                                <!-- Pitch B: Available -->
+                                <div
+                                    class="bg-surface-dark border border-surface-dark-lighter rounded-xl p-4 flex flex-col gap-3 group hover:border-slate-600 transition-colors cursor-pointer">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex flex-col">
+                                            <span class="text-black dark:text-white font-bold text-lg">Pitch B</span>
+                                            <span class="text-slate-400 text-xs font-medium">5 vs 5 Standard</span>
+                                        </div>
+                                        <span
+                                            class="bg-slate-700 text-slate-300 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider border border-slate-600">
+                                            Vacant
+                                        </span>
+                                    </div>
+                                    <div class="h-px bg-surface-dark-lighter w-full my-1"></div>
+                                    <div class="flex items-center justify-center h-8">
+                                        <span
+                                            class="text-primary text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                                            <span class="material-icons text-sm">add</span> Book Now
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- Pitch C: Maintenance -->
+                                <div
+                                    class="bg-surface-dark border border-accent-orange/30 rounded-xl p-4 flex flex-col gap-3 relative">
+                                    <!-- Striped background overlay for maintenance effect -->
+                                    <div
+                                        class="absolute inset-0 rounded-xl opacity-5 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#f97316_10px,#f97316_20px)]">
+                                    </div>
+                                    <div class="flex justify-between items-start z-10">
+                                        <div class="flex flex-col">
+                                            <span class="text-black dark:text-white font-bold text-lg">Pitch C</span>
+                                            <span class="text-slate-400 text-xs font-medium">7 vs 7 Pro</span>
+                                        </div>
+                                        <span
+                                            class="bg-accent-orange/20 text-accent-orange text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider border border-accent-orange/20">
+                                            Maint.
+                                        </span>
+                                    </div>
+                                    <div class="h-px bg-surface-dark-lighter w-full my-1 z-10"></div>
+                                    <div class="flex items-center gap-2 z-10">
+                                        <span class="material-icons text-accent-orange text-sm">warning</span>
+                                        <span class="text-accent-orange text-xs font-medium">Turf repair until
+                                            18:00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Column: Schedule & Quick Actions -->
+                    <div class="flex flex-col gap-6">
+                        <!-- Upcoming Schedule -->
+                        <div
+                            class="bg-surface-dark border border-surface-dark-lighter rounded-2xl overflow-hidden flex flex-col h-full max-h-[500px]">
+                            <div
+                                class="p-5 border-b border-surface-dark-lighter flex justify-between items-center bg-surface-dark-lighter/30">
+                                <h3 class="text-black dark:text-white text-lg font-bold">Upcoming Matches</h3>
+                                <button
+                                    class="p-1 text-slate-400 hover:text-black dark:text-white rounded hover:bg-white/10 transition-colors">
+                                    <span class="material-icons">filter_list</span>
+                                </button>
+                            </div>
+                            <div class="overflow-y-auto flex-1 p-2 space-y-1">
+                                <!-- Item 1 -->
+                                <div
+                                    class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-dark-lighter/50 transition-colors cursor-pointer group">
+                                    <div
+                                        class="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-surface-dark-lighter border border-surface-dark-lighter group-hover:border-primary/50 transition-colors">
+                                        <span class="text-xs text-slate-400 font-medium">16:00</span>
+                                        <span class="text-xs text-primary font-bold">PM</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="text-black dark:text-white text-sm font-semibold truncate">The All
+                                            Stars
+                                        </h4>
+                                        <p class="text-slate-400 text-xs truncate">Pitch B • 5 vs 5</p>
+                                    </div>
+                                    <button class="text-slate-500 hover:text-primary transition-colors">
+                                        <span class="material-icons">more_vert</span>
+                                    </button>
+                                </div>
+                                <!-- Item 2 -->
+                                <div
+                                    class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-dark-lighter/50 transition-colors cursor-pointer group">
+                                    <div
+                                        class="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-surface-dark-lighter border border-surface-dark-lighter group-hover:border-primary/50 transition-colors">
+                                        <span class="text-xs text-slate-400 font-medium">17:30</span>
+                                        <span class="text-xs text-primary font-bold">PM</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="text-black dark:text-white text-sm font-semibold truncate">Corp
+                                            League:
+                                            Tech FC</h4>
+                                        <p class="text-slate-400 text-xs truncate">Pitch A • Tournament</p>
+                                    </div>
+                                    <button class="text-slate-500 hover:text-primary transition-colors">
+                                        <span class="material-icons">more_vert</span>
+                                    </button>
+                                </div>
+                                <!-- Item 3 -->
+                                <div
+                                    class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-dark-lighter/50 transition-colors cursor-pointer group">
+                                    <div
+                                        class="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-surface-dark-lighter border border-surface-dark-lighter group-hover:border-primary/50 transition-colors">
+                                        <span class="text-xs text-slate-400 font-medium">19:00</span>
+                                        <span class="text-xs text-primary font-bold">PM</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="text-black dark:text-white text-sm font-semibold truncate">Weekend
+                                            Warriors</h4>
+                                        <p class="text-slate-400 text-xs truncate">Pitch C • 7 vs 7</p>
+                                    </div>
+                                    <div class="flex gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-accent-orange"
+                                            title="Payment Pending"></span>
+                                    </div>
+                                    <button class="text-slate-500 hover:text-primary transition-colors ml-2">
+                                        <span class="material-icons">more_vert</span>
+                                    </button>
+                                </div>
+                                <!-- Item 4 -->
+                                <div
+                                    class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-dark-lighter/50 transition-colors cursor-pointer group">
+                                    <div
+                                        class="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-surface-dark-lighter border border-surface-dark-lighter group-hover:border-primary/50 transition-colors">
+                                        <span class="text-xs text-slate-400 font-medium">20:30</span>
+                                        <span class="text-xs text-primary font-bold">PM</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="text-black dark:text-white text-sm font-semibold truncate">Junior
+                                            Training</h4>
+                                        <p class="text-slate-400 text-xs truncate">Pitch B • Coaching</p>
+                                    </div>
+                                    <button class="text-slate-500 hover:text-primary transition-colors">
+                                        <span class="material-icons">more_vert</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-3 border-t border-surface-dark-lighter">
+                                <button
+                                    class="w-full py-2 text-sm text-center text-slate-300 hover:text-black dark:text-white font-medium hover:bg-surface-dark-lighter rounded transition-colors">
+                                    View Full Schedule
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Alerts / Quick Maintenance -->
+                        <div
+                            class="bg-gradient-to-br from-surface-dark to-surface-dark-lighter border border-surface-dark-lighter rounded-2xl p-5">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="bg-accent-orange/20 p-2 rounded-lg">
+                                    <span class="material-icons text-accent-orange">build</span>
+                                </div>
+                                <h3 class="text-black dark:text-white font-bold text-base">Required Action</h3>
+                            </div>
+                            <p class="text-slate-300 text-sm mb-4">Pitch C scheduled for lighting check tomorrow at
+                                09:00
+                                AM.</p>
+                            <div class="flex gap-2">
+                                <button
+                                    class="flex-1 bg-surface-dark hover:bg-black/20 text-black dark:text-white text-xs font-bold py-2 px-3 rounded border border-surface-dark-lighter transition-colors">
+                                    Reschedule
+                                </button>
+                                <button
+                                    class="flex-1 bg-white text-background-dark hover:bg-slate-200 text-xs font-bold py-2 px-3 rounded transition-colors">
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Overlay for Mobile Menu (Hidden by default) -->
+    <div class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
+</app-manager-layout>

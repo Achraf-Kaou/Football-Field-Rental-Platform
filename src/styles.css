@@ -7,6 +7,7 @@
     /* Colors that work in both modes */
     --color-primary: #49e619;
     --color-accent: #f97316;
+    --color-green: #2c4724;
 
     /* Light mode colors (default) */
     --color-background: #ffffff;
@@ -14,6 +15,8 @@
     --color-surface-card: #e5e7eb;
     --color-text-primary: #111827;
     --color-text-secondary: #6b7280;
+    --input-bg: #20321a;
+    --input-border: #3f6534;
 
     /* Fonts */
     --font-display: "Manrope", sans-serif;
@@ -28,5 +31,8 @@
         --color-surface-card: #1a2b16;
         --color-text-primary: #ffffff;
         --color-text-secondary: #9ca3af;
+        --border-green: #2c4724;
+        --input-bg: #20321a;
+        --input-border: #3f6534;
     }
 }

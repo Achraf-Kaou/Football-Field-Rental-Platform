@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../ui/button/button';
-import { CardComponent } from '../ui/card/card';
-import { InputComponent } from '../ui/input/input';
-import { NavbarMain } from '../common/navbar-main/navbar-main';
-import { FooterMain} from '../common/footer-main/footer-main';
+import { ButtonComponent } from '../../ui/button/button';
+import { CardComponent } from '../../ui/card/card';
+import { InputComponent } from '../../ui/input/input';
+import { NavbarMain } from '../../common/navbar-main/navbar-main';
+import { FooterMain } from '../../common/footer-main/footer-main';
 
 @Component({
   selector: 'app-home',
