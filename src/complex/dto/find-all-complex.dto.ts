@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsInt, Min, IsString, IsEnum, IsIn } from 'class-validator';
+import { IsOptional, IsInt, Min, IsString, IsEnum, IsIn, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Complex } from '@prisma/client';
 
@@ -13,9 +13,7 @@ export class FindAllComplexDto {
     })
     @IsOptional()
     @Type(() => Number)
-    @IsInt()
-    @Min(1)
-    page?: number = 1;
+    page?: number;
 
     @ApiProperty({
         example: 10,
@@ -26,9 +24,7 @@ export class FindAllComplexDto {
     })
     @IsOptional()
     @Type(() => Number)
-    @IsInt()
-    @Min(1)
-    limit?: number = 10;
+    limit?: number;
 
     @ApiProperty({
         example: 'john',
@@ -38,6 +34,15 @@ export class FindAllComplexDto {
     @IsOptional()
     @IsString()
     search?: string;
+
+    @ApiProperty({
+        example: true,
+        description: 'open or close',
+        required: false
+    })
+    @IsOptional()
+    @IsString()
+    status?: string;
 
     @ApiProperty({
         example: 'createdAt',

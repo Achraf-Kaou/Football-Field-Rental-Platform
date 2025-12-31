@@ -60,10 +60,14 @@ model Field {
 model Complex {
   id          Int       @id @default(autoincrement())
   name        String
-  description String
+  description String?
   address     String
   phone       String
   email       String    @unique
+  images      String[]  @default([])
+  tags        String[]  @default([])
+  openAt      String    @default("08:00")
+  closeAt     String    @default("00:00")
   fields      Field[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

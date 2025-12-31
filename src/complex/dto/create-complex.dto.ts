@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Field } from '@prisma/client';
-import { IsEmail, IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
+import { IsArray, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Length } from 'class-validator';
 
 export class CreateComplexDto {
   @ApiProperty({
@@ -46,5 +46,44 @@ export class CreateComplexDto {
   @IsNotEmpty()
   email: string;
 
+  @ApiProperty({
+    example: ['https://res.cloudinary.com/demo/image/upload/v1/sample.jpg'],
+    description: 'Array of image URLs from Cloudinary',
+    required: false,
+    type: [String],
+  })
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  images?: string[];
 
+  @ApiProperty({
+    example: ['foot', 'basketball'],
+    description: 'Array of tags for the complex',
+    required: false,
+    type: [String],
+  })
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  tags?: string[];
+
+  @ApiProperty({
+    example: '08:00',
+    description: 'Opening time of the complex',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  openAt?: string;
+
+  @ApiProperty({
+    example: '22:00',
+    description: 'Closing time of the complex',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  closeAt?: string;
 }
+
