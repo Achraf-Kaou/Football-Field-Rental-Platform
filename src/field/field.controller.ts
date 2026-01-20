@@ -46,6 +46,19 @@ export class FieldController {
     return this.fieldService.create(createFieldDto);
   }
 
+  @Get('count')
+  @ApiOperation({ summary: 'Get total count of fields' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Total count of fields retrieved successfully',
+  })
+  countAll(@Query('complexId') id?: number) {
+    if (id) {
+      return this.fieldService.countAll(id);
+    }
+    return this.fieldService.countAll();
+  }
+
   @Get()
   @ApiOperation({ summary: 'Get all fields with filters' })
   @ApiResponse({

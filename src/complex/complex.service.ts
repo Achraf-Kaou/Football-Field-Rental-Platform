@@ -3,13 +3,11 @@ import { CreateComplexDto } from './dto/create-complex.dto';
 import { UpdateComplexDto } from './dto/update-complex.dto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { FindAllComplexDto } from './dto/find-all-complex.dto';
-import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Injectable()
 export class ComplexService {
   constructor(
     private prisma: PrismaService,
-    private cloudinaryService: CloudinaryService
   ) { }
 
   async create(createComplexDto: CreateComplexDto) {
@@ -29,36 +27,10 @@ export class ComplexService {
         phone: createComplexDto.phone,
         email: createComplexDto.email,
         images: createComplexDto.images || [],
+        tags: createComplexDto.tags || [],
+        openAt: createComplexDto.openAt,
+        closeAt: createComplexDto.closeAt,
       },
-    });
-  }
-
-  async addImages(id: number, imageUrls: string[]) {
-    const complex = await this.findOne(id);
-
-    return this.prisma.complex.update({
-      where: { id },
-      data: {
-        images: {
-          push: imageUrls, // Append new images to existing array
-        },
-      },
-    });
-  }
-
-  async removeImage(id: number, imageUrl: string) {
-    const complex = await this.findOne(id);
-
-    // Delete from Cloudinary
-    const publicId = this.cloudinaryService.extractPublicId(imageUrl);
-    await this.cloudinaryService.deleteImage(publicId);
-
-    // Remove from database
-    const updatedImages = complex.images.filter(img => img !== imageUrl);
-
-    return this.prisma.complex.update({
-      where: { id },
-      data: { images: updatedImages },
     });
   }
 
@@ -75,15 +47,11 @@ export class ComplexService {
       sortedBy = 'createdAt',
       sortedDirection = 'desc',
     } = filters;
-    console.log(filters)
 
     let statusBool: boolean | undefined;
     if (status === 'true') statusBool = true;
     else if (status === 'false') statusBool = false;
     else statusBool = undefined;
-
-    console.log('raw status (query):', status);
-    console.log('statusBool:', statusBool);
 
     const complexes = await this.prisma.complex.findMany({
       where: {
@@ -118,7 +86,6 @@ export class ComplexService {
 
   // complex.service.ts
   async findOne(id: number) {
-    console.log('service findOne id =', id, typeof id);
 
     if (id == null || Number.isNaN(id)) {
       throw new BadRequestException('Invalid id');
@@ -156,15 +123,6 @@ export class ComplexService {
 
   async remove(id: number): Promise<void> {
     const complex = await this.findOne(id);
-
-    // Delete all images from Cloudinary
-    if (complex.images && complex.images.length > 0) {
-      const deletePromises = complex.images.map(imageUrl => {
-        const publicId = this.cloudinaryService.extractPublicId(imageUrl);
-        return this.cloudinaryService.deleteImage(publicId);
-      });
-      await Promise.all(deletePromises);
-    }
 
     await this.prisma.complex.delete({
       where: { id },

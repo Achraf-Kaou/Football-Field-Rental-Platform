@@ -9,14 +9,12 @@ import { ComplexService } from './complex.service';
 import { CreateComplexDto } from './dto/create-complex.dto';
 import { UpdateComplexDto } from './dto/update-complex.dto';
 import { FindAllComplexDto } from './dto/find-all-complex.dto';
-import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @ApiTags('Complex')
 @Controller('complex')
 export class ComplexController {
   constructor(
     private readonly complexService: ComplexService,
-    private readonly cloudinaryService: CloudinaryService
   ) { }
 
   @Post()
@@ -24,90 +22,7 @@ export class ComplexController {
   @ApiResponse({ status: HttpStatus.CREATED, description: 'Complex successfully created', type: CreateComplexDto })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid input' })
   create(@Body() createComplexDto: CreateComplexDto) {
-    console.log(createComplexDto);
     return this.complexService.create(createComplexDto);
-  }
-
-  @Post('upload-images')
-  @ApiOperation({ summary: 'Upload images for complex' })
-  @ApiConsumes('multipart/form-data')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Images uploaded successfully',
-    schema: {
-      type: 'object',
-      properties: {
-        urls: {
-          type: 'array',
-          items: { type: 'string' }
-        }
-      }
-    }
-  })
-  @UseInterceptors(FilesInterceptor('images', 10, {
-    limits: {
-      fileSize: 5 * 1024 * 1024, // 5MB per file
-    },
-    fileFilter: (req, file, callback) => {
-      if (!file.mimetype.match(/\/(jpg|jpeg|png|webp)$/)) {
-        return callback(
-          new BadRequestException('Only image files (jpg, jpeg, png, webp) are allowed!'),
-          false
-        );
-      }
-      callback(null, true);
-    },
-  }))
-  async uploadImages(@UploadedFiles() files: Express.Multer.File[]) {
-    if (!files || files.length === 0) {
-      throw new BadRequestException('No files uploaded');
-    }
-
-    const uploadPromises = files.map(file =>
-      this.cloudinaryService.uploadImage(file, 'takwirti/complexes')
-    );
-
-    const results = await Promise.all(uploadPromises);
-
-    return {
-      urls: results.map(result => result.secure_url),
-      publicIds: results.map(result => result.public_id),
-    };
-  }
-
-  @Post(':id/upload-images')
-  @ApiOperation({ summary: 'Upload and attach images to existing complex' })
-  @ApiParam({ name: 'id', description: 'Complex ID', type: Number })
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FilesInterceptor('images', 10, {
-    limits: { fileSize: 5 * 1024 * 1024 },
-    fileFilter: (req, file, callback) => {
-      if (!file.mimetype.match(/\/(jpg|jpeg|png|webp)$/)) {
-        return callback(
-          new BadRequestException('Only image files are allowed!'),
-          false
-        );
-      }
-      callback(null, true);
-    },
-  }))
-  async uploadAndAttachImages(
-    @Param('id') id: string,
-    @UploadedFiles() files: Express.Multer.File[]
-  ) {
-    if (!files || files.length === 0) {
-      throw new BadRequestException('No files uploaded');
-    }
-
-    const uploadPromises = files.map(file =>
-      this.cloudinaryService.uploadImage(file, `takwirti/complexes/${id}`)
-    );
-
-    const results = await Promise.all(uploadPromises);
-    const imageUrls = results.map(result => result.secure_url);
-
-    // Update complex with new images
-    return this.complexService.addImages(+id, imageUrls);
   }
 
   @Get('count')
@@ -121,7 +36,6 @@ export class ComplexController {
   @ApiOperation({ summary: 'Get all complexes' })
   @ApiResponse({ status: HttpStatus.OK, description: 'List of complexes retrieved successfully' })
   findAll(@Query() filters: FindAllComplexDto) {
-    console.log('filters =', filters);
     return this.complexService.findAll(filters);
   }
 
@@ -151,16 +65,5 @@ export class ComplexController {
   remove(@Param('id') id: string) {
     return this.complexService.remove(+id);
   }
-
-  @Delete(':id/image')
-  @ApiOperation({ summary: 'Delete image from complex' })
-  @ApiParam({ name: 'id', description: 'Complex ID', type: Number })
-  async deleteImage(
-    @Param('id') id: string,
-    @Body('imageUrl') imageUrl: string
-  ) {
-    return this.complexService.removeImage(+id, imageUrl);
-  }
-
 
 }

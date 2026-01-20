@@ -48,11 +48,13 @@ model Field {
   surface     Float
   price       Float
   status      String
+  images      String[]
   complex     Complex   @relation(fields: [complexId], references: [id])
   complexId   Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
+  availability Json? 
 
   bookings Booking[]
 }
