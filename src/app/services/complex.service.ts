@@ -17,14 +17,23 @@ export class ComplexService {
   }
 
   getAllComplexes(page?: number, itemsPerPage?: number, search?: string, status?: string, sortBy?: string) {
-    console.log(status);
-    console.log(status == 'true' ? `&status=${true}` : status == 'false' ? `&status=${false}` : '');
-
     return this.http.get<Complex[]>(`${this.baseUrl}/complex?page=${page}&limit=${itemsPerPage}&search=${search ? search : ''}&${(status) ? `&status=${status}` : ''}&${(sortBy) ? `&sort=${sortBy}` : ''}`);
   }
 
   getComplexCount() {
     return this.http.get<number>(`${this.baseUrl}/complex/count`);
+  }
+
+  getComplexById(id: number) {
+    return this.http.get<Complex>(`${this.baseUrl}/complex/${id}`);
+  }
+
+  updateComplex(id: number |null, complex: ComplexDTO){
+    return this.http.patch<ComplexDTO>(`${this.baseUrl}/complex/${id}`, complex)
+  }
+
+  deleteComplex(id: number) {
+    return this.http.delete(`${this.baseUrl}/complex/${id}`);
   }
 
 }

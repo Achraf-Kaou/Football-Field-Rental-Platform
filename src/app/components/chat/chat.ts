@@ -2,7 +2,6 @@
 import { Component, signal, computed, effect, viewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent } from '../ui/button/button';
 import { CardComponent } from '../ui/card/card';
 import { NavbarMain } from '../common/navbar-main/navbar-main';
 import { FooterMain } from '../common/footer-main/footer-main';
@@ -29,7 +28,7 @@ interface Conversation {
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent, CardComponent, NavbarMain, FooterMain],
+  imports: [CommonModule, FormsModule, CardComponent, NavbarMain, FooterMain],
   templateUrl: './chat.html'
 })
 export class Chat {

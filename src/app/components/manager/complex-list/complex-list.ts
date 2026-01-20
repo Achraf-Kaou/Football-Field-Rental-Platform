@@ -3,16 +3,21 @@ import { ManagerLayout } from '../../layouts/manager-layout/manager-layout';
 import { Router, RouterLink } from '@angular/router';
 import { Complex } from '../../../models/complex.model';
 import { ComplexService } from '../../../services/complex.service';
+import { DeleteModal } from '../../ui/delete-modal/delete-modal';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-complex-list',
-  imports: [ManagerLayout, RouterLink],
+  imports: [ManagerLayout, DeleteModal],
   templateUrl: './complex-list.html',
   styleUrl: './complex-list.css',
 })
 export class ComplexList implements OnInit {
+
   private complexService = inject(ComplexService);
   private router = inject(Router);
+  private toastService = inject(ToastService);
+  
 
   complexes = signal<Complex[]>([]);
   page = signal<number>(1);
@@ -25,6 +30,9 @@ export class ComplexList implements OnInit {
   search = signal<string>('');
   status = signal<'all' | 'true' | 'false'>('all');
   sortBy = signal<string>('newest');
+
+  showDeleteModal = signal<boolean>(false);
+  complexIdToDelete = signal<number | null>(null);
 
 
   ngOnInit(): void {
@@ -47,12 +55,24 @@ export class ComplexList implements OnInit {
     console.log(this.complexes());
   }
 
-  editComplex(id: number) {
-    this.router.navigate(['/manager/complex/edit', id]);
+  addComplex() {
+    this.router.navigate(['/manager/complex/new']);
   }
 
-  deleteComplex(id: number) {
-    // model popup comfirmation
+  editComplex(id: number) {
+    if (id != null) {
+      this.router.navigate(['/manager/complex', id, 'edit']);
+    }
+  }
+
+  availabilityCalender(id: number) {
+    if (id != null) {
+      this.router.navigate(['/manager/field-availability', id]);
+    }
+}
+
+  overwiewComplex(id: number) {
+    this.router.navigate(['/manager/complex', id]);
   }
 
   handlePageChange(page: number) {
@@ -107,4 +127,46 @@ export class ComplexList implements OnInit {
 
     this.getAllComplexes(this.page(), this.itemsPerPage(), '', this.status(), this.sortBy());
   }
+
+  handleStatus(complex: Complex): string {
+    if (complex.openAt <= new Date().getTime().toString() && complex.closeAt >= new Date().getTime().toString()) {
+      return 'Open';
+    } else {
+      return 'Closed';
+    }
+  }
+
+  openDeleteModal(id: number) {
+    this.complexIdToDelete.set(id);
+    this.showDeleteModal.set(true);
+  }
+
+  // passed to modal
+  cancelDelete = () => {
+    this.showDeleteModal.set(false);
+    this.complexIdToDelete.set(null);
+  };
+
+  confirmDelete = () => {
+    const id = this.complexIdToDelete();
+    if (id == null) return;
+
+    this.complexService.deleteComplex(id).subscribe({
+      next: () => {
+        // remove from local list without full reload
+        this.complexes.update((list) => list.filter((c) => c.id !== id));
+
+        this.toastService.success('Complex deleted successfully.');
+        this.showDeleteModal.set(false);
+        this.complexIdToDelete.set(null);
+        this.getComplexCount(); // keep pagination in sync if needed
+      },
+      error: () => {
+        this.toastService.error('Failed to delete complex.');
+      },
+    });
+  };
+
+  goToBookings(id: number) {
+this.router.navigate(['/manager/manager-booking', id]);}
 }

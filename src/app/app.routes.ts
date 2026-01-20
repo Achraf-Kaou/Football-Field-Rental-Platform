@@ -10,7 +10,6 @@ import { Chat } from './components/chat/chat';
 import { ManagerSidebar } from './components/common/manager-sidebar/manager-sidebar';
 import { DeleteModal } from './components/ui/delete-modal/delete-modal';
 import { ComplexForm } from './components/manager/complex-form/complex-form';
-import { AddComplex } from './components/manager/add-complex/add-complex';
 import { ComplexOverview } from './components/manager/complex-overview/complex-overview';
 import { FieldForm } from './components/manager/field-form/field-form';
 import { FieldAvailability } from './components/manager/field-availability/field-availability';
@@ -60,32 +59,37 @@ export const routes: Routes = [
         title: 'dashboard',
     },
     {
-        path: 'manager/complex',
-        component: ComplexOverview,
-        title: 'complex overview',
-    },
-    {
         path: 'manager/complex/new',
-        component: AddComplex,
+        component: ComplexForm,
         title: 'new complex'
     },
     {
         path: 'manager/complex/:id',
-        component: AddComplex,
+        component: ComplexOverview,
+        title: 'complex overview',
+    },
+    {
+        path: 'manager/complex/:id/edit',
+        component: ComplexForm,
         title: 'edit complex'
     },
     {
-        path: 'manager/field-form',
+        path: 'manager/complex/:complexId/field/new',
         component: FieldForm,
-        title: 'field form'
+        title: 'new field'
     },
     {
-        path: 'manager/field-availability',
+        path: 'manager/complex/:complexId/field/:fieldId/edit',
+        component: FieldForm,
+        title: 'edit field'
+    },
+    {
+        path: 'manager/field-availability/:id',
         component: FieldAvailability,
         title: 'field availability'
     },
     {
-        path: 'manager/manager-booking',
+        path: 'manager/manager-booking/:complexId',
         component: ManagerBooking,
         title: 'manager booking'
     },

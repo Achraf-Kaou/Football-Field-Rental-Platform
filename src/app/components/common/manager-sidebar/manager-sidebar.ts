@@ -23,9 +23,8 @@ export class ManagerSidebar implements AfterViewInit {
   menu = signal([
     { id: 0, name: 'Dashboard', icon: 'dashboard', path: '/manager' },
     { id: 1, name: 'Complexes', icon: 'stadium', path: '/manager/complex-list' },
-    { id: 2, name: 'Availability', icon: 'event_available', path: '/manager/field-availability' },
-    { id: 3, name: 'Bookings', icon: 'shopping_cart', path: '/manager/manager-booking' },
-    { id: 4, name: 'Settings', icon: 'settings', path: '/manager/settings' },
+    { id: 2, name: 'Bookings', icon: 'shopping_cart', path: '/manager/manager-booking' },
+    { id: 3, name: 'Settings', icon: 'settings', path: '/manager/settings' },
   ]);
 
   // State signals

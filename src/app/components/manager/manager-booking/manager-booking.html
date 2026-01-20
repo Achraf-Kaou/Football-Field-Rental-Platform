@@ -4,330 +4,227 @@
             <!-- Page Heading -->
             <div class="flex flex-wrap justify-between items-end gap-4 pb-2 border-b border-[#2c4724]/50">
                 <div class="flex flex-col gap-2">
-                    <h1
-                        class="text-black dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
-                        All Complex
-                        Bookings</h1>
-                    <p class="text-[#9fc893] text-base font-normal leading-normal">View and manage all field
-                        reservations
-                        and schedules</p>
+                    <h1 class="text-black dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
+                        {{ complex()?.name || 'Complex' }} Bookings
+                    </h1>
+                    <p class="text-[#9fc893] text-base font-normal leading-normal">
+                        View and manage all field reservations and schedules
+                    </p>
                 </div>
-                <button
-                    class="flex items-center gap-2 bg-primary hover:bg-[#3cd015] text-background-dark text-sm font-bold h-10 px-5 rounded-lg shadow-[0_0_15px_rgba(73,230,25,0.3)] transition-all">
-                    <span class="material-icons text-[20px]">add</span>
-                    <span>New Booking</span>
+                <button 
+                    (click)="exportBookings()"
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary hover:bg-primary-dark text-black font-bold transition-all shadow-[0_0_15px_rgba(73,230,25,0.3)]">
+                    <span class="material-icons text-[20px]">download</span>
+                    Export
                 </button>
             </div>
+
             <!-- Stats Overview -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div
-                    class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
+                <div class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
                     <div class="flex justify-between items-start">
                         <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">Today's Bookings</p>
                         <span class="material-icons text-primary">calendar_today</span>
                     </div>
                     <div class="flex items-end gap-2 mt-2">
-                        <p class="text-black dark:text-white text-3xl font-bold leading-none">12</p>
-                        <p class="text-primary text-sm font-medium mb-1">+20% vs last week</p>
+                        <p class="text-black dark:text-white text-3xl font-bold leading-none">{{ todayBookingsCount() }}</p>
+                        <p class="text-primary text-sm font-medium mb-1">active</p>
                     </div>
                 </div>
-                <div
-                    class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
+                <div class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
                     <div class="flex justify-between items-start">
                         <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">Active Fields</p>
                         <span class="material-icons text-primary">stadium</span>
                     </div>
                     <div class="flex items-end gap-2 mt-2">
-                        <p class="text-black dark:text-white text-3xl font-bold leading-none">4/5</p>
-                        <p class="text-gray-400 text-sm font-medium mb-1">80% Utilization</p>
+                        <p class="text-black dark:text-white text-3xl font-bold leading-none">{{ activeFieldsCount() }}/{{ fields().length }}</p>
+                        <p class="text-gray-400 text-sm font-medium mb-1">
+                            {{ fields().length > 0 ? ((activeFieldsCount() / fields().length) * 100).toFixed(0) : 0 }}% Utilization
+                        </p>
                     </div>
                 </div>
-                <div
-                    class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
+                <div class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
                     <div class="flex justify-between items-start">
                         <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">Revenue (Est.)</p>
                         <span class="material-icons text-primary">payments</span>
                     </div>
                     <div class="flex items-end gap-2 mt-2">
-                        <p class="text-black dark:text-white text-3xl font-bold leading-none">$1,200</p>
-                        <p class="text-primary text-sm font-medium mb-1">+15% vs yesterday</p>
+                        <p class="text-black dark:text-white text-3xl font-bold leading-none">${{ totalRevenue() }}</p>
+                        <p class="text-primary text-sm font-medium mb-1">confirmed</p>
                     </div>
                 </div>
             </div>
+
             <!-- Filters & Search Toolbar -->
             <div class="flex flex-col lg:flex-row gap-4 p-4 rounded-xl bg-surface-dark border border-[#2c4724]">
                 <!-- Search -->
                 <div class="flex-1 min-w-[300px]">
                     <label class="flex flex-col h-full">
                         <span class="sr-only">Search</span>
-                        <div
-                            class="flex w-full items-center rounded-lg bg-input-dark border border-transparent focus-within:border-primary transition-colors h-12">
+                        <div class="flex w-full items-center rounded-lg bg-input-dark border border-transparent focus-within:border-primary transition-colors h-12">
                             <div class="flex items-center justify-center pl-4 text-[#9fc893]">
                                 <span class="material-icons">search</span>
                             </div>
                             <input
                                 class="w-full bg-transparent border-none text-black dark:text-white placeholder:text-[#9fc893] focus:ring-0 px-3 text-base"
-                                placeholder="Search by client name or booking ID..." value="" />
+                                placeholder="Search by client name or booking ID..."
+                                [value]="search()"
+                                (input)="updateSearch($event.target.value)" />
                         </div>
                     </label>
                 </div>
+
                 <!-- Date Filter -->
                 <div class="lg:w-48">
-                    <div
-                        class="relative flex items-center h-12 w-full rounded-lg bg-input-dark border border-transparent focus-within:border-primary px-3 cursor-pointer group">
-                        <span
-                            class="material-icons text-[#9fc893] group-hover:text-primary transition-colors mr-2">calendar_month</span>
+                    <div class="relative flex items-center h-12 w-full rounded-lg bg-input-dark border border-transparent focus-within:border-primary px-3 cursor-pointer group">
+                        <span class="material-icons text-[#9fc893] group-hover:text-primary transition-colors mr-2">calendar_month</span>
                         <input
                             class="bg-transparent border-none p-0 text-black dark:text-white placeholder:text-[#9fc893] focus:ring-0 w-full text-sm font-medium cursor-pointer"
-                            placeholder="Select Date" type="text" value="Oct 24, 2023" />
+                            placeholder="Select Date"
+                            type="date"
+                            [value]="selectedDate()"
+                            (change)="updateDate($event.target.value)" />
                     </div>
                 </div>
+
                 <!-- Field Filter -->
                 <div class="lg:w-48">
-                    <div
-                        class="relative flex items-center h-12 w-full rounded-lg bg-input-dark border border-transparent focus-within:border-primary px-3 cursor-pointer">
+                    <div class="relative flex items-center h-12 w-full rounded-lg bg-input-dark border border-transparent focus-within:border-primary px-3 cursor-pointer">
                         <span class="material-icons text-[#9fc893] mr-2">grass</span>
                         <select
-                            class="bg-transparent border-none p-0 text-black dark:text-white focus:ring-0 w-full text-sm font-medium cursor-pointer appearance-none">
-                            <option>All Fields</option>
-                            <option>Field A (5v5)</option>
-                            <option>Field B (5v5)</option>
-                            <option>Main Stadium (7v7)</option>
+                            class="bg-transparent border-none p-0 text-black dark:text-white focus:ring-0 w-full text-sm font-medium cursor-pointer appearance-none"
+                            (change)="updateFieldFilter($event)">
+                            <option value="all">All Fields</option>
+                            @for (field of fields(); track field.id) {
+                                <option [value]="field.id">{{ field.name }}</option>
+                            }
                         </select>
-                        <span
-                            class="material-icons text-[#9fc893] absolute right-3 pointer-events-none">arrow_drop_down</span>
+                        <span class="material-icons text-[#9fc893] absolute right-3 pointer-events-none">arrow_drop_down</span>
                     </div>
                 </div>
+
                 <!-- Status Filter -->
                 <div class="lg:w-48">
-                    <div
-                        class="relative flex items-center h-12 w-full rounded-lg bg-input-dark border border-transparent focus-within:border-primary px-3 cursor-pointer">
+                    <div class="relative flex items-center h-12 w-full rounded-lg bg-input-dark border border-transparent focus-within:border-primary px-3 cursor-pointer">
                         <span class="material-icons text-[#9fc893] mr-2">filter_alt</span>
                         <select
-                            class="bg-transparent border-none p-0 text-black dark:text-white focus:ring-0 w-full text-sm font-medium cursor-pointer appearance-none">
-                            <option>All Statuses</option>
-                            <option>Confirmed</option>
-                            <option>Pending</option>
-                            <option>Cancelled</option>
+                            class="bg-transparent border-none p-0 text-black dark:text-white focus:ring-0 w-full text-sm font-medium cursor-pointer appearance-none"
+                            (change)="updateStatusFilter($event)">
+                            <option value="all">All Statuses</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="pending">Pending</option>
+                            <option value="cancelled">Cancelled</option>
                         </select>
-                        <span
-                            class="material-icons text-[#9fc893] absolute right-3 pointer-events-none">arrow_drop_down</span>
+                        <span class="material-icons text-[#9fc893] absolute right-3 pointer-events-none">arrow_drop_down</span>
                     </div>
                 </div>
             </div>
+
             <!-- Bookings Table -->
             <div class="w-full overflow-hidden rounded-xl border border-[#2c4724] bg-surface-dark shadow-xl">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-input-dark/50 border-b border-[#2c4724]">
-                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">Booking
-                                    Details
-                                </th>
-                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">Date &amp;
-                                    Time
-                                </th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">Booking Details</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">Date & Time</th>
                                 <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">Customer</th>
                                 <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">Status</th>
-                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider text-right">
-                                    Price
-                                </th>
-                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider text-center">
-                                    Action
-                                </th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider text-right">Price</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#2c4724]">
-                            <!-- Row 1: Confirmed -->
-                            <tr class="group hover:bg-white/5 transition-colors">
-                                <td class="p-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="size-10 rounded bg-[#2c4724] flex items-center justify-center text-black dark:text-white font-bold">
-                                            A</div>
-                                        <div>
-                                            <p class="text-black dark:text-white font-bold text-sm">Field A (5v5)</p>
-                                            <p class="text-gray-400 text-xs">Synthetic Turf</p>
+                            @if (paginatedBookings().length === 0) {
+                                <tr>
+                                    <td colspan="6" class="p-8 text-center">
+                                        <div class="flex flex-col items-center gap-3">
+                                            <span class="material-icons text-gray-500 text-5xl">event_busy</span>
+                                            <p class="text-gray-400 text-base">No bookings found</p>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="p-4">
-                                    <p class="text-black dark:text-white text-sm font-medium">Oct 24, 2023</p>
-                                    <p class="text-gray-400 text-xs">19:00 - 20:00</p>
-                                </td>
-                                <td class="p-4">
-                                    <div class="flex items-center gap-2">
-                                        <div class="size-6 rounded-full bg-cover bg-center"
-                                            data-alt="Small avatar of John Doe"
-                                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD6l4Egqn-fr_x2PDRIUlwMaTyPHL1tz3o7JVzKbzsAyBasgKZ2JGvzNs3grptdZ5yhmBw-W9Q2a4qsrYKYiIjL_SPJq5jYTzDr6_xubwpJWqFt8aevO9_HzH68VUSkrmwaIwD1EEdd4etn3l3ZEXQxdHigwly6wBnlldXddsS5Wr4Pglg68rr5lAdXQViXtZojF-ZRq0JC_pEmIo9Qd4bG7UXehtUFgMq33thE6etzfBP3lCcFVZcDQ7aWc4Z48ETriAiiA1DDqTE");'>
+                                    </td>
+                                </tr>
+                            }
+                            @for (booking of paginatedBookings(); track booking.id) {
+                                <tr class="group hover:bg-white/5 transition-colors">
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="size-10 rounded bg-[#2c4724] flex items-center justify-center text-black dark:text-white font-bold">
+                                                {{ getFieldName(booking.fieldId).charAt(0).toUpperCase() }}
+                                            </div>
+                                            <div>
+                                                <p class="text-black dark:text-white font-bold text-sm">{{ getFieldName(booking.fieldId) }}</p>
+                                                <p class="text-gray-400 text-xs">{{ getFieldType(booking.fieldId) }}</p>
+                                            </div>
                                         </div>
-                                        <span class="text-black dark:text-white text-sm">John Doe</span>
-                                    </div>
-                                </td>
-                                <td class="p-4">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-primary/20 text-primary border border-primary/20">
-                                        <span class="size-1.5 rounded-full bg-primary"></span>
-                                        Confirmed
-                                    </span>
-                                </td>
-                                <td class="p-4 text-right">
-                                    <p class="text-black dark:text-white font-bold">$60.00</p>
-                                    <p class="text-xs text-primary">Paid</p>
-                                </td>
-                                <td class="p-4 text-center">
-                                    <button
-                                        class="text-gray-400 hover:text-black dark:text-white p-1 rounded-md hover:bg-[#2c4724] transition-colors">
-                                        <span class="material-icons">more_vert</span>
-                                    </button>
-                                </td>
-                            </tr>
-                            <!-- Row 2: Pending (Orange Accent) -->
-                            <tr class="group hover:bg-white/5 transition-colors">
-                                <td class="p-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="size-10 rounded bg-[#2c4724] flex items-center justify-center text-black dark:text-white font-bold">
-                                            B</div>
-                                        <div>
-                                            <p class="text-black dark:text-white font-bold text-sm">Field B (5v5)</p>
-                                            <p class="text-gray-400 text-xs">Indoor Hall</p>
+                                    </td>
+                                    <td class="p-4">
+                                        <p class="text-black dark:text-white text-sm font-medium">{{ formatDate(booking.startAt) }}</p>
+                                        <p class="text-gray-400 text-xs">{{ formatTime(booking.startAt) }} - {{ formatTime(booking.endAt) }}</p>
+                                    </td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="size-6 rounded-full bg-primary/20 flex items-center justify-center">
+                                                <span class="material-icons text-primary text-[14px]">person</span>
+                                            </div>
+                                            <span class="text-black dark:text-white text-sm">{{ booking.userId }}</span>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="p-4">
-                                    <p class="text-black dark:text-white text-sm font-medium">Oct 24, 2023</p>
-                                    <p class="text-gray-400 text-xs">20:30 - 21:30</p>
-                                </td>
-                                <td class="p-4">
-                                    <div class="flex items-center gap-2">
-                                        <div
-                                            class="size-6 rounded-full bg-gray-600 flex items-center justify-center text-[10px] text-black dark:text-white font-bold">
-                                            AS</div>
-                                        <span class="text-black dark:text-white text-sm">Alex Smith</span>
-                                    </div>
-                                </td>
-                                <td class="p-4">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-500/20 text-orange-500 border border-orange-500/20">
-                                        <span class="size-1.5 rounded-full bg-orange-500 animate-pulse"></span>
-                                        Pending
-                                    </span>
-                                </td>
-                                <td class="p-4 text-right">
-                                    <p class="text-black dark:text-white font-bold">$55.00</p>
-                                    <p class="text-xs text-orange-500">Unpaid</p>
-                                </td>
-                                <td class="p-4 text-center">
-                                    <button
-                                        class="text-gray-400 hover:text-black dark:text-white p-1 rounded-md hover:bg-[#2c4724] transition-colors">
-                                        <span class="material-icons">more_vert</span>
-                                    </button>
-                                </td>
-                            </tr>
-                            <!-- Row 3: Cancelled -->
-                            <tr class="group hover:bg-white/5 transition-colors opacity-75">
-                                <td class="p-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="size-10 rounded bg-[#2c4724] flex items-center justify-center text-black dark:text-white font-bold">
-                                            M</div>
-                                        <div>
-                                            <p class="text-black dark:text-white font-bold text-sm">Main (7v7)</p>
-                                            <p class="text-gray-400 text-xs">Natural Grass</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="p-4">
-                                    <p class="text-gray-300 text-sm font-medium line-through">Oct 25, 2023</p>
-                                    <p class="text-gray-500 text-xs">10:00 - 11:30</p>
-                                </td>
-                                <td class="p-4">
-                                    <div class="flex items-center gap-2">
-                                        <div class="size-6 rounded-full bg-cover bg-center"
-                                            data-alt="Small avatar of Sarah Lee"
-                                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDpA8jz7nHzaJerXIMI_ZLUNSgwH_U9KxUCp_R103H7e_qVOtBXt7xBBi0sA8e4CsFL9DX3js7HfBghwB3JKfFLr9ykDtCdMWr_oDFYSHAox8sQ2mu0NXSgHnGr2SndOLGECYd0MbyNHDGWLdmT6FfbHqp_C6CkuiDP3c5w0bo6Nk5DHfsNFh-E1Z1AqyzIHXxjN1Sj5SPgz08pRZwuJ4y7XG3IHilOAA0EHb2ZS41RAscNtALDlyIhrB6bOc8iVnDNDk8mdXeAD-0");'>
-                                        </div>
-                                        <span class="text-black dark:text-white text-sm">Sarah Lee</span>
-                                    </div>
-                                </td>
-                                <td class="p-4">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/20">
-                                        <span class="material-icons text-[14px]">block</span>
-                                        Cancelled
-                                    </span>
-                                </td>
-                                <td class="p-4 text-right">
-                                    <p class="text-gray-400 font-bold">$120.00</p>
-                                    <p class="text-xs text-gray-500">Refunded</p>
-                                </td>
-                                <td class="p-4 text-center">
-                                    <button
-                                        class="text-gray-400 hover:text-black dark:text-white p-1 rounded-md hover:bg-[#2c4724] transition-colors">
-                                        <span class="material-icons">more_vert</span>
-                                    </button>
-                                </td>
-                            </tr>
-                            <!-- Row 4: Confirmed -->
-                            <tr class="group hover:bg-white/5 transition-colors">
-                                <td class="p-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="size-10 rounded bg-[#2c4724] flex items-center justify-center text-black dark:text-white font-bold">
-                                            A</div>
-                                        <div>
-                                            <p class="text-black dark:text-white font-bold text-sm">Field A (5v5)</p>
-                                            <p class="text-gray-400 text-xs">Synthetic Turf</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="p-4">
-                                    <p class="text-black dark:text-white text-sm font-medium">Oct 25, 2023</p>
-                                    <p class="text-gray-400 text-xs">18:00 - 19:00</p>
-                                </td>
-                                <td class="p-4">
-                                    <div class="flex items-center gap-2">
-                                        <div
-                                            class="size-6 rounded-full bg-indigo-600 flex items-center justify-center text-[10px] text-black dark:text-white font-bold">
-                                            FC</div>
-                                        <span class="text-black dark:text-white text-sm">Falcons Club</span>
-                                    </div>
-                                </td>
-                                <td class="p-4">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-primary/20 text-primary border border-primary/20">
-                                        <span class="size-1.5 rounded-full bg-primary"></span>
-                                        Confirmed
-                                    </span>
-                                </td>
-                                <td class="p-4 text-right">
-                                    <p class="text-black dark:text-white font-bold">$60.00</p>
-                                    <p class="text-xs text-primary">Paid</p>
-                                </td>
-                                <td class="p-4 text-center">
-                                    <button
-                                        class="text-gray-400 hover:text-black dark:text-white p-1 rounded-md hover:bg-[#2c4724] transition-colors">
-                                        <span class="material-icons">more_vert</span>
-                                    </button>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td class="p-4">
+                                        <span [class]="'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ' + getStatusClass(booking.status)">
+                                            <span [class]="'size-1.5 rounded-full ' + getStatusDotClass(booking.status)"></span>
+                                            {{ booking.status | titlecase }}
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <p class="text-black dark:text-white font-bold">${{ booking.price || 60 }}.00</p>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <button
+                                            (click)="viewBookingDetails(booking.id)"
+                                            class="text-gray-400 hover:text-black dark:text-white p-1 rounded-md hover:bg-[#2c4724] transition-colors">
+                                            <span class="material-icons">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
+
                 <!-- Pagination -->
                 <div class="flex items-center justify-between border-t border-[#2c4724] bg-input-dark/30 p-4">
-                    <p class="text-sm text-gray-400">Showing <span
-                            class="font-bold text-black dark:text-white">1-4</span>
-                        of <span class="font-bold text-black dark:text-white">48</span> bookings</p>
+                    <p class="text-sm text-gray-400">
+                        Showing <span class="font-bold text-black dark:text-white">{{ startIndex() }}</span>
+                        to <span class="font-bold text-black dark:text-white">{{ endIndex() }}</span>
+                        of <span class="font-bold text-black dark:text-white">{{ filteredBookings().length }}</span> bookings
+                    </p>
                     <div class="flex gap-2">
                         <button
-                            class="flex items-center justify-center px-3 py-1.5 rounded-md border border-[#2c4724] text-gray-300 hover:bg-[#2c4724] hover:text-black dark:text-white transition-colors text-sm font-medium disabled:opacity-50"
-                            disabled="">
+                            (click)="prevPage()"
+                            [disabled]="page() === 1"
+                            class="flex items-center justify-center px-3 py-1.5 rounded-md border border-[#2c4724] text-gray-300 hover:bg-[#2c4724] hover:text-black dark:text-white transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">
                             Previous
                         </button>
+                        
+                        @for (pageNum of generateRange(1, totalPages()); track pageNum) {
+                            @if (totalPages() <= 5 || pageNum === 1 || pageNum === totalPages() || (pageNum >= page() - 1 && pageNum <= page() + 1)) {
+                                <button
+                                    (click)="handlePageChange(pageNum)"
+                                    [class]="pageNum === page() 
+                                        ? 'flex items-center justify-center px-3 py-1.5 rounded-md bg-primary text-black font-bold transition-colors text-sm'
+                                        : 'flex items-center justify-center px-3 py-1.5 rounded-md border border-[#2c4724] text-gray-300 hover:bg-[#2c4724] hover:text-black dark:text-white transition-colors text-sm font-medium'">
+                                    {{ pageNum }}
+                                </button>
+                            } @else if (pageNum === page() - 2 || pageNum === page() + 2) {
+                                <span class="flex items-center px-2 text-gray-400">...</span>
+                            }
+                        }
+                        
                         <button
-                            class="flex items-center justify-center px-3 py-1.5 rounded-md border border-[#2c4724] text-gray-300 hover:bg-[#2c4724] hover:text-black dark:text-white transition-colors text-sm font-medium">
+                            (click)="nextPage()"
+                            [disabled]="page() === totalPages()"
+                            class="flex items-center justify-center px-3 py-1.5 rounded-md border border-[#2c4724] text-gray-300 hover:bg-[#2c4724] hover:text-black dark:text-white transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">
                             Next
                         </button>
                     </div>

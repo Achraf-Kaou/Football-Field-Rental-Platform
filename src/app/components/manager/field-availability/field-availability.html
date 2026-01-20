@@ -1,429 +1,232 @@
 <app-manager-layout>
-    <main class="flex-1 flex flex-col bg-background-dark overflow-hidden relative">
-        <!-- Page Header -->
-        <div class="p-6 pb-2 shrink-0">
-            <div class="flex flex-wrap justify-between items-end gap-4 mb-6">
-                <div>
-                    <h1 class="text-black dark:text-white text-3xl font-black tracking-tight mb-2">Manage Field
-                        Schedules
-                    </h1>
-                    <p class="text-gray-400 max-w-2xl">Configure operating hours, set maintenance blocks, and manage
-                        availability for your fields.</p>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="flex items-center gap-2 px-4 h-10 rounded-lg border border-green bg-surface-dark text-black dark:text-white text-sm font-bold hover:bg-border-green transition-all">
-                        <span class="material-icons text-lg">history</span>
-                        Undo
-                    </button>
-                    <button
-                        class="flex items-center gap-2 px-4 h-10 rounded-lg bg-primary text-background-dark text-sm font-bold hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/20 transition-all">
-                        <span class="material-icons text-lg">content_copy</span>
-                        Copy to Next Week
-                    </button>
-                </div>
-            </div>
+<div class="min-h-screen bg-background text-white p-6">
+      <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h1 class="text-3xl font-bold mb-2">Manage Field Schedules complex : {{complex()?.name }}</h1>
+            <p class="text-gray-400">Configure operating hours and manage availability for your fields</p>
+          </div>
         </div>
-        <!-- Content Split -->
-        <div class="flex flex-1 overflow-hidden px-6 pb-6 gap-6">
-            <!-- Left Panel: Context & Settings -->
-            <aside class="w-80 flex flex-col gap-6 shrink-0 overflow-y-auto pr-2 pb-10">
-                <!-- Calendar Navigation -->
-                <div class="bg-surface-dark rounded-xl p-4 border border-green">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-black dark:text-white font-bold">October 2023</h3>
-                        <div class="flex gap-1">
-                            <button
-                                class="size-8 flex items-center justify-center rounded hover:bg-border-green text-gray-400 hover:text-black dark:text-white"><span
-                                    class="material-icons text-lg">chevron_left</span></button>
-                            <button
-                                class="size-8 flex items-center justify-center rounded hover:bg-border-green text-gray-400 hover:text-black dark:text-white"><span
-                                    class="material-icons text-lg">chevron_right</span></button>
-                        </div>
-                    </div>
-                    <!-- Mini Calendar Grid (Visual Only) -->
-                    <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-2">
-                        <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
-                    </div>
-                    <div class="grid grid-cols-7 gap-1 text-center text-sm">
-                        <span class="text-gray-600 p-1">25</span><span class="text-gray-600 p-1">26</span><span
-                            class="text-gray-600 p-1">27</span><span class="text-gray-600 p-1">28</span><span
-                            class="text-gray-600 p-1">29</span><span class="text-gray-600 p-1">30</span><span
-                            class="text-gray-400 p-1">1</span>
-                        <span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">2</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">3</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">4</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">5</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">6</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">7</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">8</span>
-                        <span class="bg-primary text-background-dark font-bold rounded p-1">9</span><span
-                            class="bg-primary/20 text-black dark:text-white rounded p-1 border border-primary/50">10</span><span
-                            class="bg-primary/20 text-black dark:text-white rounded p-1 border border-primary/50">11</span><span
-                            class="bg-primary/20 text-black dark:text-white rounded p-1 border border-primary/50">12</span><span
-                            class="bg-primary/20 text-black dark:text-white rounded p-1 border border-primary/50">13</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">14</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">15</span>
-                        <span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">16</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">17</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">18</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">19</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">20</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">21</span><span
-                            class="text-black dark:text-white p-1 hover:bg-border-green rounded cursor-pointer">22</span>
-                    </div>
-                </div>
-                <!-- Field Selectors -->
-                <div class="flex flex-col gap-3">
-                    <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider pl-1">Fields</h3>
-                    <!-- Field Item Active -->
-                    <div
-                        class="flex items-center gap-3 bg-surface-dark border border-primary rounded-xl p-3 cursor-pointer shadow-[0_0_15px_-3px_rgba(73,230,25,0.2)] transition-all">
-                        <div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
-                            <span class="material-icons">stadium</span>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-black dark:text-white font-bold text-sm">Field A (5vs5)</p>
-                            <p class="text-primary text-xs">Editing Schedule</p>
-                        </div>
-                        <div class="size-2 rounded-full bg-primary"></div>
-                    </div>
-                    <!-- Field Item Inactive -->
-                    <div
-                        class="flex items-center gap-3 bg-surface-dark border border-green rounded-xl p-3 cursor-pointer hover:border-gray-500 transition-all opacity-80 hover:opacity-100">
-                        <div
-                            class="size-10 rounded-lg bg-surface-darker flex items-center justify-center text-gray-400">
-                            <span class="material-icons">stadium</span>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-gray-300 font-medium text-sm">Field B (6vs6)</p>
-                            <p class="text-gray-500 text-xs">Hidden</p>
-                        </div>
-                        <div
-                            class="relative flex h-5 w-9 cursor-pointer items-center rounded-full bg-surface-darker p-0.5 border border-gray-600 transition-colors">
-                            <div class="h-4 w-4 rounded-full bg-gray-400 transition-transform"></div>
-                        </div>
-                    </div>
-                    <!-- Field Item Inactive -->
-                    <div
-                        class="flex items-center gap-3 bg-surface-dark border border-green rounded-xl p-3 cursor-pointer hover:border-gray-500 transition-all opacity-80 hover:opacity-100">
-                        <div
-                            class="size-10 rounded-lg bg-surface-darker flex items-center justify-center text-gray-400">
-                            <span class="material-icons">stadium</span>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-gray-300 font-medium text-sm">Field C (Indoor)</p>
-                            <p class="text-gray-500 text-xs">Hidden</p>
-                        </div>
-                        <div
-                            class="relative flex h-5 w-9 cursor-pointer items-center rounded-full bg-surface-darker p-0.5 border border-gray-600 transition-colors">
-                            <div class="h-4 w-4 rounded-full bg-gray-400 transition-transform"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Legend -->
-                <div class="bg-surface-dark rounded-xl p-4 border border-green">
-                    <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">Legend</h3>
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-4 h-4 rounded bg-primary/20 border border-primary"></div>
-                            <span class="text-sm text-gray-300">Available</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-4 h-4 rounded bg-accent-orange/20 border border-accent-orange"></div>
-                            <span class="text-sm text-gray-300">Maintenance</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-4 h-4 rounded bg-surface-darker border border-gray-700"></div>
-                            <span class="text-sm text-gray-300">Closed / Blocked</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-4 h-4 rounded bg-white/10 border border-white/20 stripe-bg"></div>
-                            <span class="text-sm text-gray-300">Past Bookings</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Global Settings Teaser -->
-                <div
-                    class="mt-auto bg-gradient-to-br from-surface-dark to-surface-darker rounded-xl p-4 border border-green">
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-black dark:text-white text-sm font-bold">Operating Hours</h3>
-                        <button class="text-primary hover:text-black dark:text-white transition-colors"><span
-                                class="material-icons text-sm">edit</span></button>
-                    </div>
-                    <p class="text-xs text-gray-400 mb-2">Default facility hours</p>
-                    <div class="flex items-center gap-2 text-sm text-black dark:text-white bg-black/20 p-2 rounded-lg">
-                        <span class="material-icons text-base text-primary">schedule</span>
-                        08:00 AM - 11:00 PM
-                    </div>
-                </div>
-            </aside>
-            <!-- Right Panel: Calendar Grid -->
-            <div
-                class="flex-1 bg-surface-dark rounded-xl border border-green flex flex-col relative shadow-2xl overflow-hidden">
-                <!-- Calendar Toolbar -->
-                <div class="flex items-center justify-between p-4 border-b border-green bg-surface-dark z-10">
-                    <div class="flex items-center gap-4">
-                        <div class="flex bg-surface-darker rounded-lg p-1 border border-green">
-                            <button
-                                class="px-3 py-1 rounded bg-border-green text-black dark:text-white text-xs font-bold shadow-sm">Week</button>
-                            <button
-                                class="px-3 py-1 rounded text-gray-400 hover:text-black dark:text-white text-xs font-bold transition-colors">Day</button>
-                            <button
-                                class="px-3 py-1 rounded text-gray-400 hover:text-black dark:text-white text-xs font-bold transition-colors">List</button>
-                        </div>
-                        <span class="text-black dark:text-white font-bold text-lg">Week 41, Oct 9 - 15</span>
-                    </div>
+
+        <div class="grid grid-cols-12 gap-6">
+          <!-- Left Sidebar -->
+          <div class="col-span-3 space-y-6">
+            <!-- Date Picker -->
+            <div class="bg-surface-card rounded-xl p-4 border border-emerald-500/30">
+              <h3 class="font-bold mb-3">Select Date</h3>
+              <input
+                type="date"
+                [ngModel]="selectedDate()"
+                (ngModelChange)="selectedDate.set($event)"
+                class="w-full bg-input-bg border border-gray-600 rounded px-3 py-2 text-white" />
+              <p class="text-xs text-gray-400 mt-2">
+                {{ formatDate(selectedDate()) }}
+              </p>
+            </div>
+
+            <!-- Field Selection -->
+            <div>
+              <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">Fields</h3>
+              <div class="space-y-3">
+                @for (field of fields(); track field.id) {
+                  <div
+                    (click)="selectField(field)"
+                    [class]="getFieldClasses(field)"
+                    class="bg-surface-card p-3 rounded-xl cursor-pointer transition-all">
                     <div class="flex items-center gap-3">
-                        <div class="flex items-center gap-2 text-gray-400 text-sm">
-                            <span class="material-icons text-primary">info</span>
-                            <span class="hidden xl:inline">Click &amp; drag to create slots</span>
-                        </div>
+                      <div [class]="getFieldIconClasses(field)" class="w-10 h-10 rounded-lg flex items-center justify-center">
+                        <span class="text-2xl">🏟️</span>
+                      </div>
+                      <div class="flex-1">
+                        <p class="font-bold text-sm">{{ field.name }}</p>
+                        <p [class]="getFieldStatusClasses(field)" class="text-xs">
+                          {{ selectedField()?.id === field.id ? 'Selected' : field.type }}
+                        </p>
+                      </div>
                     </div>
-                </div>
-                <!-- Calendar Scroll Container -->
-                <div class="flex-1 overflow-y-auto relative bg-surface-darker">
-                    <!-- Header Row (Days) -->
-                    <div
-                        class="grid grid-cols-[60px_1fr] border-b border-green sticky top-0 bg-surface-dark z-10 shadow-md">
-                        <div class="p-2 border-r border-green bg-surface-dark"></div> <!-- Corner -->
-                        <div class="grid grid-cols-7 divide-x divide-border-green">
-                            <div class="p-3 text-center">
-                                <p class="text-xs text-gray-400 uppercase font-bold">Mon</p>
-                                <p class="text-lg font-bold text-primary">09</p>
-                            </div>
-                            <div class="p-3 text-center">
-                                <p class="text-xs text-gray-400 uppercase font-bold">Tue</p>
-                                <p class="text-lg font-bold text-black dark:text-white">10</p>
-                            </div>
-                            <div class="p-3 text-center">
-                                <p class="text-xs text-gray-400 uppercase font-bold">Wed</p>
-                                <p class="text-lg font-bold text-black dark:text-white">11</p>
-                            </div>
-                            <div class="p-3 text-center">
-                                <p class="text-xs text-gray-400 uppercase font-bold">Thu</p>
-                                <p class="text-lg font-bold text-black dark:text-white">12</p>
-                            </div>
-                            <div class="p-3 text-center">
-                                <p class="text-xs text-gray-400 uppercase font-bold">Fri</p>
-                                <p class="text-lg font-bold text-black dark:text-white">13</p>
-                            </div>
-                            <div class="p-3 text-center bg-white/5">
-                                <p class="text-xs text-accent-orange uppercase font-bold">Sat</p>
-                                <p class="text-lg font-bold text-black dark:text-white">14</p>
-                            </div>
-                            <div class="p-3 text-center bg-white/5">
-                                <p class="text-xs text-accent-orange uppercase font-bold">Sun</p>
-                                <p class="text-lg font-bold text-black dark:text-white">15</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Calendar Grid Body -->
-                    <div class="grid grid-cols-[60px_1fr]">
-                        <!-- Time Column -->
-                        <div class="border-r border-green bg-surface-dark text-xs text-gray-500 font-medium">
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">08:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">09:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">10:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">11:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">12:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">13:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">14:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">15:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">16:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">17:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">18:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">19:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">20:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">21:00</div>
-                            <div class="h-20 border-b border-green/30 flex justify-center pt-2">22:00</div>
-                        </div>
-                        <!-- Day Columns Container -->
-                        <div class="grid grid-cols-7 divide-x divide-border-green relative">
-                            <!-- Background Grid Lines -->
-                            <div class="absolute inset-0 flex flex-col pointer-events-none z-0">
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                                <div class="h-20 border-b border-green/30 border-dashed"></div>
-                            </div>
-                            <!-- Monday -->
-                            <div class="relative h-[1200px] group">
-                                <!-- Available Slot Example -->
-                                <div
-                                    class="absolute top-[160px] left-1 right-1 h-[120px] rounded bg-primary/20 border-l-4 border-primary p-2 hover:bg-primary/30 cursor-pointer transition-colors z-10 shadow-sm">
-                                    <div class="flex justify-between items-start">
-                                        <span class="text-xs font-bold text-black dark:text-white">10:00 - 11:30</span>
-                                        <span class="material-icons text-primary text-sm">check_circle</span>
-                                    </div>
-                                    <p class="text-xs text-primary mt-1 font-medium">Available</p>
-                                </div>
-                                <!-- Recurring Booking -->
-                                <div
-                                    class="absolute top-[480px] left-1 right-1 h-[80px] rounded bg-white/5 border border-white/10 p-2 cursor-pointer z-10 flex flex-col justify-center">
-                                    <div class="flex items-center gap-1">
-                                        <span class="material-icons text-gray-400 text-xs">lock</span>
-                                        <span class="text-xs font-bold text-gray-300">Booked</span>
-                                    </div>
-                                    <p class="text-[10px] text-gray-500 truncate">Private Coaching</p>
-                                </div>
-                            </div>
-                            <!-- Tuesday -->
-                            <div class="relative h-[1200px] group">
-                                <!-- Maintenance Block -->
-                                <div
-                                    class="absolute top-[80px] left-1 right-1 h-[240px] rounded bg-accent-orange/10 border-l-4 border-accent-orange p-2 hover:bg-accent-orange/20 cursor-pointer transition-colors z-10 striped-orange">
-                                    <div class="flex justify-between items-start">
-                                        <span class="text-xs font-bold text-accent-orange">09:00 - 12:00</span>
-                                        <span class="material-icons text-accent-orange text-sm">build</span>
-                                    </div>
-                                    <p class="text-xs text-black dark:text-white mt-1 font-medium">Turf Maintenance</p>
-                                    <p class="text-[10px] text-gray-400 mt-1">Recurring: Monthly</p>
-                                </div>
-                                <!-- Available Slots -->
-                                <div
-                                    class="absolute top-[400px] left-1 right-1 h-[80px] rounded bg-primary/20 border-l-4 border-primary p-2 hover:bg-primary/30 cursor-pointer transition-colors z-10">
-                                    <span class="text-xs font-bold text-black dark:text-white">13:00 - 14:00</span>
-                                    <p class="text-xs text-primary mt-0.5 font-medium">Available</p>
-                                </div>
-                                <div
-                                    class="absolute top-[480px] left-1 right-1 h-[80px] rounded bg-primary/20 border-l-4 border-primary p-2 hover:bg-primary/30 cursor-pointer transition-colors z-10">
-                                    <span class="text-xs font-bold text-black dark:text-white">14:00 - 15:00</span>
-                                    <p class="text-xs text-primary mt-0.5 font-medium">Available</p>
-                                </div>
-                            </div>
-                            <!-- Wednesday -->
-                            <div class="relative h-[1200px] group">
-                                <!-- Creating New Slot Placeholder (Hover effect simulation) -->
-                                <div
-                                    class="absolute top-[240px] left-1 right-1 h-[120px] border-2 border-dashed border-primary/50 bg-primary/5 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
-                                    <span class="text-primary text-xs font-bold">+ Add Slot</span>
-                                </div>
-                                <div
-                                    class="absolute top-[640px] left-1 right-1 h-[160px] rounded bg-primary/20 border-l-4 border-primary p-2 hover:bg-primary/30 cursor-pointer transition-colors z-10">
-                                    <div class="flex justify-between items-start">
-                                        <span class="text-xs font-bold text-black dark:text-white">16:00 - 18:00</span>
-                                        <span class="material-icons text-primary text-sm">check_circle</span>
-                                    </div>
-                                    <p class="text-xs text-primary mt-1 font-medium">Available</p>
-                                    <p class="text-[10px] text-gray-400 mt-1">Peak Hours</p>
-                                </div>
-                            </div>
-                            <!-- Thursday -->
-                            <div class="relative h-[1200px] group">
-                                <div
-                                    class="absolute top-[160px] left-1 right-1 h-[80px] rounded bg-primary/20 border-l-4 border-primary p-2 hover:bg-primary/30 cursor-pointer transition-colors z-10">
-                                    <span class="text-xs font-bold text-black dark:text-white">10:00 - 11:00</span>
-                                    <p class="text-xs text-primary mt-0.5 font-medium">Available</p>
-                                </div>
-                                <div
-                                    class="absolute top-[240px] left-1 right-1 h-[80px] rounded bg-primary/20 border-l-4 border-primary p-2 hover:bg-primary/30 cursor-pointer transition-colors z-10">
-                                    <span class="text-xs font-bold text-black dark:text-white">11:00 - 12:00</span>
-                                    <p class="text-xs text-primary mt-0.5 font-medium">Available</p>
-                                </div>
-                            </div>
-                            <!-- Friday -->
-                            <div class="relative h-[1200px] group">
-                                <!-- Full Afternoon Block -->
-                                <div
-                                    class="absolute top-[560px] left-1 right-1 h-[320px] rounded bg-primary/20 border-l-4 border-primary p-2 hover:bg-primary/30 cursor-pointer transition-colors z-10">
-                                    <div class="flex justify-between items-start">
-                                        <span class="text-xs font-bold text-black dark:text-white">15:00 - 19:00</span>
-                                        <span class="material-icons text-primary text-sm">check_circle</span>
-                                    </div>
-                                    <p class="text-xs text-primary mt-1 font-medium">Available Block</p>
-                                    <div class="mt-2 flex gap-1 flex-wrap">
-                                        <span
-                                            class="px-1.5 py-0.5 bg-primary/20 rounded text-[10px] text-black dark:text-white">Discounted</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Saturday -->
-                            <div class="relative h-[1200px] group bg-white/[0.02]">
-                                <div
-                                    class="absolute top-[160px] left-1 right-1 h-[160px] rounded bg-white/5 border border-white/10 p-2 cursor-pointer z-10 flex flex-col">
-                                    <div class="flex justify-between">
-                                        <span class="text-xs font-bold text-gray-300">10:00 - 12:00</span>
-                                        <span class="material-icons text-gray-400 text-xs">lock</span>
-                                    </div>
-                                    <p class="text-xs text-gray-400 mt-1">Kids Tournament</p>
-                                    <p class="text-[10px] text-gray-500">Entire Field</p>
-                                </div>
-                            </div>
-                            <!-- Sunday -->
-                            <div class="relative h-[1200px] group bg-white/[0.02]">
-                                <div
-                                    class="absolute top-[80px] bottom-20 left-1 right-1 rounded border-2 border-dashed border-gray-700 flex items-center justify-center">
-                                    <div class="text-center">
-                                        <span class="material-icons text-gray-600 block mb-1">block</span>
-                                        <span class="text-xs text-gray-600">Closed</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Floating Action Button for Slot Edit (Simulated Context) -->
-                <div class="absolute bottom-6 right-6 z-30">
-                    <div
-                        class="bg-surface-dark border border-green rounded-xl shadow-2xl p-4 w-72 animate-fade-in-up hidden md:block">
-                        <div class="flex justify-between items-start mb-3">
-                            <h4 class="text-black dark:text-white font-bold text-sm">Edit Slot: Tuesday</h4>
-                            <button class="text-gray-400 hover:text-black dark:text-white"><span
-                                    class="material-icons text-sm">close</span></button>
-                        </div>
-                        <div class="space-y-3">
-                            <div>
-                                <label class="text-xs text-gray-400 block mb-1">Time Range</label>
-                                <div class="flex gap-2">
-                                    <input
-                                        class="w-full bg-surface-darker border border-gray-700 rounded px-2 py-1 text-sm text-black dark:text-white focus:border-primary outline-none"
-                                        type="text" value="09:00" />
-                                    <span class="text-gray-500">-</span>
-                                    <input
-                                        class="w-full bg-surface-darker border border-gray-700 rounded px-2 py-1 text-sm text-black dark:text-white focus:border-primary outline-none"
-                                        type="text" value="12:00" />
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-xs text-gray-400 block mb-1">Status</label>
-                                <div class="flex gap-2 p-1 bg-surface-darker rounded-lg border border-gray-700">
-                                    <button
-                                        class="flex-1 py-1 text-xs font-bold text-gray-400 hover:text-black dark:text-white rounded hover:bg-gray-700">Open</button>
-                                    <button
-                                        class="flex-1 py-1 text-xs font-bold bg-accent-orange text-black dark:text-white rounded shadow-sm">Maint.</button>
-                                    <button
-                                        class="flex-1 py-1 text-xs font-bold text-gray-400 hover:text-black dark:text-white rounded hover:bg-gray-700">Block</button>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2 pt-2 border-t border-gray-700">
-                                <input
-                                    class="rounded bg-surface-darker border-gray-600 text-primary focus:ring-primary focus:ring-offset-background-dark"
-                                    id="recur" type="checkbox" />
-                                <label class="text-xs text-gray-300" for="recur">Repeat every Tuesday</label>
-                            </div>
-                            <div class="pt-2 flex justify-end gap-2">
-                                <button class="text-xs text-red-400 font-bold hover:text-red-300 px-2">Delete</button>
-                                <button
-                                    class="bg-primary text-background-dark text-xs font-bold px-3 py-1.5 rounded hover:bg-primary-dark">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                  </div>
+                }
+              </div>
             </div>
+
+            <!-- Legend -->
+            <div class="bg-surface-card rounded-xl p-4 border border-gray-700">
+              <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">Legend</h3>
+              <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-4 h-4 rounded bg-emerald-500/20 border border-emerald-500"></div>
+                  <span class="text-sm">Available</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-4 h-4 rounded bg-orange-500/20 border border-orange-500"></div>
+                  <span class="text-sm">Maintenance</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-4 h-4 rounded bg-gray-500/20 border border-gray-700"></div>
+                  <span class="text-sm">Blocked</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Calendar -->
+          <div class="col-span-9">
+            <div class="bg-surface-card rounded-xl border border-gray-700 overflow-hidden">
+              <!-- Toolbar -->
+              <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+                <h2 class="font-bold text-lg">
+                  {{ selectedField() ? selectedField()!.name + ' - ' + selectedDate() : 'Select a field to begin' }}
+                </h2>
+                @if (selectedField()) {
+                  <button
+                    (click)="openSlotModal()"
+                    class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg font-semibold transition-colors">
+                    + Add Time Slot
+                  </button>
+                }
+              </div>
+
+              <!-- Calendar Grid -->
+              @if (selectedField()) {
+                <div class="p-4">
+                  <div class="grid grid-cols-[40px_1fr]">
+                    <!-- Time Labels -->
+                    <div class="border-r border-gray-700">
+                      @for (time of timeSlots(); track time) {
+                        <div class="h-10 border-b border-gray-700/50 flex items-start justify-center pt-2 text-sm text-gray-500">
+                          {{ time }}
+                        </div>
+                      }
+                    </div>
+
+                    <!-- Slots Container -->
+                    <div class="relative h-auto  border-l border-gray-700/50">
+                      <!-- Grid Lines -->
+                      <div class="absolute inset-0 pointer-events-none">
+                        @for (time of timeSlots(); track $index) {
+                          <div class="h-10 border-b border-gray-700/30 border-dashed"></div>
+                        }
+                      </div>
+
+                      <!-- Slots -->
+                      @for (slot of filteredSlots(); track slot.id) {
+                        <div
+                          (click)="editSlot(slot)"
+                          [style.top.px]="getSlotTop(slot.startTime)"
+                          [style.height.px]="getSlotHeight(slot.startTime, slot.endTime)"
+                          [class]="'absolute left-2 right-2 rounded-lg border-l-4 p-3 cursor-pointer hover:opacity-80 transition-opacity ' + getStatusColor(slot.status)">
+                          <div class="flex justify-between items-start mb-1">
+                            <span class="font-bold text-sm">{{ slot.startTime }} - {{ slot.endTime }}</span>
+                            <p class="text-xs opacity-90">{{ getStatusLabel(slot.status) }}</p>
+                          @if (slot.notes) {
+                            <p class="text-xs text-gray-400 mt-1">{{ slot.notes }}</p>
+                          }
+                          @if (slot.recurring) {
+                            <p class="text-xs text-emerald-400 mt-1">🔁 Recurring</p>
+                          }
+                            <button
+                              (click)="deleteSlot($event, slot.id)"
+                              class="text-red-400 hover:text-red-300">
+                              ✕
+                            </button>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              } @else {
+                <div class="h-96 flex items-center justify-center text-gray-500">
+                  Select a field to view and manage time slots
+                </div>
+              }
+            </div>
+          </div>
         </div>
-    </main>
-</app-manager-layout>
+
+        <!-- Add/Edit Slot Modal -->
+        @if (showSlotModal()) {
+          <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+            <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md border border-gray-700">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">{{ editingSlot() ? 'Edit' : 'Add' }} Time Slot</h3>
+                <button
+                  (click)="closeSlotModal()"
+                  class="text-gray-400 hover:text-white">
+                  ✕
+                </button>
+              </div>
+
+              <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-sm text-gray-400 mb-1">Start Time</label>
+                    <input
+                      type="time"
+                      [ngModel]="newSlot().startTime"
+                      (ngModelChange)="updateSlotForm('startTime', $event)"
+                      class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2" />
+                  </div>
+                  <div>
+                    <label class="block text-sm text-gray-400 mb-1">End Time</label>
+                    <input
+                      type="time"
+                      [ngModel]="newSlot().endTime"
+                      (ngModelChange)="updateSlotForm('endTime', $event)"
+                      class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2" />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm text-gray-400 mb-1">Status</label>
+                  <div class="grid grid-cols-3 gap-2">
+                    @for (status of statusOptions; track status) {
+                      <button
+                        (click)="updateSlotForm('status', status)"
+                        [class]="getStatusButtonClasses(status)"
+                        class="py-2 rounded font-semibold text-sm transition-colors">
+                        {{ status.charAt(0).toUpperCase() + status.slice(1) }}
+                      </button>
+                    }
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm text-gray-400 mb-1">Notes (Optional)</label>
+                  <textarea
+                    [ngModel]="newSlot().notes"
+                    (ngModelChange)="updateSlotForm('notes', $event)"
+                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 h-10 resize-none"
+                    placeholder="Add any notes..."></textarea>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="recurring"
+                    [ngModel]="newSlot().recurring"
+                    (ngModelChange)="updateSlotForm('recurring', $event)"
+                    class="rounded" />
+                  <label for="recurring" class="text-sm">Recurring slot</label>
+                </div>
+
+                <div class="flex gap-3 pt-4">
+                  <button
+                    (click)="closeSlotModal()"
+                    class="flex-1 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors">
+                    Cancel
+                  </button>
+                  <button
+                    (click)="saveSlot()"
+                    class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg font-semibold transition-colors">
+                    {{ editingSlot() ? 'Update' : 'Add' }} Slot
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+    </app-manager-layout>

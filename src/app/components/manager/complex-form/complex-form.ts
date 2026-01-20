@@ -1,24 +1,24 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Field, form } from '@angular/forms/signals';
 import { ComplexService } from '../../../services/complex.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComplexDTO } from '../../../interfaces/complex.dto';
-
-interface ImageItem {
-  id: number;
-  url: string;
-  file?: File;
-}
+import { ToastService } from '../../../services/toast.service';
+import { Complex } from '../../../models/complex.model';
+import { ManagerLayout } from '../../layouts/manager-layout/manager-layout';
+import { ImageItem } from '../../../interfaces/image-item';
 
 @Component({
   selector: 'app-complex-form',
-  imports: [Field],
+  imports: [Field, ManagerLayout],
   templateUrl: './complex-form.html',
   styleUrl: './complex-form.css',
 })
 
-export class ComplexForm {
+export class ComplexForm implements OnInit{
   private complexService = inject(ComplexService);
+  private toastService = inject(ToastService);
+  private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
 
   // Images management
@@ -40,6 +40,53 @@ export class ComplexForm {
   });
 
   complexForm = form(this.complexModel);
+
+  complex = signal<Complex | null>(null);
+  complexId = signal<number | null>(null);
+  isEditMode = signal(false);
+
+  headerTitle = computed(() => this.isEditMode() ? 'Edit Complex' : 'Add New Complex');
+  buttonText = computed(() => this.isEditMode() ? 'Update Complex' : 'Create Complex');
+  buttonSubmittingText = computed(() => this.isEditMode() ? 'Updating...' : 'Creating...'); 
+  ngOnInit(): void {
+    const complexId = this.activatedRoute.snapshot.paramMap.get('id');
+    if (complexId) {
+      this.isEditMode.set(true);
+      this.complexId.set(+complexId);
+      this.loadComplex(+complexId);
+    }
+  }
+
+  loadComplex(id: number): void {
+    this.complexService.getComplexById(id).subscribe({
+      next : (data) => {
+        this.complex.set(data);
+        this.complexModel.set({
+          name: data.name,
+          description: data.description,
+          address: data.address,
+          phone: data.phone,
+          email: data.email,
+          images: data.images,
+          tags: data.tags,
+          openAt: data.openAt,
+          closeAt: data.closeAt,
+        });
+        // Load images
+        const imageItems: ImageItem[] = data.images.map((url, index) => ({
+          id: index,
+          url: url
+        }));
+        this.images.set(imageItems);
+        this.nextImageId.set(imageItems.length);
+      },
+      error : (error) => {
+        console.error('Error loading complex:', error);
+        this.toastService.error('Failed to load complex data. Please try again.',5000);
+      }
+    });
+
+  }
 
   // Add new image slot
   addImage(): void {
@@ -192,7 +239,7 @@ export class ComplexForm {
     }
 
     this.isSubmitting.set(true);
-
+    console.log('Submitting complex:', this.complexModel());
     try {
       // Collect all valid image URLs
       const imageUrls = this.images()
@@ -202,37 +249,54 @@ export class ComplexForm {
       // Update model with images
       const formData: ComplexDTO = {
         ...this.complexModel(),
-        images: imageUrls
+        images: imageUrls 
       };
 
       console.log(formData);
 
       // Submit to service
-      await this.complexService.createComplex(formData).subscribe({
-        next: () => {
-          this.isSubmitting.set(false);
-          alert('Complex created successfully!');
-          this.router.navigate(['/manager/complexes']);
-        },
-        error: (error) => {
-          console.error('Error creating complex:', error);
-          alert('Failed to create complex. Please try again.');
-          this.isSubmitting.set(false);
-        }
-      });
+      if(!this.isEditMode()){
+        await this.complexService.createComplex(formData).subscribe({
+          next: () => {
+            this.isSubmitting.set(false);
+            this.toastService.success('Complex created successfully.',3000);
+            this.router.navigate(['/manager/complex-list']);
+          },
+          error: (error) => {
+            console.error('Error creating complex:', error);
+            this.toastService.error('Failed to create complex. Please try again.',5000);
+            this.isSubmitting.set(false);
+          }
+        });
+      }
+      else {
+        await this.complexService.updateComplex(this.complexId() ,formData).subscribe({
+          next: () => {
+            this.isSubmitting.set(false);
+            this.toastService.success('Complex updated successfully.',3000);
+            this.router.navigate(['/manager/complex-list']);
+          },
+          error: (error) => {
+            console.error('Error updateing complex:', error);
+            this.toastService.error('Failed to update complex. Please try again.',5000);
+            this.isSubmitting.set(false);
+          }
+        });
+      }
+      
 
     } catch (error) {
       console.error('Error creating complex:', error);
-      alert('Failed to create complex. Please try again.');
+      this.toastService.error('An unexpected error occurred. Please try again.',5000);
     } finally {
-      /* this.isSubmitting.set(false); */
+      this.isSubmitting.set(false);
     }
   }
 
   // Cancel and go back
   onCancel(): void {
     if (confirm('Are you sure you want to cancel? All changes will be lost.')) {
-      this.router.navigate(['/manager/complexes']);
+      this.router.navigate(['/manager/complex-list']);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Field } from "./field.model";
+import { FieldModel } from "./field.model";
 
 export interface Complex {
     id: number;
@@ -9,7 +9,7 @@ export interface Complex {
     email: string;
     images: string[];
     tags: string[];
-    fields: Field[];
+    fields: FieldModel[];
     openAt: string;
     closeAt: string;
 }

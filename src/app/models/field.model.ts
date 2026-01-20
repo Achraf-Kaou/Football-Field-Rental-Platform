@@ -1,10 +1,16 @@
 export type Language = 'fr' | 'en' | 'ar';
 
-export interface Field {
-    id: string;
+export interface FieldModel {
+    id: number;
     name: string;
-    location: string;
+    description: string;
+    type: string;
+    surface: number;
     price: number;
-    image: string;
-    available: boolean;
+    images: string[];
+    status: string;
+    availability: any;
+    complexId: number;
+    createdAt: Date;
+    updatedAt: Date;
 }

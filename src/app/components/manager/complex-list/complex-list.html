@@ -12,7 +12,7 @@
                     available
                     for booking.</p>
             </div>
-            <button routerLink="/manager/complex/new"
+            <button (click)="addComplex()"
                 class="group flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-black font-bold py-2.5 px-5 rounded-lg transition-all shadow-[0_0_15px_rgba(73,230,25,0.3)] hover:shadow-[0_0_20px_rgba(73,230,25,0.5)]">
                 <span class="material-icons text-[20px]">add_circle</span>
                 <span>Add New Complex</span>
@@ -61,11 +61,14 @@
                 <div class="relative h-48 overflow-hidden">
                     <div
                         class="absolute top-3 right-3 z-10 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-xs font-bold text-black dark:text-white flex items-center gap-1 border border-white/10">
+                        @if (handleStatus(complex) == 'Closed') {
+                        <span class="material-icons text-red-500 text-[14px]">circle</span> Closed
+                        } @else {
                         <span class="material-icons text-primary text-[14px]">circle</span> Open
+                        }
                     </div>
                     <div class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
-                        data-alt="Aerial view of a green synthetic turf football field in a stadium"
-                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJtdSARlVuPPDyQBCLFat9dSJ17UL76wSSJ64vY5nxQ9Gf_2f53QM0kN5Ui4-uoJe4gRyiDIT_j7wfLkcpGOQETLxEFOSHQHMAMlKYIG94l70gWfZCXyYzHmzSBW7WCzo1o0odT0nKgMQLDk14fqKTGX6KUUubaB2cY954n39BYo_T2SM8NEK23TeO7PRWlUCznEOrNLBrGxG1szuDMjO5pg1UCmdMxARa579ZTZV2g9koCbNK8XMEX6FBWukGAnuo7_YsXSeGicI");'>
+                        [style.background-image]="'url(' + complex.images[0] + ')'">
                     </div>
                 </div>
                 <div class="p-5 flex flex-col flex-1">
@@ -81,30 +84,39 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-3 mt-4 mb-6">
+                        @for (tag of complex.tags; track $index) {
                         <span
-                            class="px-2 py-1 rounded bg-slate-100 dark:bg-[#111a0d] text-xs font-medium text-slate-600 dark:text-[#9fc893] border border-slate-200 dark:border-[#2c4724]">2
-                            Fields</span>
-                        <span
-                            class="px-2 py-1 rounded bg-slate-100 dark:bg-[#111a0d] text-xs font-medium text-slate-600 dark:text-[#9fc893] border border-slate-200 dark:border-[#2c4724]">Shower</span>
-                        <span
-                            class="px-2 py-1 rounded bg-slate-100 dark:bg-[#111a0d] text-xs font-medium text-slate-600 dark:text-[#9fc893] border border-slate-200 dark:border-[#2c4724]">Parking</span>
-                    </div>
+                            class="px-2 py-1 rounded bg-slate-100 dark:bg-[#111a0d] text-xs font-medium text-slate-600 dark:text-[#9fc893] border border-slate-200 dark:border-[#2c4724]">{{tag}}</span>
+                        }
+                        </div>
                     <div
                         class="mt-auto pt-4 border-t border-slate-100 dark:border-[#2c4724] flex items-center justify-between">
                         <div class="flex gap-2">
                             <button
                                 class="p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-[#2c4724] hover:text-primary transition-colors"
-                                title="View Details" routerLink="/manager/complex">
+                                title="Bookings" (click)="goToBookings(complex.id)">
+                                <span class="material-icons text-[20px]">shopping_cart</span>
+                            </button>
+                            <button
+                                class="p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-[#2c4724] hover:text-primary transition-colors"
+                                title="View Details" (click)="overwiewComplex(complex.id)">
                                 <span class="material-icons text-[20px]">visibility</span>
                             </button>
                             <button
                                 class="p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-[#2c4724] hover:text-primary transition-colors"
-                                title="Edit" routerLink="/manager/complex/1">
+                                title="Availability Calendar" (click)="availabilityCalender(complex.id)">
+                                <span class="material-icons text-[20px]">event_available</span>
+                            </button>
+                            <button
+                                class="p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-[#2c4724] hover:text-primary transition-colors"
+                                title="Edit" (click)="editComplex(complex.id)">
                                 <span class="material-icons text-[20px]">edit</span>
                             </button>
                             <button
                                 class="p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:bg-accent/10 hover:text-accent transition-colors"
-                                title="Delete">
+                                title="Delete"
+                                (click)="openDeleteModal(complex.id)"
+                                >
                                 <span class="material-icons text-[20px]">delete</span>
                             </button>
                         </div>
@@ -150,3 +162,15 @@
         </div>
     </main>
 </app-manager-layout>
+@if (showDeleteModal()) {
+  <app-delete-modal
+    [icon]="'delete'"
+    [title]="'Delete complex'"
+    [message]="'Are you sure you want to delete this complex?'"
+    [cancelText]="'Cancel'"
+    [confirmText]="'Delete'"
+    [severity]="'error'"
+    [cancelAction]="cancelDelete"
+    [confirmAction]="confirmDelete"
+  />
+}
