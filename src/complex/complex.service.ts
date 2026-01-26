@@ -30,12 +30,17 @@ export class ComplexService {
         tags: createComplexDto.tags || [],
         openAt: createComplexDto.openAt,
         closeAt: createComplexDto.closeAt,
+        userId: createComplexDto.userId,
       },
     });
   }
 
-  count() {
-    return this.prisma.complex.count();
+  count(userId?: number) {
+    return this.prisma.complex.count({
+      where: {
+        ...(userId && { userId }),
+      },
+    });
   }
 
   async findAll(filters: FindAllComplexDto) {
@@ -44,6 +49,7 @@ export class ComplexService {
       limit = 10,
       search,
       status,
+      userId,
       sortedBy = 'createdAt',
       sortedDirection = 'desc',
     } = filters;
@@ -61,6 +67,7 @@ export class ComplexService {
             { address: { contains: search, mode: 'insensitive' } },
           ],
         }),
+        ...(userId && { userId }),
       },
       orderBy: {
         [sortedBy]: sortedDirection,

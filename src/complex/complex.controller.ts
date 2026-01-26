@@ -28,8 +28,8 @@ export class ComplexController {
   @Get('count')
   @ApiOperation({ summary: 'Get total number of complexes' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Total number of complexes retrieved successfully' })
-  count() {
-    return this.complexService.count();
+  count(@Query('userId') userId?: string) {
+    return this.complexService.count(userId ? +userId : undefined);
   }
 
   @Get()

@@ -128,23 +128,13 @@ export class BookingService {
       skip: (page - 1) * limit,
       take: limit,
       include: {
-        user: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-          },
-        },
         field: {
-          select: {
-            id: true,
-            name: true,
-            type: true,
-            price: true,
-          },
+          include: {
+            complex: true  // ✅ Include the complex related to the field
+          }
         },
-      },
+        user: true  
+      }
     });
   }
 

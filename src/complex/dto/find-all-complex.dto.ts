@@ -45,6 +45,15 @@ export class FindAllComplexDto {
     status?: string;
 
     @ApiProperty({
+        example: 1,
+        description: 'Filter by User ID',
+        required: false
+    })
+    @IsOptional()
+    @Type(() => Number)
+    userId?: number;
+
+    @ApiProperty({
         example: 'createdAt',
         description: 'Field to sort by',
         required: false,

@@ -18,11 +18,25 @@ import {
 import { MessageService } from './message.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { FindAllMessageDto } from './dto/find-all-message.dto';
+import { StartConversationDto } from './dto/start-conversation.dto';
 
 @ApiTags('Messages')
 @Controller('messages')
 export class MessageController {
-  constructor(private readonly messageService: MessageService) {}
+  constructor(private readonly messageService: MessageService) { }
+
+
+  @Post('start-conversation')
+  @ApiOperation({ summary: 'Start or check conversation with a user' })
+  @ApiParam({ name: 'currentUserId', description: 'Current user ID' })
+  @ApiParam({ name: 'targetUserId', description: 'Target user ID' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Conversation info retrieved',
+  })
+  startConversation(@Body() dto: StartConversationDto) {
+    return this.messageService.startConversation(dto);
+  }
 
   @Post()
   @ApiOperation({ summary: 'Send a message (REST fallback)' })

@@ -7,6 +7,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { FindAllMessageDto } from './dto/find-all-message.dto';
 import { Message } from '@prisma/client';
+import { StartConversationDto } from './dto/start-conversation.dto';
 
 @Injectable()
 export class MessageService {
@@ -64,6 +65,123 @@ export class MessageService {
         },
       },
     });
+  }
+
+  async startConversation(dto: StartConversationDto) {
+    const { currentUserId, targetUserId, initialMessage } = dto;
+
+    // Verify both users exist
+    const [currentUser, targetUser] = await Promise.all([
+      this.prisma.user.findUnique({ where: { id: currentUserId } }),
+      this.prisma.user.findUnique({ where: { id: targetUserId } }),
+    ]);
+
+    if (!currentUser) {
+      throw new NotFoundException('Current user not found');
+    }
+
+    if (!targetUser) {
+      throw new NotFoundException('Target user not found');
+    }
+
+    if (currentUserId === targetUserId) {
+      throw new BadRequestException('Cannot start conversation with yourself');
+    }
+
+    // Check if conversation already exists
+    const existingMessages = await this.prisma.message.findFirst({
+      where: {
+        OR: [
+          { senderId: currentUserId, receiverId: targetUserId },
+          { senderId: targetUserId, receiverId: currentUserId },
+        ],
+      },
+      include: {
+        sender: {
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+        receiver: {
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+    });
+
+    // If conversation exists and no initial message, just return the existing conversation info
+    if (existingMessages && !initialMessage) {
+      return {
+        conversationExists: true,
+        targetUser: {
+          id: targetUser.id,
+          email: targetUser.email,
+          firstName: targetUser.firstName,
+          lastName: targetUser.lastName,
+        },
+        message: null,
+      };
+    }
+
+    // If there's an initial message or no conversation exists, create the first message
+    if (initialMessage) {
+      const message = await this.prisma.message.create({
+        data: {
+          senderId: currentUserId,
+          receiverId: targetUserId,
+          content: initialMessage,
+          status: 'sent',
+        },
+        include: {
+          sender: {
+            select: {
+              id: true,
+              email: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+          receiver: {
+            select: {
+              id: true,
+              email: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+      });
+
+      return {
+        conversationExists: !!existingMessages,
+        targetUser: {
+          id: targetUser.id,
+          email: targetUser.email,
+          firstName: targetUser.firstName,
+          lastName: targetUser.lastName,
+        },
+        message,
+      };
+    }
+
+    // No initial message and no existing conversation
+    return {
+      conversationExists: false,
+      targetUser: {
+        id: targetUser.id,
+        email: targetUser.email,
+        firstName: targetUser.firstName,
+        lastName: targetUser.lastName,
+      },
+      message: null,
+    };
   }
 
   async findAll(filters: FindAllMessageDto): Promise<Message[]> {

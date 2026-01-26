@@ -5,6 +5,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { FindAllUsersDto } from './dto/find-all-users.dto';
+import { SearchUsersDto } from './dto/search-users.dto';
 
 @Injectable()
 export class UsersService {
@@ -63,7 +64,6 @@ export class UsersService {
     });
   }
 
-
   async findOne(id: number) {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -74,6 +74,84 @@ export class UsersService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
     return user;
+  }
+
+  /**
+ * Search users by name or email
+ */
+  async searchUsers(searchDto: SearchUsersDto) {
+    const {
+      query = '',
+      page = 1,
+      limit = 10,
+      excludeUserId,
+    } = searchDto;
+
+    const skip = (page - 1) * limit;
+
+    // Build where clause
+    const where: any = {};
+
+    if (query) {
+      where.OR = [
+        {
+          firstName: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        {
+          lastName: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        {
+          email: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+      ];
+    }
+
+    // Exclude specific user if provided
+    if (excludeUserId) {
+      where.id = {
+        not: excludeUserId,
+      };
+    }
+
+    // Get total count
+    const total = await this.prisma.user.count({ where });
+
+    // Get users
+    const users = await this.prisma.user.findMany({
+      where,
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+      },
+      skip,
+      take: limit,
+      orderBy: [
+        { firstName: 'asc' },
+        { lastName: 'asc' },
+      ],
+    });
+
+    return {
+      data: users,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

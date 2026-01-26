@@ -66,6 +66,7 @@ export class FieldController {
     description: 'List of fields retrieved successfully',
   })
   findAll(@Query() filters: FindAllFieldsDto) {
+    console.log(filters);
     return this.fieldService.findAll(filters);
   }
 

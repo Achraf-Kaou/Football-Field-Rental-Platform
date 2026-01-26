@@ -7,6 +7,8 @@ import { ComplexModule } from './complex/complex.module';
 import { FieldModule } from './field/field.module';
 import { BookingModule } from './booking/booking.module';
 import { MessageModule } from './message/message.module';
+import { ChatMessageModule } from './chat-message/chat-message.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { MessageModule } from './message/message.module';
     FieldModule,
     BookingModule,
     MessageModule,
+    ChatMessageModule,
+    DashboardModule,
   ],
   controllers: [],
   providers: [],

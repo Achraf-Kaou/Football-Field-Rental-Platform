@@ -85,5 +85,13 @@ export class CreateComplexDto {
   @IsString()
   @IsOptional()
   closeAt?: string;
+
+  @ApiProperty({
+    example: 1,
+    description: 'ID of the user who owns the complex',
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  userId: number;
 }
 

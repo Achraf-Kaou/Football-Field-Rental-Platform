@@ -35,26 +35,28 @@ model User {
   deletedAt    DateTime? // nullable for soft delete
 
   // Relations
+  chatMessages     ChatMessage[]
   bookings         Booking[]
-  sentMessages     Message[] @relation("sentMessages")
-  receivedMessages Message[] @relation("receivedMessages")
+  sentMessages     Message[]     @relation("sentMessages")
+  receivedMessages Message[]     @relation("receivedMessages")
+  complexes        Complex[]
 }
 
 model Field {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String
-  type        String
-  surface     Float
-  price       Float
-  status      String
-  images      String[]
-  complex     Complex   @relation(fields: [complexId], references: [id])
-  complexId   Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
-  availability Json? 
+  id           Int       @id @default(autoincrement())
+  name         String
+  description  String
+  type         String
+  surface      Float
+  price        Float
+  status       String
+  images       String[]
+  complex      Complex   @relation(fields: [complexId], references: [id])
+  complexId    Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+  availability Json?
 
   bookings Booking[]
 }
@@ -70,6 +72,8 @@ model Complex {
   tags        String[]  @default([])
   openAt      String    @default("08:00")
   closeAt     String    @default("00:00")
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
   fields      Field[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -101,4 +105,18 @@ model Message {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   deletedAt  DateTime?
+}
+
+model ChatMessage {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  message   String   @db.Text
+  response  String   @db.Text
+  language  String   @default("en")
+  timestamp DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([timestamp])
 }

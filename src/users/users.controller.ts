@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -6,6 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { FindAllUsersDto } from './dto/find-all-users.dto';
 import { UserDto } from './dto/user.dto';
 import { Role } from '@prisma/client';
+import { SearchUsersDto } from './dto/search-users.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -33,6 +34,16 @@ export class UsersController {
   })
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+
+  @Get('search')
+  @ApiOperation({ summary: 'Search users by name or email' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'List of users matching search criteria',
+  })
+  search(@Query() searchDto: SearchUsersDto) {
+    return this.usersService.searchUsers(searchDto);
   }
 
   @Get()
