@@ -1,0 +1,143 @@
+{
+  "navbar": {
+    "home": "Accueil",
+    "fields": "Terrains",
+    "bookings": "Mes Réservations",
+    "chat": "Discussion",
+    "signup": "S'inscrire",
+    "signin": "Se connecter",
+    "logout": "Déconnexion"
+  },
+  "dashboard": {
+    "title": "Vue d'ensemble",
+    "liveUpdates": "Mises à jour en direct",
+    "today": "Aujourd'hui",
+    "week": "Semaine",
+    "month": "Mois",
+    "searchPlaceholder": "Rechercher des réservations, clients ou terrains...",
+    "refresh": "Actualiser",
+    "newComplex": "Nouveau Complexe",
+    
+    "totalRevenue": "Revenu Total",
+    "occupancyRate": "Taux d'Occupation",
+    "todayBookings": "Réservations du Jour",
+    "newCustomers": "Nouveaux Clients",
+    
+    "vsLastWeek": "vs semaine dernière",
+    "peakHours": "Heures de pointe",
+    "slotsLeft": "créneaux restants",
+    "highRetention": "Fidélisation élevée",
+    
+    "revenueOccupancy": "Revenu & Occupation",
+    "weeklyTrend": "Analyse des tendances hebdomadaires",
+    "revenue": "Revenu",
+    "occupancy": "Occupation",
+    
+    "liveFieldStatus": "État des Terrains en Direct",
+    "viewAllFields": "Voir Tous les Terrains",
+    "bookNow": "Réserver",
+    "left": "restant",
+    "noFieldsAvailable": "Aucun terrain disponible",
+    
+    "upcomingMatches": "Matchs à Venir",
+    "paymentPending": "Paiement en attente",
+    "noUpcomingBookings": "Aucune réservation à venir",
+    "viewFullSchedule": "Voir le Calendrier Complet",
+    
+    "status": {
+      "LIVE": "En cours",
+      "VACANT": "Libre",
+      "MAINTENANCE": "Maint."
+    }
+  }, 
+  "chat": {
+    "messages": "Messages",
+    "newMessage": "Nouveau Message",
+    "searchConversations": "Rechercher des conversations...",
+    "loadingConversations": "Chargement des conversations...",
+    "noConversationsFound": "Aucune conversation trouvée",
+    "noMessagesYet": "Aucun message pour le moment",
+    "selectConversation": "Sélectionner une conversation",
+    "selectConversationDesc": "Choisissez une conversation dans la liste pour commencer à discuter",
+    "typeMessage": "Tapez un message...",
+    "send": "Envoyer",
+    "justNow": "À l'instant",
+    "yesterday": "Hier",
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "noMessages": "Aucun message pour le moment. Commencez la conversation !",
+    "startConversation": "Démarrer une conversation",
+    "searchUsers": "Rechercher des utilisateurs par nom ou email...",
+    "to": "À :",
+    "messageOptional": "Message (optionnel) :",
+    "typeYourMessage": "Tapez votre message...",
+    "cancel": "Annuler",
+    "startChat": "Commencer la Discussion",
+    "noUsersFound": "Aucun utilisateur trouvé",
+    "searchingUsers": "Recherche d'utilisateurs...",
+    "you": "Vous",
+    "sent": "Envoyé",
+    "delivered": "Livré",
+    "read": "Lu"
+  },
+  "CHATBOT": {
+    "TITLE": "Assistant Chatbot IA",
+    "WELCOME": "Bonjour! 👋 Je suis votre assistant IA. Comment puis-je vous aider aujourd'hui?",
+    "PLACEHOLDER": "Tapez votre message ici...",
+    "SEND": "Envoyer",
+    "CLEAR": "Effacer le chat",
+    "CONFIRM_CLEAR": "Êtes-vous sûr de vouloir effacer l'historique du chat?",
+    "ERROR": "Désolé, une erreur s'est produite",
+    "TYPING": "Le bot tape...",
+    "CONNECTED": "Connecté",
+    "DISCONNECTED": "Déconnecté"
+  },
+  "sidebar": {
+    "mainNavigation": "Navigation Principale",
+    "primaryNavigation": "Navigation Primaire",
+    "expandSidebar": "Développer la barre latérale",
+    "collapseSidebar": "Réduire la barre latérale",
+    "closeSidebar": "Fermer la barre latérale",
+    "dashboard": "Tableau de bord",
+    "complexes": "Complexes",
+    "bookings": "Réservations",
+    "availability": "Disponibilité",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "switchToLightMode": "Passer en mode clair",
+    "switchToDarkMode": "Passer en mode sombre",
+    "changeLanguage": "Changer de langue",
+    "loading": "Chargement...",
+    "noComplexes": "Aucun complexe trouvé"
+  },
+  "user": {
+    "profile": "Profil",
+    "account": "Compte",
+    "preferences": "Préférences"
+  },
+  "languages": {
+    "english": "Anglais",
+    "french": "Français",
+    "arabic": "Arabe"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "loading": "Chargement...",
+    "noResults": "Aucun résultat trouvé",
+    "error": "Une erreur s'est produite",
+    "success": "Opération réussie"
+  },
+  "auth": {
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "logoutSuccess": "Déconnexion réussie",
+    "logoutError": "Erreur lors de la déconnexion. Veuillez réessayer."
+  }
+}

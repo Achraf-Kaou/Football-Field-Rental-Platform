@@ -113,12 +113,12 @@ export class ManagerBooking implements OnInit {
   });
 
   ngOnInit(): void {
-    const complexId = Number(this.route.snapshot.paramMap.get('complexId'));
-    if (complexId) {
+    this.route.paramMap.subscribe(params => {
+      const complexId = +params.get('complexId')!;
       this.loadComplex(complexId);
       this.loadFields(complexId);
       this.loadAllBookings(complexId);
-    }
+    });
   }
 
   loadComplex(complexId: number) {

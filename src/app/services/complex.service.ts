@@ -16,12 +16,13 @@ export class ComplexService {
     return this.http.post<ComplexDTO>(`${this.baseUrl}/complex`, complex);
   }
 
-  getAllComplexes(page?: number, itemsPerPage?: number, search?: string, status?: string, sortBy?: string) {
-    return this.http.get<Complex[]>(`${this.baseUrl}/complex?page=${page}&limit=${itemsPerPage}&search=${search ? search : ''}&${(status) ? `&status=${status}` : ''}&${(sortBy) ? `&sort=${sortBy}` : ''}`);
+  getAllComplexes(page?: number, itemsPerPage?: number, search?: string, status?: string, userId?:number, sortBy?: string) {
+    console.log('Fetching complexes with params:', { page, itemsPerPage, search, status, userId, sortBy });
+    return this.http.get<Complex[]>(`${this.baseUrl}/complex?page=${page}&limit=${itemsPerPage}&search=${search ? search : ''}&${(status) ? `&status=${status}` : ''}&${(userId) ? `&userId=${userId}` : ''}&${(sortBy) ? `&sort=${sortBy}` : ''}`);
   }
 
-  getComplexCount() {
-    return this.http.get<number>(`${this.baseUrl}/complex/count`);
+  getComplexCount(userId?:number) {
+    return this.http.get<number>(`${this.baseUrl}/complex/count?${(userId) ? `userId=${userId}` : ''}`);
   }
 
   getComplexById(id: number) {

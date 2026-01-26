@@ -1,0 +1,143 @@
+{
+  "navbar": {
+    "home": "الرئيسية",
+    "fields": "الملاعب",
+    "bookings": "حجوزاتي",
+    "chat": "المحادثة",
+    "signup": "التسجيل",
+    "signin": "تسجيل الدخول",
+    "logout": "تسجيل الخروج"
+  },
+  "dashboard": {
+    "title": "نظرة عامة",
+    "liveUpdates": "تحديثات مباشرة",
+    "today": "اليوم",
+    "week": "أسبوع",
+    "month": "شهر",
+    "searchPlaceholder": "البحث عن الحجوزات أو العملاء أو الملاعب...",
+    "refresh": "تحديث",
+    "newComplex": "مجمع جديد",
+    
+    "totalRevenue": "إجمالي الإيرادات",
+    "occupancyRate": "معدل الإشغال",
+    "todayBookings": "حجوزات اليوم",
+    "newCustomers": "عملاء جدد",
+    
+    "vsLastWeek": "مقارنة بالأسبوع الماضي",
+    "peakHours": "ساعات الذروة",
+    "slotsLeft": "فترات متبقية",
+    "highRetention": "معدل احتفاظ عالي",
+    
+    "revenueOccupancy": "الإيرادات والإشغال",
+    "weeklyTrend": "تحليل الاتجاه الأسبوعي",
+    "revenue": "الإيرادات",
+    "occupancy": "الإشغال",
+    
+    "liveFieldStatus": "حالة الملاعب المباشرة",
+    "viewAllFields": "عرض جميع الملاعب",
+    "bookNow": "احجز الآن",
+    "left": "متبقية",
+    "noFieldsAvailable": "لا توجد ملاعب متاحة",
+    
+    "upcomingMatches": "المباريات القادمة",
+    "paymentPending": "الدفع قيد الانتظار",
+    "noUpcomingBookings": "لا توجد حجوزات قادمة",
+    "viewFullSchedule": "عرض الجدول الكامل",
+    
+    "status": {
+      "LIVE": "مباشر",
+      "VACANT": "فارغ",
+      "MAINTENANCE": "صيانة"
+    }
+  },
+  "chat": {
+    "messages": "الرسائل",
+    "newMessage": "رسالة جديدة",
+    "searchConversations": "البحث في المحادثات...",
+    "loadingConversations": "جاري تحميل المحادثات...",
+    "noConversationsFound": "لم يتم العثور على محادثات",
+    "noMessagesYet": "لا توجد رسائل بعد",
+    "selectConversation": "اختر محادثة",
+    "selectConversationDesc": "اختر محادثة من القائمة لبدء الدردشة",
+    "typeMessage": "اكتب رسالة...",
+    "send": "إرسال",
+    "justNow": "الآن",
+    "yesterday": "أمس",
+    "online": "متصل",
+    "offline": "غير متصل",
+    "noMessages": "لا توجد رسائل بعد. ابدأ المحادثة!",
+    "startConversation": "بدء محادثة",
+    "searchUsers": "البحث عن المستخدمين بالاسم أو البريد الإلكتروني...",
+    "to": "إلى:",
+    "messageOptional": "الرسالة (اختياري):",
+    "typeYourMessage": "اكتب رسالتك...",
+    "cancel": "إلغاء",
+    "startChat": "بدء الدردشة",
+    "noUsersFound": "لم يتم العثور على مستخدمين",
+    "searchingUsers": "البحث عن مستخدمين...",
+    "you": "أنت",
+    "sent": "تم الإرسال",
+    "delivered": "تم التسليم",
+    "read": "تمت القراءة"
+  },
+  "CHATBOT": {
+    "TITLE": "مساعد الدردشة الآلي",
+    "WELCOME": "مرحبا! 👋 أنا مساعدك الآلي. كيف يمكنني مساعدتك اليوم؟",
+    "PLACEHOLDER": "اكتب رسالتك هنا...",
+    "SEND": "إرسال",
+    "CLEAR": "مسح الدردشة",
+    "CONFIRM_CLEAR": "هل أنت متأكد أنك تريد مسح سجل الدردشة؟",
+    "ERROR": "عذرا، حدث خطأ",
+    "TYPING": "الروبوت يكتب...",
+    "CONNECTED": "متصل",
+    "DISCONNECTED": "غير متصل"
+  },
+  "sidebar": {
+    "mainNavigation": "التنقل الرئيسي",
+    "primaryNavigation": "التنقل الأساسي",
+    "expandSidebar": "توسيع الشريط الجانبي",
+    "collapseSidebar": "طي الشريط الجانبي",
+    "closeSidebar": "إغلاق الشريط الجانبي",
+    "dashboard": "لوحة القيادة",
+    "complexes": "المجمعات",
+    "bookings": "الحجوزات",
+    "availability": "التوفر",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "switchToLightMode": "التبديل إلى الوضع الفاتح",
+    "switchToDarkMode": "التبديل إلى الوضع الداكن",
+    "changeLanguage": "تغيير اللغة",
+    "loading": "جاري التحميل...",
+    "noComplexes": "لم يتم العثور على مجمعات"
+  },
+  "user": {
+    "profile": "الملف الشخصي",
+    "account": "الحساب",
+    "preferences": "التفضيلات"
+  },
+  "languages": {
+    "english": "الإنجليزية",
+    "french": "الفرنسية",
+    "arabic": "العربية"
+  },
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "close": "إغلاق",
+    "confirm": "تأكيد",
+    "search": "بحث",
+    "filter": "تصفية",
+    "loading": "جاري التحميل...",
+    "noResults": "لم يتم العثور على نتائج",
+    "error": "حدث خطأ",
+    "success": "تمت العملية بنجاح"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "logoutSuccess": "تم تسجيل الخروج بنجاح",
+    "logoutError": "خطأ أثناء تسجيل الخروج. يرجى المحاولة مرة أخرى."
+  }
+}

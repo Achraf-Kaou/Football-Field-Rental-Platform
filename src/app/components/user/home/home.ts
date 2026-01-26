@@ -1,10 +1,16 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../ui/button/button';
 import { CardComponent } from '../../ui/card/card';
 import { InputComponent } from '../../ui/input/input';
 import { NavbarMain } from '../../common/navbar-main/navbar-main';
 import { FooterMain } from '../../common/footer-main/footer-main';
+import { FieldService } from '../../../services/field.service';
+import { Router } from '@angular/router';
+import { ToastService } from '../../../services/toast.service';
+import { FieldModel } from '../../../models/field.model';
+import { ComplexService } from '../../../services/complex.service';
+import { Complex } from '../../../models/complex.model';
 
 @Component({
   selector: 'app-home',
@@ -28,34 +34,63 @@ import { FooterMain } from '../../common/footer-main/footer-main';
     }
   `]
 })
-export class Home {
-  searchLocation = signal('');
-  searchDate = signal('');
+export class Home implements OnInit {
+  private router = inject(Router);
+  private fieldService = inject(FieldService);
+  private complexService = inject(ComplexService);
 
-  featuredFields = signal([
-    {
-      id: 1,
-      name: 'Elite Sports Arena',
-      location: 'Downtown, City Center',
-      price: '$50',
-      rating: 4.8,
-      image: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80'
-    },
-    {
-      id: 2,
-      name: 'Green Valley Stadium',
-      location: 'North District',
-      price: '$45',
-      rating: 4.9,
-      image: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80'
-    },
-    {
-      id: 3,
-      name: 'Sunset Sports Complex',
-      location: 'West Side',
-      price: '$40',
-      rating: 4.7,
-      image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80'
-    }
-  ]);
+  searchLocation = signal('');
+  featuredFields = signal<FieldModel[]>([]);
+  featuredComplexes = signal<Complex[]>([]);
+
+  page = signal(1);
+  limit = signal(3);
+  sortedBy = signal<string>('')
+
+
+  ngOnInit(): void {
+    this.getAllFields();
+    this.getAllComplexes();
+  }
+
+  getAllFields() {
+    this.fieldService.getAllFields(
+      this.page(),
+      this.limit(),
+      this.searchLocation()).subscribe((data) => {
+        this.featuredFields.set(data);
+      });
+  }
+
+  getAllComplexes() {
+    this.complexService.getAllComplexes(
+      this.page(),
+      this.limit(),
+      this.searchLocation()).subscribe((data) => {
+        this.featuredComplexes.set(data);
+      });
+  }
+
+  search() {
+    this.page.set(1);
+    this.limit.set(3);
+    this.getAllFields();
+    this.getAllComplexes();
+  }
+
+  goToFields() {
+    this.router.navigate(['/user/fields']);
+  }
+
+  goToComplexes() {
+    this.router.navigate(['/user/complexes']);
+  }
+
+  goToBooking(idField: number) {
+    this.router.navigate(['/user/booking', idField]);
+  }
+
+  goToComplex(idComplex: number) {
+    this.router.navigate(['/user/complex', idComplex]);
+  }
 }

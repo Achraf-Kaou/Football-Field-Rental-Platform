@@ -12,4 +12,5 @@ export interface Complex {
     fields: FieldModel[];
     openAt: string;
     closeAt: string;
+    userId: number;
 }

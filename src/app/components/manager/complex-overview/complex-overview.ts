@@ -43,13 +43,13 @@ export class ComplexOverview implements OnInit, OnChanges{
   fieldIdToDelete = signal<number | null>(null);
 
   ngOnInit(): void {
-    const complexId = this.route.snapshot.paramMap.get('id');
-    if (complexId) {
+    this.route.paramMap.subscribe(params => {
+      const complexId = +params.get('id')!;
       this.complexId.set(+complexId);
       this.getComplexById(this.complexId());
       this.countComplexFields(this.complexId());
       this.getFieldsByComplexId(this.page(), this.itemsPerPage(), this.search(), this.sortedBy(), this.sortedDirection(), this.complexId(), this.status(), this.type());
-    }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

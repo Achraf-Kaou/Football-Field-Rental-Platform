@@ -17,7 +17,6 @@ export class AuthGuard {
             return true;
         }
 
-        // Redirect to login page
-        return this.router.createUrlTree(['/login']);
+        return this.router.createUrlTree(['']);
     }
 }

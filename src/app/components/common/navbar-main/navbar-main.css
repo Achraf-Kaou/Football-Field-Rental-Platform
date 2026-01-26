@@ -17,3 +17,58 @@
 .animate-slide-down {
     animation: slideDown 0.3s ease-out;
 }
+/* navbar-main.css */
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+/* RTL Support */
+[dir="rtl"] .flex {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .gap-1,
+[dir="rtl"] .gap-2,
+[dir="rtl"] .gap-3,
+[dir="rtl"] .gap-4 {
+  gap: inherit;
+}
+
+/* Smooth transitions for language switch */
+* {
+  transition: margin 0.3s ease, padding 0.3s ease;
+}
+
+/* Mobile menu improvements */
+@media (max-width: 768px) {
+  nav .w-full {
+    max-width: 100%;
+  }
+}

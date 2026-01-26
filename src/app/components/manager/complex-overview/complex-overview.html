@@ -133,10 +133,13 @@
                                     <tr class="hover:bg-[#f9fafb] dark:hover:bg-[#23351d] transition-colors group">
                                         <td class="px-6 py-4 font-medium text-[#111418] dark:text-white">
                                             <div class="flex items-center gap-3">
-                                                <div class="size-10 rounded bg-[#e5e7eb] dark:bg-[#2c4724] bg-center bg-cover"
+                                                <div
+                                                    class="size-10 rounded bg-[#e5e7eb] dark:bg-[#2c4724] bg-center bg-cover"
                                                     data-alt="Small synthetic football field"
-                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBI3n-YaKphHomZ0YI8S6IkS5rOZVz_VPsTGxq6awPE2knCQPn1DDd0V3ni5ETWO4igj0G51plWcNdMcfpUrCi204NS2Gn6rb9UZjdMqioi5CiqEvK2DHXOLjdZZzYAWbv6UvIIdu_uNrEETs9ONHnGQlfjVxV2hmyj6h-OpiLCTOQNCzldlmgWivKwB0ClYrVObBgk3vFeB-Afy8vn1O4OPLApflPHcwhHBNlPXj0Y0kS5kqLKpNTQrADS6w_YfD-mXgL7bivENx4");'>
+                                                    [style.background-image]="'url(' + field.images[0] + ')'"
+                                                >
                                                 </div>
+
                                                 <div>
                                                     <p class="font-bold">{{field.name}}</p>
                                                     <p class="text-xs text-[#637588] dark:text-[#88a07e]">{{field.description}}</p>

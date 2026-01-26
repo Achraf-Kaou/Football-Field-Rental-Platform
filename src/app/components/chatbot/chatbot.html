@@ -1,0 +1,182 @@
+<div class="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
+      <!-- Header -->
+      <div class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 p-4">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-xl font-bold text-gray-900 dark:text-white">AI Assistant</h1>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Powered by OpenRouter</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-3">
+            <select 
+              [(ngModel)]="selectedModel" 
+              (change)="onModelChange()"
+              class="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-600 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="google/gemini-2.0-flash-exp">Gemini 2.0 Flash</option>
+              <option value="meta-llama/llama-3.2-3b-instruct">Llama 3.2 3B</option>
+              <option value="mistralai/mistral-7b-instruct">Mistral 7B</option>
+              <option value="microsoft/phi-3-mini-128k-instruct">Phi-3 Mini</option>
+              <option value="qwen/qwen-2-7b-instruct">Qwen 2 7B</option>
+            </select>
+            
+            @if (rateLimitInfo()) {
+              <div class="text-xs text-gray-500 dark:text-gray-400">
+                Requests: {{ rateLimitInfo()!.count }}/{{ rateLimitInfo()!.limit }}
+              </div>
+            }
+            
+            <button 
+              (click)="clearChat()"
+              class="px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors text-sm font-medium">
+              Clear Chat
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages Container -->
+      <div #messagesContainer class="flex-1 overflow-y-auto p-4">
+        <div class="max-w-4xl mx-auto space-y-4">
+          @if (messages().length === 0) {
+            <div class="text-center py-20">
+              <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl mx-auto mb-6 flex items-center justify-center">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Start a Conversation</h2>
+              <p class="text-gray-600 dark:text-gray-400">Ask me anything! I'm here to help.</p>
+              
+              @if (!apiKeySet()) {
+                <div class="mt-6 p-4 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700 rounded-lg max-w-md mx-auto">
+                  <p class="text-yellow-800 dark:text-yellow-300 text-sm font-medium mb-2">⚠️ API Key Required</p>
+                  <p class="text-yellow-700 dark:text-yellow-400 text-xs">Please set your OpenRouter API key in the component code.</p>
+                </div>
+              }
+            </div>
+          }
+
+          @for (message of messages(); track message.timestamp) {
+            <div class="flex gap-3" [class.flex-row-reverse]="message.role === 'user'">
+              <!-- Avatar -->
+              <div class="flex-shrink-0">
+                @if (message.role === 'user') {
+                  <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                  </div>
+                } @else {
+                  <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                  </div>
+                }
+              </div>
+
+              <!-- Message Content -->
+              <div class="flex-1 max-w-2xl">
+                <div 
+                  class="px-4 py-3 rounded-2xl shadow-sm"
+                  [class]="message.role === 'user' 
+                    ? 'bg-blue-500 text-white' 
+                    : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700'">
+                  <p class="whitespace-pre-wrap break-words">{{ message.content }}</p>
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 px-1">
+                  {{ message.timestamp | date:'short' }}
+                </p>
+              </div>
+            </div>
+          }
+
+          @if (isLoading()) {
+            <div class="flex gap-3">
+              <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+              </div>
+              <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl px-4 py-3 shadow-sm">
+                <div class="flex gap-1">
+                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0ms"></div>
+                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 150ms"></div>
+                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 300ms"></div>
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (retryCountdown() > 0) {
+            <div class="text-center">
+              <div class="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-lg">
+                <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span class="text-sm">Retrying in {{ retryCountdown() }}s...</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
+        <div class="max-w-4xl mx-auto">
+          @if (error()) {
+            <div class="mb-3 p-3 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-lg flex items-start gap-2">
+              <svg class="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div class="flex-1">
+                <p class="text-red-700 dark:text-red-400 text-sm font-medium">{{ error() }}</p>
+                @if (error().includes('rate limit')) {
+                  <p class="text-red-600 dark:text-red-500 text-xs mt-1">Try switching to a different model or wait a moment before trying again.</p>
+                }
+              </div>
+              <button (click)="error.set('')" class="text-red-500 hover:text-red-700">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+          }
+          
+          <form (submit)="sendMessage($event)" class="flex gap-3">
+            <input
+              type="text"
+              [(ngModel)]="userInput"
+              name="message"
+              placeholder="Type your message..."
+              [disabled]="isLoading() || retryCountdown() > 0"
+              class="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            />
+            <button
+              type="submit"
+              [disabled]="isLoading() || !userInput.trim() || retryCountdown() > 0"
+              class="px-6 py-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors disabled:cursor-not-allowed flex items-center gap-2">
+              @if (isLoading()) {
+                <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              } @else {
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                </svg>
+              }
+              Send
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>

@@ -3,18 +3,6 @@
   <div
     class="max-w-md w-full bg-surface p-8 rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 transition-all">
 
-    <!-- Logo -->
-    <!-- <div class="flex flex-col items-center mb-6">
-      <div
-        class="flex items-center justify-center h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-green-400 mb-4 shadow-lg shadow-primary/30 transition-transform hover:scale-110 hover:rotate-6">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none" />
-          <path d="M12 2v20M2 12h20" stroke="white" stroke-width="1" />
-        </svg>
-      </div>
-      <div class="text-center text-2xl font-bold text-gray-900 dark:text-white">Takwirti</div>
-    </div> -->
-
     <!-- Tabs -->
     <div
       class="grid grid-cols-2 gap-2 mb-6 bg-gray-100 dark:bg-surface-card p-1 rounded-xl border border-gray-200 dark:border-white/5">
@@ -123,6 +111,23 @@
       </div>
 
       <div class="space-y-4">
+        <!-- Role Selection -->
+        <div>
+          <label class="block font-medium mb-3 text-gray-900 dark:text-white">Register as</label>
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" (click)="setRole('USER')"
+              [class]="registerModel().role === 'USER' ? 'bg-primary text-white border-primary' : 'bg-gray-50 dark:bg-surface-card text-gray-900 dark:text-white border-gray-200 dark:border-white/10'"
+              class="px-4 py-3 rounded-xl border-2 font-semibold transition-all hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary">
+              User
+            </button>
+            <button type="button" (click)="setRole('MANAGER')"
+              [class]="registerModel().role === 'MANAGER' ? 'bg-primary text-white border-primary' : 'bg-gray-50 dark:bg-surface-card text-gray-900 dark:text-white border-gray-200 dark:border-white/10'"
+              class="px-4 py-3 rounded-xl border-2 font-semibold transition-all hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary">
+              Manager
+            </button>
+          </div>
+        </div>
+
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block font-medium mb-2 text-gray-900 dark:text-white">First name</label>

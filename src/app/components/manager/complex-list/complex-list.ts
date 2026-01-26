@@ -1,10 +1,12 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ManagerLayout } from '../../layouts/manager-layout/manager-layout';
-import { Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Complex } from '../../../models/complex.model';
 import { ComplexService } from '../../../services/complex.service';
 import { DeleteModal } from '../../ui/delete-modal/delete-modal';
 import { ToastService } from '../../../services/toast.service';
+import { filter } from 'rxjs';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-complex-list',
@@ -17,7 +19,8 @@ export class ComplexList implements OnInit {
   private complexService = inject(ComplexService);
   private router = inject(Router);
   private toastService = inject(ToastService);
-  
+  private authService = inject(AuthService);
+
 
   complexes = signal<Complex[]>([]);
   page = signal<number>(1);
@@ -26,30 +29,38 @@ export class ComplexList implements OnInit {
   totalPages = signal<number>(0);
   startIndex = computed(() => (this.page() * this.itemsPerPage() - 9));
   endIndex = computed(() => { if (this.page() === this.totalPages()) return this.totalItems(); else return (this.page() * this.itemsPerPage()) });
-
+  user=this.authService.currentUser;
   search = signal<string>('');
   status = signal<'all' | 'true' | 'false'>('all');
-  sortBy = signal<string>('newest');
+  sortBy = signal<string | undefined>('newest');
 
   showDeleteModal = signal<boolean>(false);
   complexIdToDelete = signal<number | null>(null);
 
 
   ngOnInit(): void {
-    this.getComplexCount();
-    this.getAllComplexes(this.page(), this.itemsPerPage());
-    console.log(this.complexes());
+    this.refetch();
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.refetch();
+      });
   }
 
-  getComplexCount() {
-    this.complexService.getComplexCount().subscribe((data) => {
+private refetch() {
+  this.getComplexCount(this.user()?.id);
+  this.getAllComplexes(this.page(), this.itemsPerPage(), this.search(), this.status(), this.user()?.id);
+}
+
+  getComplexCount(userId?:number) {
+    this.complexService.getComplexCount(userId).subscribe((data) => {
       this.totalItems.set(data);
       this.totalPages.set(Math.ceil(data / this.itemsPerPage()));
     });
   }
 
-  getAllComplexes(page?: number, itemsPerPage?: number, search?: string, status?: string, sortBy?: string) {
-    this.complexService.getAllComplexes(page, itemsPerPage, search, status, sortBy).subscribe((data) => {
+  getAllComplexes(page?: number, itemsPerPage?: number, search?: string, status?: string, userId?: number, sortBy?: string) {
+    this.complexService.getAllComplexes(page, itemsPerPage, search, status, userId, sortBy).subscribe((data) => {
       this.complexes.set(data);
     });
     console.log(this.complexes());
@@ -69,7 +80,7 @@ export class ComplexList implements OnInit {
     if (id != null) {
       this.router.navigate(['/manager/field-availability', id]);
     }
-}
+  }
 
   overwiewComplex(id: number) {
     this.router.navigate(['/manager/complex', id]);
@@ -77,20 +88,20 @@ export class ComplexList implements OnInit {
 
   handlePageChange(page: number) {
     this.page.set(page);
-    this.getAllComplexes(this.page(), this.itemsPerPage());
+    this.getAllComplexes(this.page(), this.itemsPerPage(), this.search(), this.status(), this.user()?.id);
   }
 
   prevPage() {
     if (this.page() > 1) {
       this.page.set(this.page() - 1);
-      this.getAllComplexes(this.page(), this.itemsPerPage());
+      this.getAllComplexes(this.page(), this.itemsPerPage(), this.search(), this.status(), this.user()?.id);
     }
   }
 
   nextPage() {
     if (this.page() < this.totalPages()) {
       this.page.set(this.page() + 1);
-      this.getAllComplexes(this.page(), this.itemsPerPage())
+      this.getAllComplexes(this.page(), this.itemsPerPage(), this.search(), this.status(), this.user()?.id);
     }
   }
 
@@ -105,7 +116,7 @@ export class ComplexList implements OnInit {
   updateSearch(value: string) {
     this.search.set(value);
     this.page.set(1);
-    this.getAllComplexes(this.page(), this.itemsPerPage(), this.search(), this.status());
+    this.getAllComplexes(this.page(), this.itemsPerPage(), this.search(), this.status(), this.user()?.id);
   }
 
   updateStatus(event: Event) {
@@ -115,7 +126,7 @@ export class ComplexList implements OnInit {
 
     this.page.set(1);
 
-    this.getAllComplexes(this.page(), this.itemsPerPage(), '', this.status());
+    this.getAllComplexes(this.page(), this.itemsPerPage(), '', this.status(), this.user()?.id);
   }
 
   updateSortBy(event: Event) {
@@ -125,11 +136,25 @@ export class ComplexList implements OnInit {
 
     this.page.set(1);
 
-    this.getAllComplexes(this.page(), this.itemsPerPage(), '', this.status(), this.sortBy());
+    this.getAllComplexes(this.page(), this.itemsPerPage(), '', this.status(), this.user()?.id);
   }
 
   handleStatus(complex: Complex): string {
-    if (complex.openAt <= new Date().getTime().toString() && complex.closeAt >= new Date().getTime().toString()) {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const currentTimeInMinutes = currentHour * 60 + currentMinute;
+
+    // Parse opening time (format: "HH:MM")
+    const [openHour, openMin] = complex.openAt.split(':').map(Number);
+    const openTimeInMinutes = openHour * 60 + openMin;
+
+    // Parse closing time (format: "HH:MM")
+    const [closeHour, closeMin] = complex.closeAt.split(':').map(Number);
+    const closeTimeInMinutes = closeHour * 60 + closeMin;
+
+    // Check if current time is within operating hours
+    if (currentTimeInMinutes >= openTimeInMinutes && currentTimeInMinutes < closeTimeInMinutes) {
       return 'Open';
     } else {
       return 'Closed';
@@ -168,5 +193,6 @@ export class ComplexList implements OnInit {
   };
 
   goToBookings(id: number) {
-this.router.navigate(['/manager/manager-booking', id]);}
+    this.router.navigate(['/manager/manager-booking', id]);
+  }
 }

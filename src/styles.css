@@ -36,3 +36,211 @@
         --input-border: #3f6534;
     }
 }
+
+/* RTL (Right-to-Left) Support for Arabic */
+
+/* Base RTL Styles */
+html[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Sidebar RTL Positioning */
+html[dir="rtl"] .sidebar {
+  left: auto;
+  right: 24px;
+  border-radius: 16px 0 0 16px;
+}
+
+html[dir="rtl"] .sidebar header {
+  flex-direction: row-reverse;
+}
+
+/* Active Indicator RTL */
+html[dir="rtl"] .sidebar .menu::after {
+  left: auto;
+  right: 0;
+  border-radius: 4px 0 0 4px;
+}
+
+/* Menu Buttons RTL */
+html[dir="rtl"] .sidebar .menu button {
+  text-align: right;
+  flex-direction: row-reverse;
+}
+
+/* Tooltip RTL */
+html[dir="rtl"] .sidebar.collapsed .menu button::before {
+  left: auto;
+  right: calc(100% + 12px);
+}
+
+html[dir="rtl"] .sidebar.collapsed .menu button::after {
+  left: auto;
+  right: calc(100% + 6px);
+  border-right-color: transparent;
+  border-left-color: var(--color-surface-card);
+}
+
+/* Footer RTL */
+html[dir="rtl"] .sidebar-footer .user-section {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .sidebar-footer .action-buttons {
+  flex-direction: row-reverse;
+}
+
+/* Dropdown Menu RTL */
+html[dir="rtl"] .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+html[dir="rtl"] .dropdown-item {
+  text-align: right;
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .language-item {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .check-icon {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Material Icons RTL Fix */
+html[dir="rtl"] .material-icons {
+  transform: scaleX(-1);
+}
+
+/* Don't flip these specific icons */
+html[dir="rtl"] .material-icons.no-flip,
+html[dir="rtl"] .expand-icon,
+html[dir="rtl"] .language-flag {
+  transform: none;
+}
+
+/* Collapsed State RTL */
+html[dir="rtl"] .sidebar.collapsed .dropdown-menu {
+  right: calc(100% + 12px);
+  left: auto;
+}
+
+/* Mobile RTL */
+@media (max-width: 768px) {
+  html[dir="rtl"] .sidebar {
+    right: 0;
+    left: auto;
+    border-radius: 16px 0 0 16px;
+    transform: translateX(100%);
+  }
+
+  html[dir="rtl"] .sidebar:not(.collapsed) {
+    transform: translateX(0);
+  }
+
+  html[dir="rtl"] .sidebar-overlay {
+    right: 260px;
+    left: 0;
+  }
+}
+
+/* Layout RTL Adjustments */
+html[dir="rtl"] .flex-1.flex.flex-col {
+  margin-left: 0;
+  margin-right: 284px;
+}
+
+html[dir="rtl"] .flex-1.flex.flex-col.ml-24 {
+  margin-left: 0;
+  margin-right: 96px;
+}
+
+@media (max-width: 768px) {
+  html[dir="rtl"] .flex-1.flex.flex-col {
+    margin-right: 0 !important;
+  }
+}
+
+/* Typography RTL */
+html[dir="rtl"] {
+  font-family: 'Tajawal', 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Animations RTL */
+@keyframes slideUpRTL {
+  from {
+    opacity: 0;
+    transform: translateY(10px) translateX(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+}
+
+html[dir="rtl"] .dropdown-menu {
+  animation: slideUpRTL 0.2s ease-out;
+}
+
+/* Text Alignment RTL */
+html[dir="rtl"] p,
+html[dir="rtl"] span,
+html[dir="rtl"] div,
+html[dir="rtl"] button {
+  text-align: right;
+}
+
+/* Specific RTL Fixes for User Info */
+html[dir="rtl"] .user-name,
+html[dir="rtl"] .dropdown-user-name,
+html[dir="rtl"] .dropdown-user-email {
+  text-align: right;
+}
+
+/* Border Radius RTL Adjustments */
+html[dir="rtl"] .sidebar {
+  border-radius: 16px 0 0 16px;
+}
+
+html[dir="rtl"] .sidebar header {
+  border-radius: 16px 0 0 0;
+}
+
+/* Scrollbar RTL */
+html[dir="rtl"] .sidebar .menu::-webkit-scrollbar {
+  left: 0;
+  right: auto;
+}
+
+/* Gap and Spacing RTL */
+html[dir="rtl"] .sidebar header {
+  gap: 0.75rem;
+  padding: 0 1rem 0 1rem;
+}
+
+html[dir="rtl"] .sidebar .menu button {
+  padding: 0 1.25rem 0 1.25rem;
+}
+
+/* Ensure proper text rendering for Arabic */
+html[lang="ar"] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fix for mixed LTR/RTL content */
+html[dir="rtl"] [dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Numbers stay LTR even in RTL */
+html[dir="rtl"] .number,
+html[dir="rtl"] .email {
+  direction: ltr;
+  unicode-bidi: embed;
+}

@@ -7,6 +7,7 @@ import { ToastService } from '../../../services/toast.service';
 import { Complex } from '../../../models/complex.model';
 import { ManagerLayout } from '../../layouts/manager-layout/manager-layout';
 import { ImageItem } from '../../../interfaces/image-item';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-complex-form',
@@ -15,16 +16,18 @@ import { ImageItem } from '../../../interfaces/image-item';
   styleUrl: './complex-form.css',
 })
 
-export class ComplexForm implements OnInit{
+export class ComplexForm implements OnInit {
   private complexService = inject(ComplexService);
   private toastService = inject(ToastService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   // Images management
   images = signal<ImageItem[]>([]);
   nextImageId = signal(0);
   isSubmitting = signal(false);
+  user=this.authService.currentUser();
 
   // Form model
   complexModel = signal<ComplexDTO>({
@@ -37,6 +40,7 @@ export class ComplexForm implements OnInit{
     tags: [],
     openAt: '08:00',
     closeAt: '22:00',
+    userId: this.user?.id || 0
   });
 
   complexForm = form(this.complexModel);
@@ -47,7 +51,7 @@ export class ComplexForm implements OnInit{
 
   headerTitle = computed(() => this.isEditMode() ? 'Edit Complex' : 'Add New Complex');
   buttonText = computed(() => this.isEditMode() ? 'Update Complex' : 'Create Complex');
-  buttonSubmittingText = computed(() => this.isEditMode() ? 'Updating...' : 'Creating...'); 
+  buttonSubmittingText = computed(() => this.isEditMode() ? 'Updating...' : 'Creating...');
   ngOnInit(): void {
     const complexId = this.activatedRoute.snapshot.paramMap.get('id');
     if (complexId) {
@@ -59,7 +63,7 @@ export class ComplexForm implements OnInit{
 
   loadComplex(id: number): void {
     this.complexService.getComplexById(id).subscribe({
-      next : (data) => {
+      next: (data) => {
         this.complex.set(data);
         this.complexModel.set({
           name: data.name,
@@ -71,6 +75,7 @@ export class ComplexForm implements OnInit{
           tags: data.tags,
           openAt: data.openAt,
           closeAt: data.closeAt,
+          userId: data.userId
         });
         // Load images
         const imageItems: ImageItem[] = data.images.map((url, index) => ({
@@ -80,9 +85,9 @@ export class ComplexForm implements OnInit{
         this.images.set(imageItems);
         this.nextImageId.set(imageItems.length);
       },
-      error : (error) => {
+      error: (error) => {
         console.error('Error loading complex:', error);
-        this.toastService.error('Failed to load complex data. Please try again.',5000);
+        this.toastService.error('Failed to load complex data. Please try again.', 5000);
       }
     });
 
@@ -108,13 +113,13 @@ export class ComplexForm implements OnInit{
 
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        alert('Please select a valid image file');
+        this.toastService.warning('Please select a valid image file', 3000);
         return;
       }
 
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert('Image size must be less than 5MB');
+        this.toastService.warning('Image size must be less than 5MB', 3000);
         return;
       }
 
@@ -155,15 +160,15 @@ export class ComplexForm implements OnInit{
       navigator.geolocation.getCurrentPosition(
         (position) => {
           console.log('Location:', position.coords.latitude, position.coords.longitude);
-          alert(`Location pinned: ${position.coords.latitude}, ${position.coords.longitude}`);
+          this.toastService.success(`Location pinned: ${position.coords.latitude}, ${position.coords.longitude}`, 3000);
         },
         (error) => {
           console.error('Error getting location:', error);
-          alert('Unable to get your location');
+          this.toastService.error('Unable to get your location', 3000);
         }
       );
     } else {
-      alert('Geolocation is not supported by your browser');
+      this.toastService.error('Geolocation is not supported by your browser', 3000);
     }
   }
 
@@ -199,33 +204,33 @@ export class ComplexForm implements OnInit{
     const model = this.complexModel();
 
     if (!model.name.trim()) {
-      alert('Complex name is required');
+      this.toastService.warning('Complex name is required', 3000);
       return false;
     }
 
     if (!model.address.trim()) {
-      alert('Address is required');
+      this.toastService.warning('Address is required', 3000);
       return false;
     }
 
     if (!model.phone.trim()) {
-      alert('Contact phone is required');
+      this.toastService.warning('Contact phone is required', 3000);
       return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!model.email.trim() || !emailRegex.test(model.email)) {
-      alert('Valid business email is required');
+      this.toastService.warning('Valid business email is required', 3000);
       return false;
     }
 
     if (!model.openAt) {
-      alert('Opening time is required');
+      this.toastService.warning('Opening time is required', 3000);
       return false;
     }
 
     if (!model.closeAt) {
-      alert('Closing time is required');
+      this.toastService.warning('Closing time is required', 3000);
       return false;
     }
 
@@ -249,45 +254,45 @@ export class ComplexForm implements OnInit{
       // Update model with images
       const formData: ComplexDTO = {
         ...this.complexModel(),
-        images: imageUrls 
+        images: imageUrls
       };
 
       console.log(formData);
 
       // Submit to service
-      if(!this.isEditMode()){
-        await this.complexService.createComplex(formData).subscribe({
+      if (!this.isEditMode()) {
+        this.complexService.createComplex(formData).subscribe({
           next: () => {
             this.isSubmitting.set(false);
-            this.toastService.success('Complex created successfully.',3000);
+            this.toastService.success('Complex created successfully.', 3000);
             this.router.navigate(['/manager/complex-list']);
           },
           error: (error) => {
             console.error('Error creating complex:', error);
-            this.toastService.error('Failed to create complex. Please try again.',5000);
+            this.toastService.error('Failed to create complex. Please try again.', 5000);
             this.isSubmitting.set(false);
           }
         });
       }
       else {
-        await this.complexService.updateComplex(this.complexId() ,formData).subscribe({
+        this.complexService.updateComplex(this.complexId(), formData).subscribe({
           next: () => {
             this.isSubmitting.set(false);
-            this.toastService.success('Complex updated successfully.',3000);
+            this.toastService.success('Complex updated successfully.', 3000);
             this.router.navigate(['/manager/complex-list']);
           },
           error: (error) => {
-            console.error('Error updateing complex:', error);
-            this.toastService.error('Failed to update complex. Please try again.',5000);
+            console.error('Error updating complex:', error);
+            this.toastService.error('Failed to update complex. Please try again.', 5000);
             this.isSubmitting.set(false);
           }
         });
       }
-      
+
 
     } catch (error) {
       console.error('Error creating complex:', error);
-      this.toastService.error('An unexpected error occurred. Please try again.',5000);
+      this.toastService.error('An unexpected error occurred. Please try again.', 5000);
     } finally {
       this.isSubmitting.set(false);
     }

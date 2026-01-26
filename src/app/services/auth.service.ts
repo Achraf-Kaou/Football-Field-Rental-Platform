@@ -5,6 +5,7 @@ import { firstValueFrom, Observable, throwError } from 'rxjs';
 import { tap, catchError, take, timeout } from 'rxjs/operators';
 import { environment } from '../../environments/environment.development';
 import { BroadcastService } from './broadcast-message.service';
+import { UserRole } from '../guards/role.guard';
 
 export interface RegisterDto {
   email: string;
@@ -60,10 +61,7 @@ export class AuthService {
     private router: Router,
     private broadcastService: BroadcastService
   ) {
-    // Verify token on service initialization
-    if (this.getToken()) {
-      this.verifyToken();
-    }
+    
   }
 
   /**
@@ -352,6 +350,11 @@ export class AuthService {
     localStorage.setItem(this.REFRESH_TOKEN_KEY, token);
   }
 
+  getUserRole(): UserRole {
+    // Get role from localStorage, JWT token, or your auth state
+    const role = this.currentUserSignal()?.role as UserRole;
+    return role as UserRole;
+  }
   /**
    * Handle HTTP errors
    */

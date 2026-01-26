@@ -1,0 +1,143 @@
+{
+  "navbar": {
+    "home": "Home",
+    "fields": "Fields",
+    "bookings": "My Bookings",
+    "chat": "Chat",
+    "signup": "Sign Up",
+    "signin": "Sign In",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "title": "Overview",
+    "liveUpdates": "Live Updates",
+    "today": "Today",
+    "week": "Week",
+    "month": "Month",
+    "searchPlaceholder": "Search bookings, customers, or fields...",
+    "refresh": "Refresh",
+    "newComplex": "New Complex",
+    
+    "totalRevenue": "Total Revenue",
+    "occupancyRate": "Occupancy Rate",
+    "todayBookings": "Today's Bookings",
+    "newCustomers": "New Customers",
+    
+    "vsLastWeek": "vs last week",
+    "peakHours": "Peak hours",
+    "slotsLeft": "slots left",
+    "highRetention": "High retention",
+    
+    "revenueOccupancy": "Revenue & Occupancy",
+    "weeklyTrend": "Weekly trend analysis",
+    "revenue": "Revenue",
+    "occupancy": "Occupancy",
+    
+    "liveFieldStatus": "Live Field Status",
+    "viewAllFields": "View All Fields",
+    "bookNow": "Book Now",
+    "left": "left",
+    "noFieldsAvailable": "No fields available",
+    
+    "upcomingMatches": "Upcoming Matches",
+    "paymentPending": "Payment Pending",
+    "noUpcomingBookings": "No upcoming bookings",
+    "viewFullSchedule": "View Full Schedule",
+    
+    "status": {
+      "LIVE": "Live",
+      "VACANT": "Vacant",
+      "MAINTENANCE": "Maint."
+    }
+  }, 
+  "chat": {
+    "messages": "Messages",
+    "newMessage": "New Message",
+    "searchConversations": "Search conversations...",
+    "loadingConversations": "Loading conversations...",
+    "noConversationsFound": "No conversations found",
+    "noMessagesYet": "No messages yet",
+    "selectConversation": "Select a conversation",
+    "selectConversationDesc": "Choose a conversation from the list to start chatting",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "justNow": "Just now",
+    "yesterday": "Yesterday",
+    "online": "Online",
+    "offline": "Offline",
+    "noMessages": "No messages yet. Start the conversation!",
+    "startConversation": "Start a conversation",
+    "searchUsers": "Search users by name or email...",
+    "to": "To:",
+    "messageOptional": "Message (optional):",
+    "typeYourMessage": "Type your message...",
+    "cancel": "Cancel",
+    "startChat": "Start Chat",
+    "noUsersFound": "No users found",
+    "searchingUsers": "Searching users...",
+    "you": "You",
+    "sent": "Sent",
+    "delivered": "Delivered",
+    "read": "Read"
+  },
+  "CHATBOT": {
+    "TITLE": "AI Chatbot Assistant",
+    "WELCOME": "Hello! 👋 I'm your AI assistant. How can I help you today?",
+    "PLACEHOLDER": "Type your message here...",
+    "SEND": "Send",
+    "CLEAR": "Clear Chat",
+    "CONFIRM_CLEAR": "Are you sure you want to clear the chat history?",
+    "ERROR": "Sorry, an error occurred",
+    "TYPING": "Bot is typing...",
+    "CONNECTED": "Connected",
+    "DISCONNECTED": "Disconnected"
+  },
+  "sidebar": {
+    "mainNavigation": "Main Navigation",
+    "primaryNavigation": "Primary Navigation",
+    "expandSidebar": "Expand Sidebar",
+    "collapseSidebar": "Collapse Sidebar",
+    "closeSidebar": "Close Sidebar",
+    "dashboard": "Dashboard",
+    "complexes": "Complexes",
+    "bookings": "Bookings",
+    "availability": "Availability",
+    "settings": "Settings",
+    "logout": "Logout",
+    "switchToLightMode": "Switch to Light Mode",
+    "switchToDarkMode": "Switch to Dark Mode",
+    "changeLanguage": "Change Language",
+    "loading": "Loading...",
+    "noComplexes": "No complexes found"
+  },
+  "user": {
+    "profile": "Profile",
+    "account": "Account",
+    "preferences": "Preferences"
+  },
+  "languages": {
+    "english": "English",
+    "french": "French",
+    "arabic": "Arabic"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "confirm": "Confirm",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "noResults": "No results found",
+    "error": "An error occurred",
+    "success": "Operation successful"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "logoutSuccess": "Successfully logged out",
+    "logoutError": "Error during logout. Please try again."
+  }
+}

@@ -6,6 +6,7 @@ export interface ComplexDTO {
     phone: string;
     email: string;
     images: string[];
+    userId: number;
     tags?: string[];
     openAt: string;
     closeAt: string;

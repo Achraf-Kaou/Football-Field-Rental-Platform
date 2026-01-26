@@ -1,22 +1,13 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../ui/button/button';
 import { CardComponent } from '../../ui/card/card';
 import { FooterMain } from '../../common/footer-main/footer-main';
 import { NavbarMain } from '../../common/navbar-main/navbar-main';
-
-interface Field {
-  id: string;
-  name: string;
-  location: string;
-  type: 'indoor' | 'outdoor';
-  size: '5v5' | '7v7' | '11v11';
-  surface: 'grass' | 'artificial';
-  price: number;
-  rating: number;
-  image: string;
-  amenities: string[];
-}
+import { FieldService } from '../../../services/field.service';
+import { FieldModel } from '../../../models/field.model';
+import { Router } from '@angular/router';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-fields',
@@ -46,6 +37,13 @@ interface Field {
       -webkit-box-orient: vertical;
     }
 
+    .line-clamp-2 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
     select {
       appearance: none;
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
@@ -60,122 +58,193 @@ interface Field {
     }
   `]
 })
-export class Fields {
+export class Fields implements OnInit {
+  private fieldService = inject(FieldService);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
+
   // Filter signals
   searchQuery = signal('');
-  typeFilter = signal<string>('all');
-  sizeFilter = signal<string>('all');
-  surfaceFilter = signal<string>('all');
+  typeFilter = signal<string>('');
+  
+  // Pagination signals
+  page = signal<number>(1);
+  itemsPerPage = signal<number>(9);
+  totalItems = signal<number>(0);
+  
+  // UI state
   showMobileFilters = signal(false);
+  isLoading = signal(false);
+  
+  // Data
+  fields = signal<FieldModel[]>([]);
+  complexId = signal<number | null>(null);
 
-  // Mock data
-  fields = signal<Field[]>([
-    {
-      id: '1',
-      name: 'Elite Sports Arena',
-      location: 'Downtown, City Center',
-      type: 'indoor',
-      size: '5v5',
-      surface: 'artificial',
-      price: 50,
-      rating: 4.8,
-      image: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80',
-      amenities: ['Parking', 'Showers', 'Lockers']
-    },
-    {
-      id: '2',
-      name: 'Green Valley Stadium',
-      location: 'North District',
-      type: 'outdoor',
-      size: '7v7',
-      surface: 'grass',
-      price: 45,
-      rating: 4.9,
-      image: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80',
-      amenities: ['Parking', 'Cafe', 'WiFi']
-    },
-    {
-      id: '3',
-      name: 'Sunset Sports Complex',
-      location: 'West Side',
-      type: 'outdoor',
-      size: '11v11',
-      surface: 'artificial',
-      price: 40,
-      rating: 4.7,
-      image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
-      amenities: ['Parking', 'Lights', 'Seating']
-    },
-    {
-      id: '4',
-      name: 'Urban Football Hub',
-      location: 'East Quarter',
-      type: 'indoor',
-      size: '5v5',
-      surface: 'artificial',
-      price: 55,
-      rating: 4.6,
-      image: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80',
-      amenities: ['AC', 'Showers', 'Cafe']
-    },
-    {
-      id: '5',
-      name: 'Champions League Field',
-      location: 'South Park',
-      type: 'outdoor',
-      size: '11v11',
-      surface: 'grass',
-      price: 60,
-      rating: 5.0,
-      image: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80',
-      amenities: ['Parking', 'Lights', 'Professional']
-    },
-    {
-      id: '6',
-      name: 'Quick Match Arena',
-      location: 'Central Plaza',
-      type: 'indoor',
-      size: '7v7',
-      surface: 'artificial',
-      price: 48,
-      rating: 4.5,
-      image: 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80',
-      amenities: ['WiFi', 'Showers', 'Parking']
-    }
-  ]);
-
-  // Computed filtered fields
-  filteredFields = computed(() => {
-    return this.fields().filter(field => {
-      const matchesSearch =
-        field.name.toLowerCase().includes(this.searchQuery().toLowerCase()) ||
-        field.location.toLowerCase().includes(this.searchQuery().toLowerCase());
-
-      const matchesType = this.typeFilter() === 'all' || field.type === this.typeFilter();
-      const matchesSize = this.sizeFilter() === 'all' || field.size === this.sizeFilter();
-      const matchesSurface = this.surfaceFilter() === 'all' || field.surface === this.surfaceFilter();
-
-      return matchesSearch && matchesType && matchesSize && matchesSurface;
-    });
+  // Computed values
+  totalPages = computed(() => Math.ceil(this.totalItems() / this.itemsPerPage()));
+  startIndex = computed(() => (this.page() - 1) * this.itemsPerPage() + 1);
+  endIndex = computed(() => {
+    const end = this.page() * this.itemsPerPage();
+    return end > this.totalItems() ? this.totalItems() : end;
   });
 
   // Check if any filters are active
   hasActiveFilters = computed(() => {
-    return this.typeFilter() !== 'all' ||
-      this.sizeFilter() !== 'all' ||
-      this.surfaceFilter() !== 'all' ||
-      this.searchQuery() !== '';
+    return this.typeFilter() !== '' || this.searchQuery() !== '';
   });
 
-  toggleMobileFilters() {
+  // Get visible page numbers for pagination
+  visiblePages = computed(() => {
+    const current = this.page();
+    const total = this.totalPages();
+    const delta = 2; // Number of pages to show on each side
+    
+    let pages: number[] = [];
+    
+    // Always show first page
+    pages.push(1);
+    
+    // Calculate range around current page
+    for (let i = Math.max(2, current - delta); i <= Math.min(total - 1, current + delta); i++) {
+      pages.push(i);
+    }
+    
+    // Always show last page if there is more than one page
+    if (total > 1) {
+      pages.push(total);
+    }
+    
+    // Remove duplicates and sort
+    return [...new Set(pages)].sort((a, b) => a - b);
+  });
+
+  ngOnInit(): void {
+    this.loadFields();
+  }
+
+  /**
+   * Load fields with current filters and pagination
+   */
+  loadFields(): void {
+    this.isLoading.set(true);
+    
+    const searchValue = this.searchQuery() || undefined;
+    const typeValue = this.typeFilter() && this.typeFilter() !== 'all' ? this.typeFilter() : undefined;
+    this.fieldService.countAll(this.complexId() || undefined).subscribe((count) => {
+      this.totalItems.set(count);
+    });
+    
+    this.fieldService.getAllFields(
+      this.page(),
+      this.itemsPerPage(),
+      searchValue,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      typeValue
+    ).subscribe({
+      next: (response: any) => {
+        // Check if response has pagination data
+        if (response.data) {
+          this.fields.set(response.data);
+        } else {
+          // If response is just an array
+          this.fields.set(response);
+        }
+        this.isLoading.set(false);
+      },
+      error: (error) => {
+        console.error('Error loading fields:', error);
+        this.toastService.error('Failed to load fields', 3000);
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  /**
+   * Apply filters
+   */
+  filter(): void {
+    this.page.set(1); // Reset to first page when filtering
+    this.loadFields();
+    this.totalItems.set(this.fields().length);
+  }
+
+  /**
+   * Clear all filters
+   */
+  clearFilters(): void {
+    this.searchQuery.set('');
+    this.typeFilter.set('');
+    this.showMobileFilters.set(false);
+    this.page.set(1);
+    this.loadFields();
+  }
+
+  /**
+   * Toggle mobile filters
+   */
+  toggleMobileFilters(): void {
     this.showMobileFilters.update(v => !v);
   }
 
-  clearFilters() {
-    this.searchQuery.set('');
-    this.typeFilter.set('all');
-    this.sizeFilter.set('all');
-    this.surfaceFilter.set('all');
-    this.showMobileFilters.set(false);
+  /**
+   * Navigate to booking page
+   */
+  goToBooking(id: number): void {
+    this.router.navigate(['/user/booking', id]);
+  }
+
+  /**
+   * Go to previous page
+   */
+  prevPage(): void {
+    if (this.page() > 1) {
+      this.page.update(p => p - 1);
+      this.loadFields();
+      this.scrollToTop();
+    }
+  }
+
+  /**
+   * Go to next page
+   */
+  nextPage(): void {
+    if (this.page() < this.totalPages()) {
+      this.page.update(p => p + 1);
+      this.loadFields();
+      this.scrollToTop();
+    }
+  }
+
+  /**
+   * Go to specific page
+   */
+  goToPage(pageNum: number): void {
+    if (pageNum >= 1 && pageNum <= this.totalPages() && pageNum !== this.page()) {
+      this.page.set(pageNum);
+      this.loadFields();
+      this.scrollToTop();
+    }
+  }
+
+  /**
+   * Scroll to top of page
+   */
+  private scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /**
+   * Check if there should be ellipsis before a page number
+   */
+  shouldShowEllipsisBefore(pageNum: number): boolean {
+    const pages = this.visiblePages();
+    const index = pages.indexOf(pageNum);
+    if (index > 0) {
+      return pages[index] - pages[index - 1] > 1;
+    }
+    return false;
   }
 }

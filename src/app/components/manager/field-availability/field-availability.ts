@@ -4,7 +4,6 @@ import { ComplexService } from '../../../services/complex.service';
 import { FieldService } from '../../../services/field.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Complex } from '../../../models/complex.model';
-import { Field } from '@angular/forms/signals';
 import { FieldModel } from '../../../models/field.model';
 import { FormsModule } from '@angular/forms';
 
@@ -30,7 +29,7 @@ interface SlotForm {
 
 @Component({
   selector: 'app-field-availability',
-  imports: [ManagerLayout, Field, FormsModule],
+  imports: [ManagerLayout, FormsModule],
   templateUrl: './field-availability.html',
   styleUrl: './field-availability.css',
 })
@@ -51,7 +50,7 @@ export class FieldAvailability implements OnInit {
   slots = signal<TimeSlot[]>([]);
   showSlotModal = signal<boolean>(false);
   editingSlot = signal<TimeSlot | null>(null);
-  
+
   // Store opening hour to calculate positions
   openingHour = signal<number>(8);
   timeSlots = signal<string[]>([]);
@@ -99,7 +98,7 @@ export class FieldAvailability implements OnInit {
     effect(() => {
       const field = this.selectedField();
       const slots = this.slots();
-      
+
       if (field && slots.length > 0) {
         console.log('Slots changed, will save to backend');
         // Debounce could be added here if needed
@@ -120,13 +119,13 @@ export class FieldAvailability implements OnInit {
    */
   loadComplexFields(complexId: number): void {
     this.isLoading.set(true);
-    
+
     // TODO: Implement in FieldService
     // getAllFields(page?, limit?, search?, status?, type?, complexId?)
     this.fieldService.getAllFields(undefined, undefined, undefined, undefined, undefined, complexId).subscribe({
       next: (fieldsData: FieldModel[]) => {
         this.fields.set(fieldsData);
-        
+
         // Extract all availability slots from all fields
         const allSlots: TimeSlot[] = [];
         fieldsData.forEach(field => {
@@ -139,7 +138,7 @@ export class FieldAvailability implements OnInit {
             allSlots.push(...fieldSlots);
           }
         });
-        
+
         this.slots.set(allSlots);
         console.log(`Loaded ${allSlots.length} slots from ${fieldsData.length} fields`);
         this.isLoading.set(false);
@@ -157,35 +156,35 @@ export class FieldAvailability implements OnInit {
    */
   loadComplex(complexId: number): void {
     this.isLoading.set(true);
-    
+
     // TODO: Implement in ComplexService
     // getComplexById(id: number): Observable<Complex>
     this.complexService.getComplexById(complexId).subscribe({
       next: (complexData) => {
         this.complex.set(complexData);
-        
+
         // Parse opening and closing hours
         const openHour = parseInt(complexData.openAt.split(':')[0], 10);
         const closeHour = complexData.closeAt === '00:00' ? 24 : parseInt(complexData.closeAt.split(':')[0], 10);
-        
+
         // Store opening hour for calculations
         this.openingHour.set(openHour);
-        
+
         // Generate time slots based on operating hours
         const slotCount = closeHour - openHour;
         const slots = Array.from({ length: slotCount }, (_, i) => {
           const hour = i + openHour;
           return `${hour.toString().padStart(2, '0')}:00`;
         });
-        
+
         this.timeSlots.set(slots);
         this.isLoading.set(false);
-        
+
         console.log(`Complex opens at ${openHour}:00, closes at ${closeHour}:00`);
         console.log(`Generated ${slotCount} time slots`);
       },
       error: (err) => {
-        console.error('Error loading complex:', err); 
+        console.error('Error loading complex:', err);
         this.isError.set(true);
         this.isLoading.set(false);
       }
@@ -197,7 +196,7 @@ export class FieldAvailability implements OnInit {
    */
   selectField(field: FieldModel): void {
     this.selectedField.set(field);
-    
+
     // Filter slots for this field are automatically computed
     console.log(`Selected field: ${field.name}, found ${this.filteredSlots().length} slots`);
   }
@@ -208,12 +207,12 @@ export class FieldAvailability implements OnInit {
   openSlotModal(): void {
     this.showSlotModal.set(true);
     this.editingSlot.set(null);
-    
+
     // Set default times based on opening hours
     const openHour = this.openingHour();
     const defaultStart = `${openHour.toString().padStart(2, '0')}:00`;
     const defaultEnd = `${(openHour + 1).toString().padStart(2, '0')}:00`;
-    
+
     this.newSlot.set({
       startTime: defaultStart,
       endTime: defaultEnd,
@@ -273,7 +272,7 @@ export class FieldAvailability implements OnInit {
 
     // Update local state
     if (this.editingSlot()) {
-      this.slots.update(slots => 
+      this.slots.update(slots =>
         slots.map(s => s.id === this.editingSlot()!.id ? slot : s)
       );
     } else {
@@ -282,7 +281,7 @@ export class FieldAvailability implements OnInit {
 
     // Save to backend
     this.saveFieldAvailability(this.selectedField()!.id);
-    
+
     this.closeSlotModal();
   }
 
@@ -291,13 +290,13 @@ export class FieldAvailability implements OnInit {
    */
   deleteSlot(event: Event, slotId: number): void {
     event.stopPropagation();
-    
+
     const fieldId = this.selectedField()?.id;
     if (!fieldId) return;
-    
+
     // Update local state
     this.slots.update(slots => slots.filter(s => s.id !== slotId));
-    
+
     // Save to backend
     this.saveFieldAvailability(fieldId);
   }
@@ -308,13 +307,13 @@ export class FieldAvailability implements OnInit {
    */
   saveFieldAvailability(fieldId: number): void {
     this.isSaving.set(true);
-    
+
     // Get all slots for this field
     const fieldSlots = this.slots().filter(slot => slot.fieldId === fieldId);
-    
+
     // Remove fieldId from slots before sending to backend (it's not part of the DTO)
     const cleanedSlots = fieldSlots.map(({ fieldId, ...slot }) => slot);
-    
+
     // TODO: Implement in FieldService
     // updateField(id: number, updateFieldDto: Partial<FieldModel>): Observable<FieldModel>
     this.fieldService.updateField(fieldId, {
@@ -323,9 +322,9 @@ export class FieldAvailability implements OnInit {
       next: (updatedField) => {
         console.log('Field availability saved successfully', updatedField);
         this.isSaving.set(false);
-        
+
         // Update the field in the fields array
-        this.fields.update(fields => 
+        this.fields.update(fields =>
           fields.map(f => f.id === fieldId ? (updatedField as FieldModel) : f)
         );
       },
@@ -335,72 +334,6 @@ export class FieldAvailability implements OnInit {
         this.isSaving.set(false);
       }
     });
-  }
-
-  /**
-   * Export all availability data as JSON
-   */
-  exportAvailability(): void {
-    const exportData = {
-      complex: this.complex()?.name,
-      exportDate: new Date().toISOString(),
-      fields: this.fields().map(field => ({
-        id: field.id,
-        name: field.name,
-        slots: this.slots().filter(s => s.fieldId === field.id)
-      }))
-    };
-
-    const dataStr = JSON.stringify(exportData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `availability-${this.complex()?.name}-${this.selectedDate()}.json`;
-    link.click();
-    URL.revokeObjectURL(url);
-  }
-
-  /**
-   * Bulk import availability from JSON
-   */
-  importAvailability(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) return;
-
-    const file = input.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      try {
-        const data = JSON.parse(e.target?.result as string);
-        
-        // Validate and import data
-        if (data.fields && Array.isArray(data.fields)) {
-          const importedSlots: TimeSlot[] = [];
-          
-          data.fields.forEach((fieldData: any) => {
-            if (fieldData.slots && Array.isArray(fieldData.slots)) {
-              importedSlots.push(...fieldData.slots);
-            }
-          });
-          
-          this.slots.set(importedSlots);
-          
-          // Save all fields
-          this.fields().forEach(field => {
-            this.saveFieldAvailability(field.id);
-          });
-          
-          alert(`Imported ${importedSlots.length} slots successfully!`);
-        }
-      } catch (err) {
-        console.error('Error importing availability:', err);
-        alert('Failed to import. Please check the file format.');
-      }
-    };
-
-    reader.readAsText(file);
   }
 
   // UI Helper Methods
