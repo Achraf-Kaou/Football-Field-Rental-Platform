@@ -1,363 +1,204 @@
 <app-manager-layout>
-    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
-        <!-- Top Navbar -->
-        <header
-            class="h-16 border-b border-surface-dark-lighter flex items-center justify-between px-6 bg-background-dark/80 backdrop-blur-md z-10">
-            <div class="flex items-center gap-4 lg:hidden">
-                <button class="text-black dark:text-white">
-                    <span class="material-icons">menu</span>
-                </button>
+<div class="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)]">
+  <!-- Header -->
+  <header class="px-6 py-4 border-b border-[var(--border-green)] bg-[var(--color-surface)] flex items-center justify-between">
+    <h1 class="text-2xl font-bold">Manager Dashboard</h1>
+    <div class="flex items-center gap-3">
+      <input
+        type="text"
+        class="px-3 py-2 rounded-md bg-[var(--input-bg)] border border-[var(--input-border)] text-[var(--color-text-primary)]"
+        placeholder="Rechercher un complexe..."
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)"
+      />
+      <select
+        class="px-3 py-2 rounded-md bg-[var(--input-bg)] border border-[var(--input-border)]"
+        [value]="status() || ''"
+        (change)="onStatusChange($event)"
+      >
+        <option value="">Tous les statuts</option>
+        <option value="ACTIVE">Actif</option>
+        <option value="INACTIVE">Inactif</option>
+      </select>
+      <select
+        class="px-3 py-2 rounded-md bg-[var(--input-bg)] border border-[var(--input-border)]"
+        [value]="sortBy()"
+        (change)="onSortByChange($event)"
+      >
+        <option value="createdAt">Tri: Date</option>
+        <option value="name">Tri: Nom</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="p-6 space-y-6">
+    <!-- Loading / Error -->
+    <div *ngIf="loading()" class="text-[var(--color-text-secondary)]">Chargement...</div>
+    <div *ngIf="error()" class="text-red-500">{{ error() }}</div>
+
+    <!-- Stats Cards -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="rounded-lg p-4 bg-[var(--color-surface-card)]">
+        <div class="text-sm text-[var(--color-text-secondary)]">Complexes</div>
+        <div class="text-3xl font-semibold">{{ totalComplexes() }}</div>
+      </div>
+      <div class="rounded-lg p-4 bg-[var(--color-surface-card)]">
+        <div class="text-sm text-[var(--color-text-secondary)]">Terrains</div>
+        <div class="text-3xl font-semibold">{{ totalFields() }}</div>
+      </div>
+      <div class="rounded-lg p-4 bg-[var(--color-surface-card)]">
+        <div class="text-sm text-[var(--color-text-secondary)]">Réservations</div>
+        <div class="text-3xl font-semibold">{{ totalBookings() }}</div>
+      </div>
+    </section>
+
+    <!-- Complexes List -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-1 space-y-3">
+        <h2 class="text-xl font-semibold">Mes complexes</h2>
+
+        <ul class="space-y-2">
+          <li
+            *ngFor="let c of complexes()"
+            (click)="selectComplex(c)"
+            class="cursor-pointer rounded-md border border-[var(--border-green)] bg-[var(--color-surface)] p-3 hover:bg-[var(--color-surface-card)] transition"
+            [class.ring-2]="selectedComplex()?.id === c.id"
+            [class.ring-[var(--color-primary)]]="selectedComplex()?.id === c.id"
+          >
+            <div class="font-medium">{{ c.name }}</div>
+            <div class="text-sm text-[var(--color-text-secondary)]">{{ c.address }}</div>
+            <div class="text-sm text-[var(--color-text-secondary)]">Tél: {{ c.phone }}</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Complex Details -->
+      <div class="lg:col-span-2 space-y-6">
+
+        <div *ngIf="selectedComplex(); else noComplex">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-semibold">Détails: {{ selectedComplex()?.name }}</h2>
+            <div class="flex gap-3">
+              
+                <a [routerLink]="['/complex', selectedComplex()?.id, 'edit']"
+                class="px-3 py-2 rounded-md bg-[var(--color-primary)] text-black font-semibold"
+                >Modifier</a>
+              
+                <a [routerLink]="['/fields', 'new']"
+                [queryParams]="{ complexId: selectedComplex()?.id }"
+                class="px-3 py-2 rounded-md bg-[var(--color-accent)] text-white font-semibold"
+                >Ajouter un terrain</a
+              >
             </div>
+          </div>
 
-            <!-- Search -->
-            <div class="hidden md:flex flex-1 max-w-md">
-                <div class="relative w-full group">
-                    <span
-                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 group-focus-within:text-primary transition-colors">
-                        <span class="material-icons">search</span>
-                    </span>
-                    <input
-                        class="w-full bg-surface-dark text-black dark:text-white text-sm rounded-lg pl-10 pr-4 py-2.5 border border-transparent focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all placeholder:text-slate-500"
-                        [placeholder]="'dashboard.searchPlaceholder' | translate" type="text" />
-                </div>
+          <!-- Fields Table -->
+          <div class="rounded-lg border border-[var(--border-green)] overflow-hidden mt-4">
+            <div class="bg-[var(--color-surface)] px-4 py-2 font-medium">Terrains</div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full">
+                <thead class="bg-[var(--color-surface-card)] text-sm">
+                  <tr>
+                    <th class="text-left px-4 py-2">Nom</th>
+                    <th class="text-left px-4 py-2">Type</th>
+                    <th class="text-left px-4 py-2">Statut</th>
+                    <th class="text-left px-4 py-2">Prix</th>
+                    <th class="text-left px-4 py-2">Avis</th>
+                    <th class="text-left px-4 py-2">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let f of fields()" class="border-t border-[var(--border-green)]">
+                    <td class="px-4 py-2">{{ f.name }}</td>
+                    <td class="px-4 py-2">{{ f.type }}</td>
+                    <td class="px-4 py-2">
+                      <span class="inline-flex items-center px-2 py-1 rounded text-xs"
+                            [class.bg-green-200]="f.status === 'available'"
+                            [class.bg-yellow-200]="f.status === 'maintenance'"
+                            [class.bg-red-200]="f.status === 'closed'">
+                        {{ f.status }}
+                      </span>
+                    </td>
+                    <td class="px-4 py-2">{{ formatCurrency(f.price) }}</td>
+                    <td class="px-4 py-2">
+                      <div class="flex items-center gap-2">
+                        <span class="font-semibold" [ngClass]="ratingColorClassFor(f.id)">
+                          {{ (ratingsMap()[f.id]?.averageRating ?? 0) | number:'1.1-1' }}
+                        </span>
+                        <div class="flex items-center gap-0.5">
+                          <ng-container *ngFor="let s of starIconsFor(f.id)">
+                            <span [ngSwitch]="s">
+                              <svg *ngSwitchCase="'full'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.037a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118L10 13.347l-2.935 2.158c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L3.43 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/>
+                              </svg>
+                              <svg *ngSwitchCase="'half'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                              </svg>
+                              <svg *ngSwitchCase="'empty'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.037a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118L10 13.347l-2.935 2.158c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L3.43 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/>
+                              </svg>
+                            </span>
+                          </ng-container>
+                        </div>
+                        <span class="text-xs text-[var(--color-text-secondary)]">
+                          ({{ ratingsMap()[f.id]?.totalReviews ?? 0 }} avis)
+                        </span>
+                      </div>
+                      <div class="text-xs text-[var(--color-text-secondary)]">
+                        {{ ratingTextFor(f.id) }}
+                      </div>
+                    </td>
+                    <td class="px-4 py-2">
+                      <div class="flex gap-2">
+                        <a [routerLink]="['/fields', f.id, 'edit']" class="text-[var(--color-primary)] hover:underline">Modifier</a>
+                        <a [routerLink]="['/bookings', 'new']" [queryParams]="{ fieldId: f.id }" class="text-[var(--color-accent)] hover:underline">Réserver</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="fields().length === 0">
+                    <td class="px-4 py-3 text-[var(--color-text-secondary)]" colspan="6">
+                      Aucun terrain pour ce complexe.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
 
-            <!-- Actions -->
-            <div class="flex items-center gap-4 ml-auto">
-                <button (click)="refreshDashboard()"
-                    class="p-2 text-slate-400 hover:text-primary hover:bg-surface-dark rounded-full transition-colors"
-                    [title]="'dashboard.refresh' | translate">
-                    <span class="material-icons">refresh</span>
-                </button>
-                <button
-                    class="relative p-2 text-slate-400 hover:text-black dark:text-white hover:bg-surface-dark rounded-full transition-colors">
-                    <span class="material-icons">notifications</span>
-                    <span
-                        class="absolute top-2 right-2 h-2 w-2 rounded-full bg-accent-orange border border-background-dark"></span>
-                </button>
-                <button
-                    class="hidden sm:flex bg-primary hover:bg-primary-dark text-background-dark font-bold text-sm px-4 py-2 rounded-lg items-center gap-2 transition-colors shadow-[0_0_10px_rgba(73,230,25,0.2)]"
-                    (click)="navigateToAddComplex()">
-                    <span class="material-icons text-[20px]">add</span>
-                    <span>{{ 'dashboard.newComplex' | translate }}</span>
-                </button>
+          <!-- Bookings list -->
+          <div class="rounded-lg border border-[var(--border-green)] overflow-hidden">
+            <div class="bg-[var(--color-surface)] px-4 py-2 font-medium">Réservations</div>
+            <div class="divide-y divide-[var(--border-green)]">
+              <div *ngFor="let b of bookings()" class="px-4 py-3 flex items-center justify-between">
+                <div class="flex flex-col">
+                  <span class="font-medium">Réservation # {{ b.id }}</span>
+                  <span class="text-sm text-[var(--color-text-secondary)]">
+                    {{ b.startAt | date:'short' }} → {{ b.endAt | date:'short' }}
+                  </span>
+                  <span class="text-sm text-[var(--color-text-secondary)]">
+                    Terrain: {{ b.field?.name || b.fieldId }}
+                  </span>
+                </div>
+                <span class="inline-flex items-center px-2 py-1 rounded text-xs"
+                      [class.bg-green-200]="b.status === 'CONFIRMED'"
+                      [class.bg-yellow-200]="b.status === 'PENDING'"
+                      [class.bg-red-200]="b.status === 'CANCELLED'">
+                  {{ b.status }}
+                </span>
+              </div>
+              <div *ngIf="bookings().length === 0" class="px-4 py-3 text-[var(--color-text-secondary)]">
+                Aucune réservation pour ce complexe.
+              </div>
             </div>
-        </header>
-
-        <!-- Scrollable Content -->
-        <div class="flex-1 overflow-y-auto p-6 md:p-8 pb-20">
-            <div class="max-w-7xl mx-auto flex flex-col gap-8">
-                <!-- Page Heading -->
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div>
-                        <h2 class="text-3xl font-black text-black dark:text-white tracking-tight">
-                            {{ 'dashboard.title' | translate }}
-                        </h2>
-                        <p class="text-slate-400 mt-1 flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                            {{ 'dashboard.liveUpdates' | translate }} • {{ currentDate() }}
-                        </p>
-                    </div>
-                    <div
-                        class="flex items-center gap-2 bg-surface-dark p-1 rounded-lg border border-surface-dark-lighter">
-                        <button (click)="changePeriod('today')"
-                            [class.bg-primary]="selectedPeriod() === 'today'"
-                            [class.text-background-dark]="selectedPeriod() === 'today'"
-                            [class.text-slate-400]="selectedPeriod() !== 'today'"
-                            class="px-3 py-1.5 text-xs font-bold rounded shadow-sm transition-colors">
-                            {{ 'dashboard.today' | translate }}
-                        </button>
-                        <button (click)="changePeriod('week')"
-                            [class.bg-primary]="selectedPeriod() === 'week'"
-                            [class.text-background-dark]="selectedPeriod() === 'week'"
-                            [class.text-slate-400]="selectedPeriod() !== 'week'"
-                            class="px-3 py-1.5 text-xs font-bold rounded transition-colors">
-                            {{ 'dashboard.week' | translate }}
-                        </button>
-                        <button (click)="changePeriod('month')"
-                            [class.bg-primary]="selectedPeriod() === 'month'"
-                            [class.text-background-dark]="selectedPeriod() === 'month'"
-                            [class.text-slate-400]="selectedPeriod() !== 'month'"
-                            class="px-3 py-1.5 text-xs font-bold rounded transition-colors">
-                            {{ 'dashboard.month' | translate }}
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Loading State -->
-                @if(isLoading()) {
-                <div class="flex justify-center items-center py-20">
-                    <div class="animate-spin rounded-full h-16 w-16 border-4 border-primary border-t-transparent"></div>
-                </div>
-                }
-
-                @else {
-                <!-- Stats Grid -->
-                @if(stats()) {
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <!-- Total Revenue -->
-                    <div
-                        class="bg-surface-dark border border-surface-dark-lighter p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden group hover:border-primary/30 transition-colors">
-                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                            <span class="material-icons text-4xl text-primary">payments</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="text-slate-400 text-sm font-medium">{{ 'dashboard.totalRevenue' | translate }}</p>
-                            <h3 class="text-black dark:text-white text-2xl font-bold mt-1">
-                                ${{ stats()!.totalRevenue | number:'1.0-0' }}
-                            </h3>
-                        </div>
-                        <div class="flex items-center gap-2 mt-auto">
-                            <span
-                                [class]="'text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1 ' + (stats()!.revenueChange >= 0 ? 'bg-primary/20 text-primary' : 'bg-red-500/20 text-red-500')">
-                                <span class="material-icons text-[14px]">{{ getTrendIcon(stats()!.revenueChange) }}</span>
-                                {{ stats()!.revenueChange | number:'1.0-0' }}%
-                            </span>
-                            <span class="text-slate-500 text-xs">{{ 'dashboard.vsLastWeek' | translate }}</span>
-                        </div>
-                    </div>
-
-                    <!-- Occupancy Rate -->
-                    <div
-                        class="bg-surface-dark border border-surface-dark-lighter p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden group hover:border-primary/30 transition-colors">
-                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                            <span class="material-icons text-4xl text-primary">stadium</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="text-slate-400 text-sm font-medium">{{ 'dashboard.occupancyRate' | translate }}</p>
-                            <h3 class="text-black dark:text-white text-2xl font-bold mt-1">
-                                {{ stats()!.occupancyRate }}%
-                            </h3>
-                        </div>
-                        <div class="flex items-center gap-2 mt-auto">
-                            <span
-                                [class]="'text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1 ' + (stats()!.occupancyChange >= 0 ? 'bg-primary/20 text-primary' : 'bg-red-500/20 text-red-500')">
-                                <span class="material-icons text-[14px]">{{ getTrendIcon(stats()!.occupancyChange) }}</span>
-                                {{ stats()!.occupancyChange | number:'1.0-0' }}%
-                            </span>
-                            <span class="text-slate-500 text-xs">{{ 'dashboard.peakHours' | translate }}</span>
-                        </div>
-                    </div>
-
-                    <!-- Today's Bookings -->
-                    <div
-                        class="bg-surface-dark border border-surface-dark-lighter p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden group hover:border-primary/30 transition-colors">
-                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                            <span class="material-icons text-4xl text-primary">event_available</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="text-slate-400 text-sm font-medium">{{ 'dashboard.todayBookings' | translate }}</p>
-                            <h3 class="text-black dark:text-white text-2xl font-bold mt-1">
-                                {{ stats()!.todayBookings }}
-                            </h3>
-                        </div>
-                        <div class="flex items-center gap-2 mt-auto">
-                            <span
-                                [class]="'text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1 ' + (stats()!.bookingsChange >= 0 ? 'bg-primary/20 text-primary' : 'bg-red-500/20 text-red-500')">
-                                <span class="material-icons text-[14px]">{{ getTrendIcon(stats()!.bookingsChange) }}</span>
-                                {{ stats()!.bookingsChange | number:'1.0-0' }}%
-                            </span>
-                            <span class="text-slate-500 text-xs">
-                                {{ stats()!.slotsLeft }} {{ 'dashboard.slotsLeft' | translate }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- New Customers -->
-                    <div
-                        class="bg-surface-dark border border-surface-dark-lighter p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden group hover:border-primary/30 transition-colors">
-                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                            <span class="material-icons text-4xl text-primary">group_add</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="text-slate-400 text-sm font-medium">{{ 'dashboard.newCustomers' | translate }}</p>
-                            <h3 class="text-black dark:text-white text-2xl font-bold mt-1">
-                                {{ stats()!.newCustomers }}
-                            </h3>
-                        </div>
-                        <div class="flex items-center gap-2 mt-auto">
-                            <span
-                                [class]="'text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1 ' + (stats()!.customersChange >= 0 ? 'bg-primary/20 text-primary' : 'bg-red-500/20 text-red-500')">
-                                <span class="material-icons text-[14px]">{{ getTrendIcon(stats()!.customersChange) }}</span>
-                                {{ stats()!.customersChange | number:'1.0-0' }}%
-                            </span>
-                            <span class="text-slate-500 text-xs">{{ 'dashboard.highRetention' | translate }}</span>
-                        </div>
-                    </div>
-                </div>
-                }
-
-                <!-- Main Grid Layout -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Left Column: Chart & Field Status -->
-                    <div class="lg:col-span-2 flex flex-col gap-6">
-                        <!-- Chart Section - Placeholder for future chart implementation -->
-                        <div class="bg-surface-dark border border-surface-dark-lighter p-6 rounded-2xl">
-                            <div class="flex items-center justify-between mb-6">
-                                <div>
-                                    <h3 class="text-black dark:text-white text-lg font-bold">
-                                        {{ 'dashboard.revenueOccupancy' | translate }}
-                                    </h3>
-                                    <p class="text-slate-400 text-sm">{{ 'dashboard.weeklyTrend' | translate }}</p>
-                                </div>
-                                <div class="flex gap-4">
-                                    <div class="flex items-center gap-2">
-                                        <span class="w-3 h-3 rounded-full bg-primary"></span>
-                                        <span class="text-slate-400 text-xs">{{ 'dashboard.revenue' | translate }}</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <span class="w-3 h-3 rounded-full bg-white/20"></span>
-                                        <span class="text-slate-400 text-xs">{{ 'dashboard.occupancy' | translate }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Chart placeholder -->
-                            <div class="h-64 flex items-center justify-center text-slate-400">
-                                <span class="material-icons text-6xl opacity-20">insert_chart</span>
-                            </div>
-                        </div>
-
-                        <!-- Live Field Status -->
-                        <div>
-                            <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-black dark:text-white text-lg font-bold">
-                                    {{ 'dashboard.liveFieldStatus' | translate }}
-                                </h3>
-                                <button (click)="navigateToAllFields()"
-                                    class="text-primary text-sm font-semibold hover:underline">
-                                    {{ 'dashboard.viewAllFields' | translate }}
-                                </button>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                @for(field of fieldsStatus(); track field.id) {
-                                <div
-                                    class="bg-surface-dark border border-surface-dark-lighter rounded-xl p-4 flex flex-col gap-3 relative overflow-hidden"
-                                    [class.hover:border-slate-600]="field.status === 'VACANT'"
-                                    [class.cursor-pointer]="field.status === 'VACANT'"
-                                    [class.group]="field.status === 'VACANT'">
-                                    
-                                    @if(field.status === 'LIVE') {
-                                    <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/10 to-transparent -mr-4 -mt-4 rounded-full"></div>
-                                    }
-
-                                    <div class="flex justify-between items-start z-10">
-                                        <div class="flex flex-col">
-                                            <span class="text-black dark:text-white font-bold text-lg">{{ field.name }}</span>
-                                            <span class="text-slate-400 text-xs font-medium">{{ field.type }}</span>
-                                        </div>
-                                        <span [class]="'flex items-center gap-1.5 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider border ' + getStatusBadgeClass(field.status)">
-                                            @if(field.status === 'LIVE') {
-                                            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                                            }
-                                            {{ 'dashboard.status.' + field.status | translate }}
-                                        </span>
-                                    </div>
-
-                                    <div class="h-px bg-surface-dark-lighter w-full my-1"></div>
-
-                                    @if(field.status === 'LIVE' && field.currentBooking) {
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex -space-x-2">
-                                            <div class="w-7 h-7 rounded-full bg-slate-700 border-2 border-surface-dark flex items-center justify-center text-[10px] text-black dark:text-white font-bold">
-                                                {{ field.currentBooking.team1.substring(0, 2).toUpperCase() }}
-                                            </div>
-                                            <div class="w-7 h-7 rounded-full bg-slate-600 border-2 border-surface-dark flex items-center justify-center text-[10px] text-black dark:text-white font-bold">
-                                                {{ field.currentBooking.team2.substring(0, 2).toUpperCase() }}
-                                            </div>
-                                        </div>
-                                        <span class="text-black dark:text-white font-mono font-medium text-sm">
-                                            {{ field.currentBooking.timeLeft }}m {{ 'dashboard.left' | translate }}
-                                        </span>
-                                    </div>
-                                    }
-
-                                    @else if(field.status === 'VACANT') {
-                                    <div class="flex items-center justify-center h-8">
-                                        <span class="text-primary text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                                            <span class="material-icons text-sm">add</span>
-                                            {{ 'dashboard.bookNow' | translate }}
-                                        </span>
-                                    </div>
-                                    }
-
-                                    @else if(field.status === 'MAINTENANCE') {
-                                    <div class="flex items-center gap-2 z-10">
-                                        <span class="material-icons text-accent-orange text-sm">warning</span>
-                                        <span class="text-accent-orange text-xs font-medium">
-                                            {{ field.maintenanceNote }}
-                                        </span>
-                                    </div>
-                                    }
-                                </div>
-                                }
-
-                                @if(fieldsStatus().length === 0) {
-                                <div class="col-span-3 text-center py-8 text-slate-400">
-                                    {{ 'dashboard.noFieldsAvailable' | translate }}
-                                </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right Column: Schedule -->
-                    <div class="flex flex-col gap-6">
-                        <!-- Upcoming Schedule -->
-                        <div class="bg-surface-dark border border-surface-dark-lighter rounded-2xl overflow-hidden flex flex-col h-full max-h-[500px]">
-                            <div class="p-5 border-b border-surface-dark-lighter flex justify-between items-center bg-surface-dark-lighter/30">
-                                <h3 class="text-black dark:text-white text-lg font-bold">
-                                    {{ 'dashboard.upcomingMatches' | translate }}
-                                </h3>
-                                <button class="p-1 text-slate-400 hover:text-black dark:text-white rounded hover:bg-white/10 transition-colors">
-                                    <span class="material-icons">filter_list</span>
-                                </button>
-                            </div>
-
-                            <div class="overflow-y-auto flex-1 p-2 space-y-1">
-                                @for(booking of upcomingBookings(); track booking.id) {
-                                <div (click)="viewBookingDetails(booking.id)"
-                                    class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-dark-lighter/50 transition-colors cursor-pointer group">
-                                    <div class="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-surface-dark-lighter border border-surface-dark-lighter group-hover:border-primary/50 transition-colors">
-                                        <span class="text-xs text-slate-400 font-medium">{{ formatTime(booking.time).hour }}</span>
-                                        <span class="text-xs text-primary font-bold">{{ formatTime(booking.time).period }}</span>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="text-black dark:text-white text-sm font-semibold truncate">
-                                            {{ booking.teamName }}
-                                        </h4>
-                                        <p class="text-slate-400 text-xs truncate">
-                                            {{ booking.fieldName }} • {{ booking.fieldType }}
-                                        </p>
-                                    </div>
-                                    @if(booking.isPending) {
-                                    <div class="flex gap-1">
-                                        <span class="w-2 h-2 rounded-full bg-accent-orange" [title]="'dashboard.paymentPending' | translate"></span>
-                                    </div>
-                                    }
-                                    <button class="text-slate-500 hover:text-primary transition-colors ml-2">
-                                        <span class="material-icons">more_vert</span>
-                                    </button>
-                                </div>
-                                }
-
-                                @if(upcomingBookings().length === 0) {
-                                <div class="text-center py-8 text-slate-400">
-                                    {{ 'dashboard.noUpcomingBookings' | translate }}
-                                </div>
-                                }
-                            </div>
-
-                            <div class="p-3 border-t border-surface-dark-lighter">
-                                <button (click)="navigateToSchedule()"
-                                    class="w-full py-2 text-sm text-center text-slate-300 hover:text-black dark:text-white font-medium hover:bg-surface-dark-lighter rounded transition-colors">
-                                    {{ 'dashboard.viewFullSchedule' | translate }}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                }
-            </div>
+          </div>
         </div>
-    </main>
-</app-manager-layout>
+
+        <ng-template #noComplex>
+          <div class="rounded-md border border-[var(--border-green)] bg-[var(--color-surface-card)] p-4">
+            Aucun complexe trouvé pour ce manager.
+          </div>
+        </ng-template>
+      </div>
+    </section>
+  </main>
+</div>

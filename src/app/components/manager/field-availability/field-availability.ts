@@ -13,7 +13,7 @@ interface TimeSlot {
   date: string;
   startTime: string;
   endTime: string;
-  status: 'available' | 'maintenance' | 'blocked';
+  status: 'maintenance' | 'blocked';
   notes?: string;
   recurring?: boolean;
   createdAt: string;
@@ -22,7 +22,7 @@ interface TimeSlot {
 interface SlotForm {
   startTime: string;
   endTime: string;
-  status: 'available' | 'maintenance' | 'blocked';
+  status: 'maintenance' | 'blocked';
   notes: string;
   recurring: boolean;
 }
@@ -58,12 +58,12 @@ export class FieldAvailability implements OnInit {
   newSlot = signal<SlotForm>({
     startTime: '09:00',
     endTime: '10:00',
-    status: 'available',
+    status: 'maintenance',
     notes: '',
     recurring: false
   });
 
-  statusOptions: Array<'available' | 'maintenance' | 'blocked'> = ['available', 'maintenance', 'blocked'];
+  statusOptions: Array<'maintenance' | 'blocked'> = ['maintenance', 'blocked'];
 
   // Computed signals
   filteredSlots = computed(() => {
@@ -216,7 +216,7 @@ export class FieldAvailability implements OnInit {
     this.newSlot.set({
       startTime: defaultStart,
       endTime: defaultEnd,
-      status: 'available',
+      status: 'maintenance',
       notes: '',
       recurring: false
     });
@@ -399,8 +399,6 @@ export class FieldAvailability implements OnInit {
     const isActive = this.newSlot().status === status;
     if (isActive) {
       switch (status) {
-        case 'available':
-          return 'bg-emerald-600';
         case 'maintenance':
           return 'bg-orange-600';
         case 'blocked':
@@ -410,55 +408,3 @@ export class FieldAvailability implements OnInit {
     return 'bg-gray-700 hover:bg-gray-600';
   }
 }
-
-/*
- * ============================================================================
- * BACKEND INTEGRATION CHECKLIST
- * ============================================================================
- * 
- * Required methods in FieldService:
- * 
- * 1. getAllFields(page?, limit?, search?, status?, type?, complexId?): Observable<FieldModel[]>
- *    - Returns all fields for a complex
- *    - Each field should include the 'availability' JSON property
- * 
- * 2. updateField(id: number, updateFieldDto: Partial<FieldModel>): Observable<FieldModel>
- *    - Updates a field including its availability
- *    - Accepts: { availability: TimeSlot[] }
- *    - Backend will cast to Prisma.InputJsonValue
- * 
- * 3. getFieldById(id: number): Observable<FieldModel>
- *    - Optional: Get single field with availability
- * 
- * Required methods in ComplexService:
- * 
- * 1. getComplexById(id: number): Observable<Complex>
- *    - Returns complex with openAt and closeAt times
- * 
- * FieldModel interface should include:
- * 
- * interface FieldModel {
- *   id: number;
- *   name: string;
- *   description: string;
- *   type: string;
- *   surface: number;
- *   price: number;
- *   status: string;
- *   images: string[];
- *   complexId: number;
- *   availability?: TimeSlot[]; // This is the new property
- *   createdAt: string;
- *   updatedAt: string;
- * }
- * 
- * Complex interface should include:
- * 
- * interface Complex {
- *   id: number;
- *   name: string;
- *   openAt: string;  // e.g., "08:00"
- *   closeAt: string; // e.g., "22:00"
- *   // ... other properties
- * }
- */

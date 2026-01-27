@@ -133,7 +133,10 @@
                             </h3>
                             <div class="flex items-center gap-1 text-primary bg-primary/10 px-2 py-1 rounded-lg">
                                 <span class="material-icons text-sm">star</span>
-                                <span class="font-bold text-sm">5.0</span>
+                                <span class="font-bold text-sm">{{ getFormattedRating(field.id) }}</span>
+                                @if(getFieldReviewCount(field.id) > 0) {
+                                    <span class="text-xs text-gray-600 dark:text-gray-400">({{ getFieldReviewCount(field.id) }})</span>
+                                }
                             </div>
                         </div>
 

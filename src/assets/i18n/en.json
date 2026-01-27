@@ -132,12 +132,149 @@
     "loading": "Loading...",
     "noResults": "No results found",
     "error": "An error occurred",
-    "success": "Operation successful"
+    "success": "Operation successful",
+    "complex": "Complex",
+    "unknownField": "Unknown Field",
+    "unknown": "Unknown"
   },
   "auth": {
     "login": "Login",
     "logout": "Logout",
     "logoutSuccess": "Successfully logged out",
     "logoutError": "Error during logout. Please try again."
+  }, 
+  "COMPLEX_LIST": {
+    "TITLE": "Managed Complexes",
+    "SUBTITLE": "View and manage all football facilities available for booking.",
+    "ADD_COMPLEX": "Add New Complex",
+    "SEARCH_PLACEHOLDER": "Search by complex name, city",
+    "SORT_BY": "Sort By",
+    "REVIEW": "review",
+    "REVIEWS": "reviews",
+    "STATUS": {
+      "ALL": "All",
+      "OPEN": "Open",
+      "CLOSED": "Closed"
+    },
+    "ACTIONS": {
+      "BOOKINGS": "Bookings",
+      "VIEW_DETAILS": "View Details",
+      "AVAILABILITY": "Availability Calendar",
+      "EDIT": "Edit",
+      "DELETE": "Delete"
+    },
+    "PAGINATION": {
+      "SHOWING": "Showing",
+      "TO": "to",
+      "OF": "of",
+      "RESULTS": "results",
+      "PREVIOUS": "Previous",
+      "NEXT": "Next"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Delete Complex",
+      "MESSAGE": "Are you sure you want to delete this complex? This action cannot be undone.",
+      "CANCEL": "Cancel",
+      "CONFIRM": "Delete"
+    }
+  },
+  "COMPLEX_OVERVIEW": {
+    "EDIT_DETAILS": "Edit Details",
+    "TOTAL_FIELDS": "Total Fields",
+    "OPENING_TIME": "Opening Time",
+    "CLOSING_TIME": "Closing Time",
+    "OVERALL_RATING": "Overall Rating",
+    "NO_REVIEWS": "No reviews yet",
+    "REVIEW": "review",
+    "REVIEWS": "reviews",
+    "MANAGE_FIELDS": "Manage Fields",
+    "SEARCH_FIELDS": "Search fields...",
+    "ADD_FIELD": "Add Field",
+    "NO_FIELDS": "No fields available.",
+    "NO_RATING": "No rating",
+    "FILTERS": {
+      "ALL_STATUSES": "All Statuses",
+      "AVAILABLE": "Available",
+      "MAINTENANCE": "Maintenance",
+      "CLOSED": "Closed",
+      "ALL_TYPES": "All Types"
+    },
+    "STATUS": {
+      "AVAILABLE": "Available",
+      "MAINTENANCE": "Maintenance",
+      "CLOSED": "Closed"
+    },
+    "TABLE": {
+      "FIELD_NAME": "Field Name",
+      "TYPE": "Type",
+      "SURFACE": "Surface",
+      "PRICE": "Price / Hour",
+      "RATING": "Rating",
+      "STATUS": "Status",
+      "ACTIONS": "Actions"
+    },
+    "ACTIONS": {
+      "EDIT": "Edit",
+      "DELETE": "Delete"
+    },
+    "PAGINATION": {
+      "SHOWING": "Showing",
+      "TO": "to",
+      "OF": "of",
+      "RESULTS": "results",
+      "PREVIOUS": "Previous",
+      "NEXT": "Next"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Delete Field",
+      "MESSAGE": "Are you sure you want to delete this field? This action cannot be undone.",
+      "CANCEL": "Cancel",
+      "CONFIRM": "Delete"
+    }
+  },
+  "actions": {
+    "export": "Export"
+  },
+  "managerBooking": {
+    "title": "{{name}} Bookings",
+    "subtitle": "View and manage all field reservations and schedules"
+  },
+  "stats": {
+    "today": "Today's Bookings",
+    "active": "active",
+    "activeFields": "Active Fields",
+    "utilization": "Utilization",
+    "revenueEst": "Revenue (Est.)",
+    "confirmed": "confirmed"
+  },
+  "filters": {
+    "search": "Search",
+    "searchPlaceholder": "Search by client name or booking ID...",
+    "selectDate": "Select Date",
+    "allFields": "All Fields",
+    "allStatuses": "All Statuses"
+  },
+  "status": {
+    "confirmed": "Confirmed",
+    "pending": "Pending",
+    "cancelled": "Cancelled",
+    "completed": "Completed"
+  },
+  "table": {
+    "bookingDetails": "Booking Details",
+    "dateTime": "Date & Time",
+    "customer": "Customer",
+    "status": "Status",
+    "price": "Price",
+    "action": "Action",
+    "noBookings": "No bookings found"
+  },
+  "pagination": {
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "bookings": "bookings",
+    "previous": "Previous",
+    "next": "Next"
   }
 }

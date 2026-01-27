@@ -132,12 +132,149 @@
     "loading": "Chargement...",
     "noResults": "Aucun résultat trouvé",
     "error": "Une erreur s'est produite",
-    "success": "Opération réussie"
+    "success": "Opération réussie",
+    "complex": "Complexe",
+    "unknownField": "Terrain inconnu",
+    "unknown": "Inconnu"
   },
   "auth": {
     "login": "Connexion",
     "logout": "Déconnexion",
     "logoutSuccess": "Déconnexion réussie",
     "logoutError": "Erreur lors de la déconnexion. Veuillez réessayer."
+  },
+  "COMPLEX_LIST": {
+    "TITLE": "Complexes Gérés",
+    "SUBTITLE": "Consultez et gérez toutes les installations de football disponibles à la réservation.",
+    "ADD_COMPLEX": "Ajouter un Nouveau Complexe",
+    "SEARCH_PLACEHOLDER": "Rechercher par nom de complexe, ville",
+    "SORT_BY": "Trier par",
+    "REVIEW": "avis",
+    "REVIEWS": "avis",
+    "STATUS": {
+      "ALL": "Tous",
+      "OPEN": "Ouvert",
+      "CLOSED": "Fermé"
+    },
+    "ACTIONS": {
+      "BOOKINGS": "Réservations",
+      "VIEW_DETAILS": "Voir les détails",
+      "AVAILABILITY": "Calendrier de disponibilité",
+      "EDIT": "Modifier",
+      "DELETE": "Supprimer"
+    },
+    "PAGINATION": {
+      "SHOWING": "Affichage de",
+      "TO": "à",
+      "OF": "sur",
+      "RESULTS": "résultats",
+      "PREVIOUS": "Précédent",
+      "NEXT": "Suivant"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Supprimer le Complexe",
+      "MESSAGE": "Êtes-vous sûr de vouloir supprimer ce complexe ? Cette action est irréversible.",
+      "CANCEL": "Annuler",
+      "CONFIRM": "Supprimer"
+    }
+  },
+  "COMPLEX_OVERVIEW": {
+    "EDIT_DETAILS": "Modifier les détails",
+    "TOTAL_FIELDS": "Total des Terrains",
+    "OPENING_TIME": "Heure d'ouverture",
+    "CLOSING_TIME": "Heure de fermeture",
+    "OVERALL_RATING": "Note Globale",
+    "NO_REVIEWS": "Aucun avis",
+    "REVIEW": "avis",
+    "REVIEWS": "avis",
+    "MANAGE_FIELDS": "Gérer les Terrains",
+    "SEARCH_FIELDS": "Rechercher des terrains...",
+    "ADD_FIELD": "Ajouter un Terrain",
+    "NO_FIELDS": "Aucun terrain disponible.",
+    "NO_RATING": "Pas de note",
+    "FILTERS": {
+      "ALL_STATUSES": "Tous les statuts",
+      "AVAILABLE": "Disponible",
+      "MAINTENANCE": "Maintenance",
+      "CLOSED": "Fermé",
+      "ALL_TYPES": "Tous les types"
+    },
+    "STATUS": {
+      "AVAILABLE": "Disponible",
+      "MAINTENANCE": "Maintenance",
+      "CLOSED": "Fermé"
+    },
+    "TABLE": {
+      "FIELD_NAME": "Nom du Terrain",
+      "TYPE": "Type",
+      "SURFACE": "Surface",
+      "PRICE": "Prix / Heure",
+      "RATING": "Note",
+      "STATUS": "Statut",
+      "ACTIONS": "Actions"
+    },
+    "ACTIONS": {
+      "EDIT": "Modifier",
+      "DELETE": "Supprimer"
+    },
+    "PAGINATION": {
+      "SHOWING": "Affichage de",
+      "TO": "à",
+      "OF": "sur",
+      "RESULTS": "résultats",
+      "PREVIOUS": "Précédent",
+      "NEXT": "Suivant"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Supprimer le Terrain",
+      "MESSAGE": "Êtes-vous sûr de vouloir supprimer ce terrain ? Cette action est irréversible.",
+      "CANCEL": "Annuler",
+      "CONFIRM": "Supprimer"
+    }
+  },
+  "actions": {
+    "export": "Exporter"
+  },
+  "managerBooking": {
+    "title": "Réservations de {{name}}",
+    "subtitle": "Voir et gérer toutes les réservations et plannings des terrains"
+  },
+  "stats": {
+    "today": "Réservations du jour",
+    "active": "actives",
+    "activeFields": "Terrains actifs",
+    "utilization": "Utilisation",
+    "revenueEst": "Revenu (estim.)",
+    "confirmed": "confirmées"
+  },
+  "filters": {
+    "search": "Recherche",
+    "searchPlaceholder": "Rechercher par nom client ou ID de réservation...",
+    "selectDate": "Sélectionner une date",
+    "allFields": "Tous les terrains",
+    "allStatuses": "Tous les statuts"
+  },
+  "status": {
+    "confirmed": "Confirmée",
+    "pending": "En attente",
+    "cancelled": "Annulée",
+    "completed": "Terminée"
+  },
+  "table": {
+    "bookingDetails": "Détails de la réservation",
+    "dateTime": "Date & heure",
+    "customer": "Client",
+    "status": "Statut",
+    "price": "Prix",
+    "action": "Action",
+    "noBookings": "Aucune réservation trouvée"
+  },
+  "pagination": {
+    "showing": "Affichage de",
+    "to": "à",
+    "of": "sur",
+    "bookings": "réservations",
+    "previous": "Précédent",
+    "next": "Suivant"
   }
 }

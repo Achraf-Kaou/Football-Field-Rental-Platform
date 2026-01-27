@@ -118,9 +118,6 @@
                       @if (slot.notes) {
                       <p class="text-xs text-gray-400 mt-1 truncate">{{ slot.notes }}</p>
                       }
-                      @if (slot.recurring) {
-                      <p class="text-xs text-emerald-400 mt-1">🔁 Recurring</p>
-                      }
                       <button (click)="deleteSlot($event, slot.id)"
                         class="text-red-400 hover:text-red-300 text-sm md:text-base">
                         ✕
@@ -184,13 +181,7 @@
                 class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 h-20 md:h-24 resize-none text-sm md:text-base"
                 placeholder="Add any notes..."></textarea>
             </div>
-
-            <div class="flex items-center gap-2">
-              <input type="checkbox" id="recurring" [ngModel]="newSlot().recurring"
-                (ngModelChange)="updateSlotForm('recurring', $event)" class="rounded w-4 h-4" />
-              <label for="recurring" class="text-sm">Recurring slot</label>
-            </div>
-
+            
             <div class="flex gap-3 pt-4">
               <button (click)="closeSlotModal()"
                 class="flex-1 py-2.5 md:py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors text-sm md:text-base">

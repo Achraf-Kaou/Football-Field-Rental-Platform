@@ -27,7 +27,7 @@ export class BookingService {
   }
 
   getBookingsByComplexId(complexId: number){
-    return this.http.get<any[]>(`${this.baseUrl}/bookings?fieldId=${complexId}`);
+    return this.http.get<any[]>(`${this.baseUrl}/bookings?complexId=${complexId}`);
   }
 
   updateBooking(id: number, bookingData: any) {

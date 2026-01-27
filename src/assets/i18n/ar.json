@@ -132,12 +132,148 @@
     "loading": "جاري التحميل...",
     "noResults": "لم يتم العثور على نتائج",
     "error": "حدث خطأ",
-    "success": "تمت العملية بنجاح"
+    "success": "تمت العملية بنجاح",
+    "complex": "المجمع",
+    "unknownField": "ملعب غير معروف",
+    "unknown": "غير معروف"
   },
   "auth": {
     "login": "تسجيل الدخول",
     "logout": "تسجيل الخروج",
     "logoutSuccess": "تم تسجيل الخروج بنجاح",
     "logoutError": "خطأ أثناء تسجيل الخروج. يرجى المحاولة مرة أخرى."
+  },
+  "COMPLEX_LIST": {
+    "TITLE": "المجمعات المُدارة",
+    "SUBTITLE": "عرض وإدارة جميع مرافق كرة القدم المتاحة للحجز.",
+    "ADD_COMPLEX": "إضافة مجمع جديد",
+    "SEARCH_PLACEHOLDER": "البحث بواسطة اسم المجمع، المدينة",
+    "SORT_BY": "ترتيب حسب",
+    "REVIEW": "تقييم",
+    "REVIEWS": "تقييمات",
+    "STATUS": {
+      "ALL": "الكل",
+      "OPEN": "مفتوح",
+      "CLOSED": "مغلق"
+    },
+    "ACTIONS": {
+      "BOOKINGS": "الحجوزات",
+      "VIEW_DETAILS": "عرض التفاصيل",
+      "AVAILABILITY": "تقويم التوفر",
+      "EDIT": "تعديل",
+      "DELETE": "حذف"
+    },
+    "PAGINATION": {
+      "SHOWING": "عرض",
+      "TO": "إلى",
+      "OF": "من",
+      "RESULTS": "نتيجة",
+      "PREVIOUS": "السابق",
+      "NEXT": "التالي"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "حذف المجمع",
+      "MESSAGE": "هل أنت متأكد من رغبتك في حذف هذا المجمع؟ لا يمكن التراجع عن هذا الإجراء.",
+      "CANCEL": "إلغاء",
+      "CONFIRM": "حذف"
+    }
+  }, "COMPLEX_OVERVIEW": {
+    "EDIT_DETAILS": "تعديل التفاصيل",
+    "TOTAL_FIELDS": "إجمالي الملاعب",
+    "OPENING_TIME": "وقت الفتح",
+    "CLOSING_TIME": "وقت الإغلاق",
+    "OVERALL_RATING": "التقييم العام",
+    "NO_REVIEWS": "لا توجد تقييمات",
+    "REVIEW": "تقييم",
+    "REVIEWS": "تقييمات",
+    "MANAGE_FIELDS": "إدارة الملاعب",
+    "SEARCH_FIELDS": "البحث عن ملاعب...",
+    "ADD_FIELD": "إضافة ملعب",
+    "NO_FIELDS": "لا توجد ملاعب متاحة.",
+    "NO_RATING": "لا يوجد تقييم",
+    "FILTERS": {
+      "ALL_STATUSES": "جميع الحالات",
+      "AVAILABLE": "متاح",
+      "MAINTENANCE": "صيانة",
+      "CLOSED": "مغلق",
+      "ALL_TYPES": "جميع الأنواع"
+    },
+    "STATUS": {
+      "AVAILABLE": "متاح",
+      "MAINTENANCE": "صيانة",
+      "CLOSED": "مغلق"
+    },
+    "TABLE": {
+      "FIELD_NAME": "اسم الملعب",
+      "TYPE": "النوع",
+      "SURFACE": "المساحة",
+      "PRICE": "السعر / ساعة",
+      "RATING": "التقييم",
+      "STATUS": "الحالة",
+      "ACTIONS": "الإجراءات"
+    },
+    "ACTIONS": {
+      "EDIT": "تعديل",
+      "DELETE": "حذف"
+    },
+    "PAGINATION": {
+      "SHOWING": "عرض",
+      "TO": "إلى",
+      "OF": "من",
+      "RESULTS": "نتيجة",
+      "PREVIOUS": "السابق",
+      "NEXT": "التالي"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "حذف الملعب",
+      "MESSAGE": "هل أنت متأكد من رغبتك في حذف هذا الملعب؟ لا يمكن التراجع عن هذا الإجراء.",
+      "CANCEL": "إلغاء",
+      "CONFIRM": "حذف"
+    }
+  },
+  "actions": {
+    "export": "تصدير"
+  },
+  "managerBooking": {
+    "title": "حجوزات {{name}}",
+    "subtitle": "عرض وإدارة جميع حجوزات الملاعب والجداول"
+  },
+  "stats": {
+    "today": "حجوزات اليوم",
+    "active": "نشطة",
+    "activeFields": "الملاعب النشطة",
+    "utilization": "نسبة الاستخدام",
+    "revenueEst": "الإيرادات (تقديري)",
+    "confirmed": "مؤكدة"
+  },
+  "filters": {
+    "search": "بحث",
+    "searchPlaceholder": "ابحث باسم العميل أو رقم الحجز...",
+    "selectDate": "اختر التاريخ",
+    "allFields": "جميع الملاعب",
+    "allStatuses": "جميع الحالات"
+  },
+  "status": {
+    "confirmed": "مؤكد",
+    "pending": "قيد الانتظار",
+    "cancelled": "ملغى",
+    "completed": "مكتمل"
+  },
+  "table": {
+    "bookingDetails": "تفاصيل الحجز",
+    "dateTime": "التاريخ والوقت",
+    "customer": "العميل",
+    "status": "الحالة",
+    "price": "السعر",
+    "action": "إجراء",
+    "noBookings": "لا توجد حجوزات"
+  },
+  "pagination": {
+    "showing": "إظهار",
+    "to": "إلى",
+    "of": "من",
+    "bookings": "حجوزات",
+    "previous": "السابق",
+    "next": "التالي"
   }
 }

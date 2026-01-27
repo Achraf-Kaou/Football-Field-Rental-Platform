@@ -4,53 +4,54 @@
             <!-- Page Heading -->
             <div class="flex flex-wrap justify-between items-end gap-4 pb-2 border-b border-[#2c4724]/50">
                 <div class="flex flex-col gap-2">
-                    <h1 class="text-black dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
-                        {{ complex()?.name || 'Complex' }} Bookings
+                    <h1
+                        class="text-black dark:text-white text-3xl md:text-4xl font-black"
+                        *ngIf="complex() as c; else loadingTitle"
+                        >
+                        {{ 'managerBooking.title' | translate:{ name: c.name } }}
                     </h1>
+
+                    <ng-template #loadingTitle>
+                        {{ 'managerBooking.title' | translate:{ name: ('common.complex' | translate) } }}
+                    </ng-template>
                     <p class="text-[#9fc893] text-base font-normal leading-normal">
-                        View and manage all field reservations and schedules
+                        {{ 'managerBooking.subtitle' | translate }}
                     </p>
                 </div>
-                <button 
-                    (click)="exportBookings()"
-                    class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary hover:bg-primary-dark text-black font-bold transition-all shadow-[0_0_15px_rgba(73,230,25,0.3)]">
-                    <span class="material-icons text-[20px]">download</span>
-                    Export
-                </button>
             </div>
 
             <!-- Stats Overview -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
                     <div class="flex justify-between items-start">
-                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">Today's Bookings</p>
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">{{ 'stats.today' | translate }}</p>
                         <span class="material-icons text-primary">calendar_today</span>
                     </div>
                     <div class="flex items-end gap-2 mt-2">
                         <p class="text-black dark:text-white text-3xl font-bold leading-none">{{ todayBookingsCount() }}</p>
-                        <p class="text-primary text-sm font-medium mb-1">active</p>
+                        <p class="text-primary text-sm font-medium mb-1">{{ 'stats.active' | translate }}</p>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
                     <div class="flex justify-between items-start">
-                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">Active Fields</p>
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">{{ 'stats.activeFields' | translate }}</p>
                         <span class="material-icons text-primary">stadium</span>
                     </div>
                     <div class="flex items-end gap-2 mt-2">
                         <p class="text-black dark:text-white text-3xl font-bold leading-none">{{ activeFieldsCount() }}/{{ fields().length }}</p>
                         <p class="text-gray-400 text-sm font-medium mb-1">
-                            {{ fields().length > 0 ? ((activeFieldsCount() / fields().length) * 100).toFixed(0) : 0 }}% Utilization
+                            {{ fields().length > 0 ? ((activeFieldsCount() / fields().length) * 100).toFixed(0) : 0 }}% {{ 'stats.utilization' | translate }}
                         </p>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
                     <div class="flex justify-between items-start">
-                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">Revenue (Est.)</p>
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">{{ 'stats.revenueEst' | translate }}</p>
                         <span class="material-icons text-primary">payments</span>
                     </div>
                     <div class="flex items-end gap-2 mt-2">
                         <p class="text-black dark:text-white text-3xl font-bold leading-none">${{ totalRevenue() }}</p>
-                        <p class="text-primary text-sm font-medium mb-1">confirmed</p>
+                        <p class="text-primary text-sm font-medium mb-1">{{ 'stats.confirmed' | translate }}</p>
                     </div>
                 </div>
             </div>
@@ -60,14 +61,14 @@
                 <!-- Search -->
                 <div class="flex-1 min-w-[300px]">
                     <label class="flex flex-col h-full">
-                        <span class="sr-only">Search</span>
+                        <span class="sr-only">{{ 'filters.search' | translate }}</span>
                         <div class="flex w-full items-center rounded-lg bg-input-dark border border-transparent focus-within:border-primary transition-colors h-12">
                             <div class="flex items-center justify-center pl-4 text-[#9fc893]">
                                 <span class="material-icons">search</span>
                             </div>
                             <input
                                 class="w-full bg-transparent border-none text-black dark:text-white placeholder:text-[#9fc893] focus:ring-0 px-3 text-base"
-                                placeholder="Search by client name or booking ID..."
+                                [placeholder]="'filters.searchPlaceholder' | translate"
                                 [value]="search()"
                                 (input)="updateSearch($event.target.value)" />
                         </div>
@@ -80,7 +81,7 @@
                         <span class="material-icons text-[#9fc893] group-hover:text-primary transition-colors mr-2">calendar_month</span>
                         <input
                             class="bg-transparent border-none p-0 text-black dark:text-white placeholder:text-[#9fc893] focus:ring-0 w-full text-sm font-medium cursor-pointer"
-                            placeholder="Select Date"
+                            [placeholder]="'filters.selectDate' | translate"
                             type="date"
                             [value]="selectedDate()"
                             (change)="updateDate($event.target.value)" />
@@ -94,7 +95,7 @@
                         <select
                             class="bg-transparent border-none p-0 text-black dark:text-white focus:ring-0 w-full text-sm font-medium cursor-pointer appearance-none"
                             (change)="updateFieldFilter($event)">
-                            <option value="all">All Fields</option>
+                            <option value="all">{{ 'filters.allFields' | translate }}</option>
                             @for (field of fields(); track field.id) {
                                 <option [value]="field.id">{{ field.name }}</option>
                             }
@@ -110,10 +111,11 @@
                         <select
                             class="bg-transparent border-none p-0 text-black dark:text-white focus:ring-0 w-full text-sm font-medium cursor-pointer appearance-none"
                             (change)="updateStatusFilter($event)">
-                            <option value="all">All Statuses</option>
-                            <option value="confirmed">Confirmed</option>
-                            <option value="pending">Pending</option>
-                            <option value="cancelled">Cancelled</option>
+                            <option value="all">{{ 'filters.allStatuses' | translate }}</option>
+                            <option value="pending">{{ 'status.pending' | translate }}</option>
+                            <option value="cancelled">{{ 'status.cancelled' | translate }}</option>
+                            <option value="completed">{{ 'status.completed' | translate }}</option>
+
                         </select>
                         <span class="material-icons text-[#9fc893] absolute right-3 pointer-events-none">arrow_drop_down</span>
                     </div>
@@ -126,12 +128,12 @@
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-input-dark/50 border-b border-[#2c4724]">
-                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">Booking Details</th>
-                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">Date & Time</th>
-                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">Customer</th>
-                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">Status</th>
-                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider text-right">Price</th>
-                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider text-center">Action</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">{{ 'table.bookingDetails' | translate }}</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">{{ 'table.dateTime' | translate }}</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">{{ 'table.customer' | translate }}</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">{{ 'table.status' | translate }}</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider text-right">{{ 'table.price' | translate }}</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider text-center">{{ 'table.action' | translate }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#2c4724]">
@@ -140,7 +142,7 @@
                                     <td colspan="6" class="p-8 text-center">
                                         <div class="flex flex-col items-center gap-3">
                                             <span class="material-icons text-gray-500 text-5xl">event_busy</span>
-                                            <p class="text-gray-400 text-base">No bookings found</p>
+                                            <p class="text-gray-400 text-base">{{ 'table.noBookings' | translate }}</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -167,13 +169,13 @@
                                             <div class="size-6 rounded-full bg-primary/20 flex items-center justify-center">
                                                 <span class="material-icons text-primary text-[14px]">person</span>
                                             </div>
-                                            <span class="text-black dark:text-white text-sm">{{ booking.userId }}</span>
+                                            <span class="text-black dark:text-white text-sm">{{ booking.user.firstName }} {{ booking.user.lastName }}</span>
                                         </div>
                                     </td>
                                     <td class="p-4">
                                         <span [class]="'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ' + getStatusClass(booking.status)">
                                             <span [class]="'size-1.5 rounded-full ' + getStatusDotClass(booking.status)"></span>
-                                            {{ booking.status | titlecase }}
+                                            {{ ('status.' + booking.status) | translate }}
                                         </span>
                                     </td>
                                     <td class="p-4 text-right">
@@ -195,16 +197,16 @@
                 <!-- Pagination -->
                 <div class="flex items-center justify-between border-t border-[#2c4724] bg-input-dark/30 p-4">
                     <p class="text-sm text-gray-400">
-                        Showing <span class="font-bold text-black dark:text-white">{{ startIndex() }}</span>
-                        to <span class="font-bold text-black dark:text-white">{{ endIndex() }}</span>
-                        of <span class="font-bold text-black dark:text-white">{{ filteredBookings().length }}</span> bookings
+                        {{ 'pagination.showing' | translate }} <span class="font-bold text-black dark:text-white">{{ startIndex() }}</span>
+                        {{ 'pagination.to' | translate }} <span class="font-bold text-black dark:text-white">{{ endIndex() }}</span>
+                        {{ 'pagination.of' | translate }} <span class="font-bold text-black dark:text-white">{{ filteredBookings().length }}</span> {{ 'pagination.bookings' | translate }}
                     </p>
                     <div class="flex gap-2">
                         <button
                             (click)="prevPage()"
                             [disabled]="page() === 1"
                             class="flex items-center justify-center px-3 py-1.5 rounded-md border border-[#2c4724] text-gray-300 hover:bg-[#2c4724] hover:text-black dark:text-white transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">
-                            Previous
+                            {{ 'pagination.previous' | translate }}
                         </button>
                         
                         @for (pageNum of generateRange(1, totalPages()); track pageNum) {
@@ -225,7 +227,7 @@
                             (click)="nextPage()"
                             [disabled]="page() === totalPages()"
                             class="flex items-center justify-center px-3 py-1.5 rounded-md border border-[#2c4724] text-gray-300 hover:bg-[#2c4724] hover:text-black dark:text-white transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">
-                            Next
+                            {{ 'pagination.next' | translate }}
                         </button>
                     </div>
                 </div>

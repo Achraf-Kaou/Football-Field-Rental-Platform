@@ -5,9 +5,11 @@ import { CardComponent } from '../../ui/card/card';
 import { FooterMain } from '../../common/footer-main/footer-main';
 import { NavbarMain } from '../../common/navbar-main/navbar-main';
 import { FieldService } from '../../../services/field.service';
+import { ReviewService } from '../../../services/review.service';
 import { FieldModel } from '../../../models/field.model';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../services/toast.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-fields',
@@ -60,6 +62,7 @@ import { ToastService } from '../../../services/toast.service';
 })
 export class Fields implements OnInit {
   private fieldService = inject(FieldService);
+  private reviewService = inject(ReviewService);
   private router = inject(Router);
   private toastService = inject(ToastService);
 
@@ -79,6 +82,9 @@ export class Fields implements OnInit {
   // Data
   fields = signal<FieldModel[]>([]);
   complexId = signal<number | null>(null);
+  
+  // Reviews data
+  fieldRatings = signal<Map<number, { rating: number; count: number }>>(new Map());
 
   // Computed values
   totalPages = computed(() => Math.ceil(this.totalItems() / this.itemsPerPage()));
@@ -130,6 +136,7 @@ export class Fields implements OnInit {
     
     const searchValue = this.searchQuery() || undefined;
     const typeValue = this.typeFilter() && this.typeFilter() !== 'all' ? this.typeFilter() : undefined;
+    
     this.fieldService.countAll(this.complexId() || undefined).subscribe((count) => {
       this.totalItems.set(count);
     });
@@ -146,12 +153,12 @@ export class Fields implements OnInit {
     ).subscribe({
       next: (response: any) => {
         // Check if response has pagination data
-        if (response.data) {
-          this.fields.set(response.data);
-        } else {
-          // If response is just an array
-          this.fields.set(response);
-        }
+        const fieldsData = response.data ? response.data : response;
+        this.fields.set(fieldsData);
+        
+        // Load ratings for all fields
+        this.loadFieldRatings(fieldsData);
+        
         this.isLoading.set(false);
       },
       error: (error) => {
@@ -163,12 +170,77 @@ export class Fields implements OnInit {
   }
 
   /**
+   * Load ratings for all fields
+   */
+  private loadFieldRatings(fields: FieldModel[]): void {
+    if (fields.length === 0) return;
+
+    const ratingRequests = fields.map(field => 
+      this.reviewService.getFieldAverageRating(field.id)
+    );
+
+    forkJoin(ratingRequests).subscribe({
+      next: (ratings) => {
+        const ratingsMap = new Map<number, { rating: number; count: number }>();
+        ratings.forEach((rating, index) => {
+          ratingsMap.set(fields[index].id, {
+            rating: rating.averageRating,
+            count: rating.totalReviews
+          });
+        });
+        this.fieldRatings.set(ratingsMap);
+      },
+      error: (error) => {
+        console.error('Error loading ratings:', error);
+        // Don't show error to user, just keep default rating
+      }
+    });
+  }
+
+  /**
+   * Get rating for a specific field
+   */
+  getFieldRating(fieldId: number): number {
+    return this.fieldRatings().get(fieldId)?.rating || 0;
+  }
+
+  /**
+   * Get review count for a specific field
+   */
+  getFieldReviewCount(fieldId: number): number {
+    return this.fieldRatings().get(fieldId)?.count || 0;
+  }
+
+  /**
+   * Get formatted rating for display
+   */
+  getFormattedRating(fieldId: number): string {
+    const rating = this.getFieldRating(fieldId);
+    return rating > 0 ? this.reviewService.formatRating(rating) : 'N/A';
+  }
+
+  /**
+   * Get star icons for a field's rating
+   */
+  getStarIcons(fieldId: number): ('full' | 'half' | 'empty')[] {
+    const rating = this.getFieldRating(fieldId);
+    return this.reviewService.getStarIcons(rating);
+  }
+
+  /**
+   * Get rating color class for a field
+   */
+  getRatingColorClass(fieldId: number): string {
+    const rating = this.getFieldRating(fieldId);
+    return this.reviewService.getRatingColorClass(rating);
+  }
+
+  /**
    * Apply filters
    */
   filter(): void {
     this.page.set(1); // Reset to first page when filtering
     this.loadFields();
-    this.totalItems.set(this.fields().length);
   }
 
   /**

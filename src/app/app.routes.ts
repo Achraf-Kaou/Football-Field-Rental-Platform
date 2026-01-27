@@ -88,7 +88,8 @@ export const routes: Routes = [
     component: ComplexOverview,
     title: 'complex overview',
     canActivate: [AuthGuard, RoleGuard],
-    data: { roles: [UserRole.MANAGER, UserRole.ADMIN] }
+    data: { roles: [UserRole.MANAGER, UserRole.ADMIN] },
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'manager/complex/:id/edit',

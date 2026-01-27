@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { ManagerLayout } from '../../layouts/manager-layout/manager-layout';
 import { Complex } from '../../../models/complex.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,10 +7,12 @@ import { FieldService } from '../../../services/field.service';
 import { BookingService } from '../../../services/booking.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-manager-booking',
-  imports: [ManagerLayout, CommonModule, FormsModule],
+  imports: [ManagerLayout, CommonModule, FormsModule, TranslateModule],
   templateUrl: './manager-booking.html',
   styleUrl: './manager-booking.css',
 })
@@ -21,10 +23,11 @@ export class ManagerBooking implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
+
   complex = signal<Complex | null>(null);
   fields = signal<any[]>([]);
   bookings = signal<any[]>([]);
-  
+
   // Pagination
   page = signal<number>(1);
   itemsPerPage = signal<number>(10);
@@ -36,13 +39,13 @@ export class ManagerBooking implements OnInit {
     return end > this.totalItems() ? this.totalItems() : end;
   });
 
-  // Filters
+  // Filtres
   search = signal<string>('');
   selectedDate = signal<string>('');
   selectedField = signal<string>('all');
   selectedStatus = signal<string>('all');
 
-  // Statistics
+  // Statistiques
   todayBookingsCount = computed(() => {
     const today = new Date().toDateString();
     return this.bookings().filter(booking => {
@@ -54,7 +57,7 @@ export class ManagerBooking implements OnInit {
   activeFieldsCount = computed(() => {
     const activeFields = new Set(
       this.bookings()
-        .filter(b => b.status === 'confirmed')
+        .filter(b => b.field.status === 'available')
         .map(b => b.fieldId)
     );
     return activeFields.size;
@@ -62,24 +65,28 @@ export class ManagerBooking implements OnInit {
 
   totalRevenue = computed(() => {
     return this.bookings()
-      .filter(b => b.status === 'confirmed')
+      .filter(b => b.status === 'completed')
       .reduce((sum, booking) => sum + (booking.price || 60), 0);
   });
 
-  // Filtered bookings
+  // Liste filtrée
   filteredBookings = computed(() => {
     let filtered = [...this.bookings()];
 
-    // Search filter
+    // Search (id ou userId en string)
     if (this.search()) {
       const searchLower = this.search().toLowerCase();
       filtered = filtered.filter(booking =>
-        booking.userId?.toLowerCase().includes(searchLower) ||
-        booking.id?.toString().includes(searchLower)
+        String(booking.userId ?? '')
+          .toLowerCase()
+          .includes(searchLower) ||
+        String(booking.id ?? '')
+          .toLowerCase()
+          .includes(searchLower)
       );
     }
 
-    // Date filter
+    // Date
     if (this.selectedDate()) {
       filtered = filtered.filter(booking => {
         const bookingDate = new Date(booking.startAt).toDateString();
@@ -88,29 +95,35 @@ export class ManagerBooking implements OnInit {
       });
     }
 
-    // Field filter
+    // Field
     if (this.selectedField() !== 'all') {
       filtered = filtered.filter(booking =>
-        booking.fieldId?.toString() === this.selectedField()
+        String(booking.fieldId) === this.selectedField()
       );
     }
 
-    // Status filter
+    // Status
     if (this.selectedStatus() !== 'all') {
       filtered = filtered.filter(booking =>
-        booking.status?.toLowerCase() === this.selectedStatus().toLowerCase()
+        String(booking.status ?? '').toLowerCase() === this.selectedStatus().toLowerCase()
       );
     }
 
     return filtered;
   });
 
-  // Paginated bookings
+  // Pagination appliquée
   paginatedBookings = computed(() => {
     const start = (this.page() - 1) * this.itemsPerPage();
     const end = start + this.itemsPerPage();
     return this.filteredBookings().slice(start, end);
   });
+
+  constructor(){
+    effect(() => {
+      console.log(this.complex());
+    })
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -118,6 +131,7 @@ export class ManagerBooking implements OnInit {
       this.loadComplex(complexId);
       this.loadFields(complexId);
       this.loadAllBookings(complexId);
+      this.page.set(1);
     });
   }
 
@@ -135,7 +149,8 @@ export class ManagerBooking implements OnInit {
   loadFields(complexId: number) {
     this.fieldService.getAllFields(undefined, undefined, undefined, undefined, undefined, complexId).subscribe({
       next: (fields) => {
-        this.fields.set(fields);
+        console.log('Loaded fields:', fields);
+        this.fields.set(fields ?? []);
       },
       error: (err) => {
         console.error('Error loading fields:', err);
@@ -146,8 +161,8 @@ export class ManagerBooking implements OnInit {
   loadAllBookings(complexId: number) {
     this.bookingService.getBookingsByComplexId(complexId).subscribe({
       next: (bookings) => {
-        this.bookings.set(bookings);
-        this.totalItems.set(bookings.length);
+        console.log('Loaded bookings:', bookings);
+        this.bookings.set(bookings ?? []);
       },
       error: (err) => {
         console.error('Error loading bookings:', err);
@@ -155,34 +170,30 @@ export class ManagerBooking implements OnInit {
     });
   }
 
-  // Filter handlers
+  // Handlers filtres
   updateSearch(value: string) {
     this.search.set(value);
     this.page.set(1);
-    this.totalItems.set(this.filteredBookings().length);
   }
 
   updateDate(value: string) {
     this.selectedDate.set(value);
     this.page.set(1);
-    this.totalItems.set(this.filteredBookings().length);
   }
 
   updateFieldFilter(event: Event) {
     const value = (event.target as HTMLSelectElement).value;
     this.selectedField.set(value);
     this.page.set(1);
-    this.totalItems.set(this.filteredBookings().length);
   }
 
   updateStatusFilter(event: Event) {
     const value = (event.target as HTMLSelectElement).value;
     this.selectedStatus.set(value);
     this.page.set(1);
-    this.totalItems.set(this.filteredBookings().length);
   }
 
-  // Pagination handlers
+  // Pagination
   handlePageChange(page: number) {
     this.page.set(page);
   }
@@ -207,7 +218,7 @@ export class ManagerBooking implements OnInit {
     return list;
   }
 
-  // Utility methods
+  // Utils
   getFieldName(fieldId: number): string {
     const field = this.fields().find(f => f.id === fieldId);
     return field ? field.name : 'Unknown Field';
@@ -237,7 +248,7 @@ export class ManagerBooking implements OnInit {
 
   getStatusClass(status: string): string {
     switch (status?.toLowerCase()) {
-      case 'confirmed':
+      case 'completed':
         return 'bg-primary/20 text-primary border-primary/20';
       case 'pending':
         return 'bg-yellow-500/20 text-yellow-500 border-yellow-500/20';
@@ -250,7 +261,7 @@ export class ManagerBooking implements OnInit {
 
   getStatusDotClass(status: string): string {
     switch (status?.toLowerCase()) {
-      case 'confirmed':
+      case 'completed':
         return 'bg-primary';
       case 'pending':
         return 'bg-yellow-500';
@@ -263,12 +274,12 @@ export class ManagerBooking implements OnInit {
 
   // Actions
   viewBookingDetails(bookingId: number) {
-    // Navigate to booking details
     console.log('View booking:', bookingId);
+    // TODO: router vers détails si nécessaire
   }
 
   exportBookings() {
-    // Export functionality
     console.log('Exporting bookings...');
+    // TODO: implémenter export CSV/XLSX
   }
 }
