@@ -9,6 +9,7 @@ import { BookingModule } from './booking/booking.module';
 import { MessageModule } from './message/message.module';
 import { ChatMessageModule } from './chat-message/chat-message.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     MessageModule,
     ChatMessageModule,
     DashboardModule,
+    ReviewModule,
   ],
   controllers: [],
   providers: [],

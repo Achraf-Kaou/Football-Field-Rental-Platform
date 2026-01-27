@@ -40,6 +40,7 @@ model User {
   sentMessages     Message[]     @relation("sentMessages")
   receivedMessages Message[]     @relation("receivedMessages")
   complexes        Complex[]
+  reviews          Review[]
 }
 
 model Field {
@@ -59,6 +60,7 @@ model Field {
   availability Json?
 
   bookings Booking[]
+  reviews  Review[]
 }
 
 model Complex {
@@ -84,7 +86,7 @@ model Booking {
   id        Int       @id @default(autoincrement())
   user      User      @relation(fields: [userId], references: [id])
   userId    Int
-  field     Field     @relation(fields: [fieldId], references: [id])
+  field     Field     @relation(fields: [fieldId], references: [id], onDelete: Cascade)
   fieldId   Int
   startAt   DateTime
   endAt     DateTime
@@ -119,4 +121,22 @@ model ChatMessage {
 
   @@index([userId])
   @@index([timestamp])
+}
+
+model Review {
+  id        Int       @id @default(autoincrement())
+  rating    Int       // 1-5 stars
+  comment   String?   @db.Text
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  field     Field     @relation(fields: [fieldId], references: [id])
+  fieldId   Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@unique([userId, fieldId]) // A user can only review a field once
+  @@index([fieldId])
+  @@index([userId])
+  @@index([rating])
 }

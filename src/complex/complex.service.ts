@@ -74,6 +74,9 @@ export class ComplexService {
       },
       skip: (page - 1) * limit,
       take: limit,
+      include: {
+        fields: true,
+      },
     });
 
     const now = new Date();
@@ -99,7 +102,10 @@ export class ComplexService {
     }
 
     const complex = await this.prisma.complex.findUnique({
-      where: { id },           // if id is OK, this will work
+      where: { id },
+      include: {
+        fields: true,
+      },
     });
 
     if (!complex) {
@@ -129,8 +135,18 @@ export class ComplexService {
   }
 
   async remove(id: number): Promise<void> {
+    // Vérifiez si le complexe existe
     const complex = await this.findOne(id);
+    if (!complex) {
+      throw new Error(`The complex with ID ${id} does not exist`);
+    }
 
+    // Supprimez tous les champs associés à ce complexe (cascade)
+    await this.prisma.field.deleteMany({
+      where: { complexId: id },
+    });
+
+    // Supprimez le complexe
     await this.prisma.complex.delete({
       where: { id },
     });

@@ -109,6 +109,7 @@ export class BookingService {
       sortedDirection = 'desc',
       userId,
       fieldId,
+      complexId,
       status,
       startDate,
       endDate,
@@ -118,6 +119,7 @@ export class BookingService {
       where: {
         ...(userId && { userId }),
         ...(fieldId && { fieldId }),
+        ...(complexId && { field: { complexId } }),
         ...(status && { status }),
         ...(startDate && { startAt: { gte: new Date(startDate) } }),
         ...(endDate && { endAt: { lte: new Date(endDate) } }),

@@ -67,6 +67,16 @@ export class FindAllBookingDto {
   fieldId?: number;
 
   @ApiPropertyOptional({
+    example: 1,
+    description: 'Filter by complex ID',
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  complexId?: number;
+
+  @ApiPropertyOptional({
     example: 'confirmed',
     description: 'Filter by status',
     enum: ['pending', 'confirmed', 'cancelled', 'completed'],
