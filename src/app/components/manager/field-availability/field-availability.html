@@ -4,9 +4,8 @@
       <!-- Header -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
-          <h1 class="text-2xl md:text-3xl font-bold mb-2">Manage Field Schedules complex : {{complex()?.name }}</h1>
-          <p class="text-gray-400 text-sm md:text-base">Configure operating hours and manage availability for your
-            fields</p>
+          <h1 class="text-2xl md:text-3xl font-bold mb-2">{{ 'SCHEDULES.TITLE' | translate }} : {{complex()?.name }}</h1>
+          <p class="text-gray-400 text-sm md:text-base">{{ 'SCHEDULES.SUBTITLE' | translate }}</p>
         </div>
       </div>
 
@@ -15,7 +14,7 @@
         <div class="lg:col-span-3 space-y-4 md:space-y-6">
           <!-- Date Picker -->
           <div class="bg-surface-card rounded-xl p-4 border border-emerald-500/30">
-            <h3 class="font-bold mb-3 text-sm md:text-base">Select Date</h3>
+            <h3 class="font-bold mb-3 text-sm md:text-base">{{ 'SCHEDULES.SELECT_DATE' | translate }}</h3>
             <input type="date" [ngModel]="selectedDate()" (ngModelChange)="selectedDate.set($event)"
               class="w-full bg-input-bg border border-gray-600 rounded px-3 py-2 text-white text-sm md:text-base" />
             <p class="text-xs text-gray-400 mt-2">
@@ -25,7 +24,7 @@
 
           <!-- Field Selection -->
           <div>
-            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">Fields</h3>
+            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">{{ 'SCHEDULES.FIELDS' | translate }}</h3>
             <div class="space-y-3 max-h-[300px] lg:max-h-none overflow-y-auto">
               @for (field of fields(); track field.id) {
               <div (click)="selectField(field)" [class]="getFieldClasses(field)"
@@ -38,7 +37,7 @@
                   <div class="flex-1 min-w-0">
                     <p class="font-bold text-sm truncate">{{ field.name }}</p>
                     <p [class]="getFieldStatusClasses(field)" class="text-xs truncate">
-                      {{ selectedField()?.id === field.id ? 'Selected' : field.type }}
+                      {{ selectedField()?.id === field.id ? ('SCHEDULES.SELECTED' | translate) : field.type }}
                     </p>
                   </div>
                 </div>
@@ -49,19 +48,19 @@
 
           <!-- Legend -->
           <div class="bg-surface-card rounded-xl p-4 border border-gray-700">
-            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">Legend</h3>
+            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">{{ 'SCHEDULES.LEGEND' | translate }}</h3>
             <div class="space-y-3">
               <div class="flex items-center gap-3">
                 <div class="w-4 h-4 rounded bg-emerald-500/20 border border-emerald-500 flex-shrink-0"></div>
-                <span class="text-sm">Available</span>
+                <span class="text-sm">{{ 'SCHEDULES.STATUS.AVAILABLE' | translate }}</span>
               </div>
               <div class="flex items-center gap-3">
                 <div class="w-4 h-4 rounded bg-orange-500/20 border border-orange-500 flex-shrink-0"></div>
-                <span class="text-sm">Maintenance</span>
+                <span class="text-sm">{{ 'SCHEDULES.STATUS.MAINTENANCE' | translate }}</span>
               </div>
               <div class="flex items-center gap-3">
                 <div class="w-4 h-4 rounded bg-gray-500/20 border border-gray-700 flex-shrink-0"></div>
-                <span class="text-sm">Blocked</span>
+                <span class="text-sm">{{ 'SCHEDULES.STATUS.BLOCKED' | translate }}</span>
               </div>
             </div>
           </div>
@@ -74,12 +73,12 @@
             <div
               class="p-3 md:p-4 border-b border-gray-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <h2 class="font-bold text-base md:text-lg truncate max-w-full">
-                {{ selectedField() ? selectedField()!.name + ' - ' + selectedDate() : 'Select a field to begin' }}
+                {{ selectedField() ? selectedField()!.name + ' - ' + selectedDate() : ('SCHEDULES.SELECT_FIELD_MESSAGE' | translate) }}
               </h2>
               @if (selectedField()) {
               <button (click)="openSlotModal()"
                 class="w-full sm:w-auto px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg font-semibold transition-colors text-sm md:text-base whitespace-nowrap">
-                + Add Time Slot
+                + {{ 'SCHEDULES.ADD_TIME_SLOT' | translate }}
               </button>
               }
             </div>
@@ -131,7 +130,7 @@
             } @else {
             <div
               class="h-64 md:h-96 flex items-center justify-center text-gray-500 text-sm md:text-base px-4 text-center">
-              Select a field to view and manage time slots
+              {{ 'SCHEDULES.SELECT_FIELD_TO_VIEW' | translate }}
             </div>
             }
           </div>
@@ -143,7 +142,7 @@
       <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
         <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md border border-gray-700">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold">{{ editingSlot() ? 'Edit' : 'Add' }} Time Slot</h3>
+            <h3 class="text-xl font-bold">{{ (editingSlot() ? 'SCHEDULES.EDIT' : 'SCHEDULES.ADD') | translate }} {{ 'SCHEDULES.TIME_SLOT' | translate }}</h3>
             <button (click)="closeSlotModal()" class="text-gray-400 hover:text-white">
               ✕
             </button>
@@ -152,44 +151,44 @@
           <div class="space-y-4">
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label class="block text-sm text-gray-400 mb-1">Start Time</label>
+                <label class="block text-sm text-gray-400 mb-1">{{ 'SCHEDULES.START_TIME' | translate }}</label>
                 <input type="time" [ngModel]="newSlot().startTime" (ngModelChange)="updateSlotForm('startTime', $event)"
                   class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm md:text-base" />
               </div>
               <div>
-                <label class="block text-sm text-gray-400 mb-1">End Time</label>
+                <label class="block text-sm text-gray-400 mb-1">{{ 'SCHEDULES.END_TIME' | translate }}</label>
                 <input type="time" [ngModel]="newSlot().endTime" (ngModelChange)="updateSlotForm('endTime', $event)"
                   class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm md:text-base" />
               </div>
             </div>
 
             <div>
-              <label class="block text-sm text-gray-400 mb-1">Status</label>
+              <label class="block text-sm text-gray-400 mb-1">{{ 'SCHEDULES.STATUS_LABEL' | translate }}</label>
               <div class="grid grid-cols-3 gap-2">
                 @for (status of statusOptions; track status) {
                 <button (click)="updateSlotForm('status', status)" [class]="getStatusButtonClasses(status)"
                   class="py-2 md:py-2.5 rounded font-semibold text-xs md:text-sm transition-colors">
-                  {{ status.charAt(0).toUpperCase() + status.slice(1) }}
+                  {{ 'SCHEDULES.STATUS.' + status.toUpperCase() | translate }}
                 </button>
                 }
               </div>
             </div>
 
             <div>
-              <label class="block text-sm text-gray-400 mb-1">Notes (Optional)</label>
+              <label class="block text-sm text-gray-400 mb-1">{{ 'SCHEDULES.NOTES' | translate }}</label>
               <textarea [ngModel]="newSlot().notes" (ngModelChange)="updateSlotForm('notes', $event)"
                 class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 h-20 md:h-24 resize-none text-sm md:text-base"
-                placeholder="Add any notes..."></textarea>
+                [placeholder]="'SCHEDULES.NOTES_PLACEHOLDER' | translate"></textarea>
             </div>
             
             <div class="flex gap-3 pt-4">
               <button (click)="closeSlotModal()"
                 class="flex-1 py-2.5 md:py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors text-sm md:text-base">
-                Cancel
+                {{ 'SCHEDULES.CANCEL' | translate }}
               </button>
               <button (click)="saveSlot()"
                 class="flex-1 py-2.5 md:py-3 bg-emerald-600 hover:bg-emerald-700 rounded-lg font-semibold transition-colors text-sm md:text-base">
-                {{ editingSlot() ? 'Update' : 'Add' }} Slot
+                {{ (editingSlot() ? 'SCHEDULES.UPDATE' : 'SCHEDULES.ADD') | translate }} {{ 'SCHEDULES.SLOT' | translate }}
               </button>
             </div>
           </div>

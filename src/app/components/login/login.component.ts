@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { form, Field, required, email, minLength, maxLength } from '@angular/forms/signals';
+import { form, Field, required, email, minLength, maxLength, pattern } from '@angular/forms/signals';
 import { NavbarMain } from '../common/navbar-main/navbar-main';
 import { AuthService } from '../../services/auth.service';
 import { LoginDto } from '../../interfaces/login.dto';
@@ -7,10 +7,11 @@ import { RegisterDto } from '../../interfaces/register.dto';
 import { ToastService } from '../../services/toast.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../../models/user.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
-  imports: [NavbarMain, Field],
+  imports: [NavbarMain, Field, TranslateModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -51,6 +52,7 @@ export class LoginComponent implements OnInit {
     required(schemaPath.phone, { message: 'Phone is required' })
     minLength(schemaPath.phone, 8, { message: 'phone must be at least 8 characters long' })
     maxLength(schemaPath.phone, 8, { message: 'phone must be at most 8 characters long' })
+    pattern(schemaPath.phone, /^[0-9]+$/, { message: 'phone must contain only numbers' })
     required(schemaPath.role, { message: 'Role is required' })
   });
 

@@ -108,7 +108,8 @@
     "switchToDarkMode": "التبديل إلى الوضع الداكن",
     "changeLanguage": "تغيير اللغة",
     "loading": "جاري التحميل...",
-    "noComplexes": "لم يتم العثور على مجمعات"
+    "noComplexes": "لم يتم العثور على مجمعات",
+    "chat": "الدردشة"
   },
   "user": {
     "profile": "الملف الشخصي",
@@ -275,5 +276,54 @@
     "bookings": "حجوزات",
     "previous": "السابق",
     "next": "التالي"
+  },
+  "AUTH": {
+    "LOGIN": "تسجيل الدخول",
+    "REGISTER": "التسجيل",
+    "LOGIN_WELCOME": "مرحباً بعودتك! يرجى تسجيل الدخول للمتابعة",
+    "SIGNUP_WELCOME": "مرحباً! يرجى التسجيل للمتابعة",
+    "EMAIL": "البريد الإلكتروني",
+    "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
+    "PASSWORD": "كلمة المرور",
+    "PASSWORD_PLACEHOLDER": "أدخل كلمة المرور",
+    "CREATE_PASSWORD": "إنشاء كلمة مرور",
+    "REMEMBER_ME": "تذكرني",
+    "FORGOT_PASSWORD": "هل نسيت كلمة المرور؟",
+    "SIGN_IN": "تسجيل الدخول",
+    "REGISTER_AS": "التسجيل كـ",
+    "USER": "مستخدم",
+    "MANAGER": "مدير",
+    "FIRST_NAME": "الاسم الأول",
+    "LAST_NAME": "اسم العائلة",
+    "PHONE": "رقم الهاتف",
+    "PHONE_PLACEHOLDER": "أدخل رقم هاتفك",
+    "CREATE_ACCOUNT": "إنشاء حساب"
+  },
+  "SCHEDULES": {
+    "TITLE": "إدارة جداول الملاعب المركب",
+    "SUBTITLE": "قم بتكوين ساعات العمل وإدارة توافر ملاعبك",
+    "SELECT_DATE": "اختر التاريخ",
+    "FIELDS": "الملاعب",
+    "SELECTED": "محدد",
+    "LEGEND": "دليل الألوان",
+    "STATUS": {
+      "AVAILABLE": "متاح",
+      "MAINTENANCE": "صيانة",
+      "BLOCKED": "محظور"
+    },
+    "SELECT_FIELD_MESSAGE": "اختر ملعباً للبدء",
+    "SELECT_FIELD_TO_VIEW": "اختر ملعباً لعرض وإدارة الفترات الزمنية",
+    "ADD_TIME_SLOT": "إضافة فترة زمنية",
+    "EDIT": "تعديل",
+    "ADD": "إضافة",
+    "TIME_SLOT": "فترة زمنية",
+    "START_TIME": "وقت البداية",
+    "END_TIME": "وقت النهاية",
+    "STATUS_LABEL": "الحالة",
+    "NOTES": "ملاحظات (اختياري)",
+    "NOTES_PLACEHOLDER": "أضف أي ملاحظات...",
+    "CANCEL": "إلغاء",
+    "UPDATE": "تحديث",
+    "SLOT": "فترة"
   }
 }

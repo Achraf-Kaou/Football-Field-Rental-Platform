@@ -108,7 +108,8 @@
     "switchToDarkMode": "Switch to Dark Mode",
     "changeLanguage": "Change Language",
     "loading": "Loading...",
-    "noComplexes": "No complexes found"
+    "noComplexes": "No complexes found",
+    "chat": "Chat"
   },
   "user": {
     "profile": "Profile",
@@ -276,5 +277,54 @@
     "bookings": "bookings",
     "previous": "Previous",
     "next": "Next"
+  },
+  "AUTH": {
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "LOGIN_WELCOME": "Welcome back! Please sign in to continue",
+    "SIGNUP_WELCOME": "Welcome! Please sign up to continue",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "CREATE_PASSWORD": "Create a password",
+    "REMEMBER_ME": "Remember me",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "SIGN_IN": "Sign In",
+    "REGISTER_AS": "Register as",
+    "USER": "User",
+    "MANAGER": "Manager",
+    "FIRST_NAME": "First name",
+    "LAST_NAME": "Last name",
+    "PHONE": "Phone number",
+    "PHONE_PLACEHOLDER": "Enter your phone number",
+    "CREATE_ACCOUNT": "Create Account"
+  },
+  "SCHEDULES": {
+    "TITLE": "Manage Field Schedules complex",
+    "SUBTITLE": "Configure operating hours and manage availability for your fields",
+    "SELECT_DATE": "Select Date",
+    "FIELDS": "Fields",
+    "SELECTED": "Selected",
+    "LEGEND": "Legend",
+    "STATUS": {
+      "AVAILABLE": "Available",
+      "MAINTENANCE": "Maintenance",
+      "BLOCKED": "Blocked"
+    },
+    "SELECT_FIELD_MESSAGE": "Select a field to begin",
+    "SELECT_FIELD_TO_VIEW": "Select a field to view and manage time slots",
+    "ADD_TIME_SLOT": "Add Time Slot",
+    "EDIT": "Edit",
+    "ADD": "Add",
+    "TIME_SLOT": "Time Slot",
+    "START_TIME": "Start Time",
+    "END_TIME": "End Time",
+    "STATUS_LABEL": "Status",
+    "NOTES": "Notes (Optional)",
+    "NOTES_PLACEHOLDER": "Add any notes...",
+    "CANCEL": "Cancel",
+    "UPDATE": "Update",
+    "SLOT": "Slot"
   }
 }

@@ -12,6 +12,7 @@ import { Message } from '../../models/message.model';
 import { AuthService } from '../../services/auth.service';
 import { User, SearchUsersResponse, UserService } from '../../services/user.service';
 import { LanguageService } from '../../services/language.service';
+import { ManagerLayout } from "../layouts/manager-layout/manager-layout";
 
 interface ChatMessage {
   id: number;
@@ -38,7 +39,7 @@ interface Conversation {
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardComponent, NavbarMain, FooterMain, TranslateModule],
+  imports: [CommonModule, FormsModule, CardComponent, NavbarMain, FooterMain, TranslateModule, ManagerLayout],
   templateUrl: './chat.html'
 })
 export class Chat implements OnInit, AfterViewChecked, OnDestroy {
@@ -61,6 +62,7 @@ export class Chat implements OnInit, AfterViewChecked, OnDestroy {
   loading = signal(false);
   sendingMessage = signal(false);
   currentUserId = signal<number | null>(null);
+  currentUser = this.authService.currentUser;
 
   // New User Search signals
   showNewMessageModal = signal(false);

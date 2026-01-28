@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Complex } from '../../../models/complex.model';
 import { FieldModel } from '../../../models/field.model';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface TimeSlot {
   id: number;
@@ -29,7 +30,7 @@ interface SlotForm {
 
 @Component({
   selector: 'app-field-availability',
-  imports: [ManagerLayout, FormsModule],
+  imports: [ManagerLayout, FormsModule, TranslateModule],
   templateUrl: './field-availability.html',
   styleUrl: './field-availability.css',
 })

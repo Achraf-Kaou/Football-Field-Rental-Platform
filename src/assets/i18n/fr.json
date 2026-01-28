@@ -108,7 +108,8 @@
     "switchToDarkMode": "Passer en mode sombre",
     "changeLanguage": "Changer de langue",
     "loading": "Chargement...",
-    "noComplexes": "Aucun complexe trouvé"
+    "noComplexes": "Aucun complexe trouvé",
+    "chat": "Discussion"
   },
   "user": {
     "profile": "Profil",
@@ -276,5 +277,54 @@
     "bookings": "réservations",
     "previous": "Précédent",
     "next": "Suivant"
+  },
+  "AUTH": {
+    "LOGIN": "Connexion",
+    "REGISTER": "S'inscrire",
+    "LOGIN_WELCOME": "Bon retour ! Veuillez vous connecter pour continuer",
+    "SIGNUP_WELCOME": "Bienvenue ! Veuillez vous inscrire pour continuer",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Entrez votre email",
+    "PASSWORD": "Mot de passe",
+    "PASSWORD_PLACEHOLDER": "Entrez votre mot de passe",
+    "CREATE_PASSWORD": "Créer un mot de passe",
+    "REMEMBER_ME": "Se souvenir de moi",
+    "FORGOT_PASSWORD": "Mot de passe oublié ?",
+    "SIGN_IN": "Se connecter",
+    "REGISTER_AS": "S'inscrire en tant que",
+    "USER": "Utilisateur",
+    "MANAGER": "Gestionnaire",
+    "FIRST_NAME": "Prénom",
+    "LAST_NAME": "Nom",
+    "PHONE": "Numéro de téléphone",
+    "PHONE_PLACEHOLDER": "Entrez votre numéro de téléphone",
+    "CREATE_ACCOUNT": "Créer un compte"
+  },
+  "SCHEDULES": {
+    "TITLE": "Gérer les horaires des terrains complexe",
+    "SUBTITLE": "Configurez les heures d'ouverture et gérez la disponibilité de vos terrains",
+    "SELECT_DATE": "Sélectionner la date",
+    "FIELDS": "Terrains",
+    "SELECTED": "Sélectionné",
+    "LEGEND": "Légende",
+    "STATUS": {
+      "AVAILABLE": "Disponible",
+      "MAINTENANCE": "Maintenance",
+      "BLOCKED": "Bloqué"
+    },
+    "SELECT_FIELD_MESSAGE": "Sélectionnez un terrain pour commencer",
+    "SELECT_FIELD_TO_VIEW": "Sélectionnez un terrain pour voir et gérer les créneaux horaires",
+    "ADD_TIME_SLOT": "Ajouter un créneau",
+    "EDIT": "Modifier",
+    "ADD": "Ajouter",
+    "TIME_SLOT": "Créneau horaire",
+    "START_TIME": "Heure de début",
+    "END_TIME": "Heure de fin",
+    "STATUS_LABEL": "Statut",
+    "NOTES": "Notes (Optionnel)",
+    "NOTES_PLACEHOLDER": "Ajouter des notes...",
+    "CANCEL": "Annuler",
+    "UPDATE": "Mettre à jour",
+    "SLOT": "Créneau"
   }
 }

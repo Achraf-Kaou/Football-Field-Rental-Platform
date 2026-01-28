@@ -1,234 +1,468 @@
-<app-navbar-main></app-navbar-main>
-<div class="min-h-screen pt-20 md:pt-24 pb-12 bg-background transition-colors duration-300">
-    <div class="container mx-auto px-2 sm:px-4 max-w-7xl h-[calc(100vh-7rem)] md:h-[calc(100vh-8rem)] min-h-0">
-        <div class="grid lg:grid-cols-12 gap-2 sm:gap-4 md:gap-6 h-full">
+@if(currentUser()?.role === 'USER'){
+    <app-navbar-main></app-navbar-main>
+    <div class="min-h-screen pt-20 md:pt-24 pb-12 bg-background transition-colors duration-300">
+        <div class="container mx-auto px-2 sm:px-4 max-w-7xl h-[calc(100vh-7rem)] md:h-[calc(100vh-8rem)] min-h-0">
+            <div class="grid lg:grid-cols-12 gap-2 sm:gap-4 md:gap-6 h-full">
 
-            <!-- Conversations Sidebar -->
-            <div 
-                [class.hidden]="selectedConversation() !== null"
-                [class.block]="selectedConversation() === null"
-                class="lg:block lg:col-span-4 xl:col-span-3 flex flex-col h-full min-h-0">
-                <app-card class="flex-1 flex flex-col overflow-hidden h-full min-h-0">
-                    <!-- Header -->
-                    <div class="p-3 sm:p-4 md:p-6 border-b border-gray-200 dark:border-white/10 flex-shrink-0">
-                        <div class="flex items-center justify-between mb-3 sm:mb-4">
-                            <h2 class="text-lg sm:text-xl md:text-2xl font-black text-gray-900 dark:text-white">
-                                {{ 'chat.messages' | translate }}
-                            </h2>
-                            <!-- New Message Button -->
-                            <button 
-                                (click)="openNewMessageModal()"
-                                [title]="'chat.newMessage' | translate"
-                                class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary hover:bg-green-400 text-background-dark transition-all flex items-center justify-center shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40">
-                                <span class="material-icons text-lg sm:text-xl">edit</span>
-                            </button>
-                        </div>
-
-                        <!-- Search Bar -->
-                        <div class="relative">
-                            <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg sm:text-xl">
-                                search
-                            </span>
-                            <input 
-                                type="text" 
-                                [value]="searchQuery()"
-                                (input)="searchQuery.set($any($event.target).value)"
-                                [placeholder]="'chat.searchConversations' | translate"
-                                class="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 md:py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-surface-card text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-xs sm:text-sm" />
-                        </div>
-                    </div>
-
-                    <!-- Conversations List -->
-                    <div class="flex-1 overflow-y-auto min-h-0">
-                        @if(loading()) {
-                        <div class="p-6 sm:p-8 text-center">
-                            <div class="inline-block animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-primary mb-3 sm:mb-4"></div>
-                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{{ 'chat.loadingConversations' | translate }}</p>
-                        </div>
-                        } @else if(filteredConversations().length > 0) {
-                        @for(conv of filteredConversations(); track conv.id) {
-                        <button 
-                            (click)="selectConversation(conv)" 
-                            [class]="getConversationClass(conv.id)"
-                            class="w-full p-2.5 sm:p-3 md:p-4 flex items-start gap-2 sm:gap-3 hover:bg-gray-50 dark:hover:bg-surface-card transition-all border-b border-gray-100 dark:border-white/5">
-
-                            <!-- Avatar -->
-                            <div class="relative flex-shrink-0">
-                                <div class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-primary to-green-400 flex items-center justify-center text-background-dark font-bold text-sm sm:text-base md:text-lg">
-                                    {{ conv.userName.charAt(0).toUpperCase() }}
-                                </div>
-                                @if(conv.status) {
-                                <div class="absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 bg-green-500 rounded-full border-2 border-white dark:border-surface-dark"></div>
-                                }
-                            </div>
-
-                            <!-- Content -->
-                            <div class="flex-1 min-w-0 text-left">
-                                <div class="flex items-center justify-between mb-0.5 sm:mb-1">
-                                    <h3 class="font-bold text-xs sm:text-sm md:text-base text-gray-900 dark:text-white truncate">
-                                        {{ conv.userName }}
-                                    </h3>
-                                    <span class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ml-1 sm:ml-2">
-                                        {{ formatTime(conv.timestamp) }}
-                                    </span>
-                                </div>
-                                <div class="flex items-center justify-between gap-1 sm:gap-2">
-                                    <p class="text-[11px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
-                                        {{ conv.lastMessage }}
-                                    </p>
-                                    @if(conv.unread > 0) {
-                                    <span class="flex-shrink-0 min-w-[1.125rem] sm:min-w-[1.25rem] h-4 sm:h-5 bg-primary text-background-dark rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold px-1 sm:px-1.5">
-                                        {{ conv.unread > 99 ? '99+' : conv.unread }}
-                                    </span>
-                                    }
-                                </div>
-                            </div>
-                        </button>
-                        }
-                        } @else {
-                        <div class="p-6 sm:p-8 text-center">
-                            <span class="material-icons text-3xl sm:text-4xl md:text-5xl text-gray-400 mb-3 sm:mb-4">search_off</span>
-                            <p class="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400">
-                                {{ searchQuery() ? ('chat.noConversationsFound' | translate) : ('chat.noMessagesYet' | translate) }}
-                            </p>
-                        </div>
-                        }
-                    </div>
-                </app-card>
-            </div>
-
-            <!-- Chat Area -->
-            <div 
-                [class.hidden]="selectedConversation() === null"
-                [class.block]="selectedConversation() !== null"
-                class="lg:block lg:col-span-8 xl:col-span-9 flex flex-col h-full min-h-0">
-                @if(selectedConversation()) {
-                <app-card class="flex-1 flex flex-col overflow-hidden h-full min-h-0">
-                    <!-- Chat Header -->
-                    <div class="p-3 sm:p-4 md:p-6 border-b border-gray-200 dark:border-white/10 flex-shrink-0">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
-                                <!-- Back Button (Mobile) -->
+                <!-- Conversations Sidebar -->
+                <div 
+                    [class.hidden]="selectedConversation() !== null"
+                    [class.block]="selectedConversation() === null"
+                    class="lg:block lg:col-span-4 xl:col-span-3 flex flex-col h-full min-h-0">
+                    <app-card class="flex-1 flex flex-col overflow-hidden h-full min-h-0">
+                        <!-- Header -->
+                        <div class="p-3 sm:p-4 md:p-6 border-b border-gray-200 dark:border-white/10 flex-shrink-0">
+                            <div class="flex items-center justify-between mb-3 sm:mb-4">
+                                <h2 class="text-lg sm:text-xl md:text-2xl font-black text-gray-900 dark:text-white">
+                                    {{ 'chat.messages' | translate }}
+                                </h2>
+                                <!-- New Message Button -->
                                 <button 
-                                    (click)="closeConversation()"
-                                    class="lg:hidden w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:bg-gray-100 dark:hover:bg-surface-card transition-colors flex items-center justify-center text-gray-600 dark:text-gray-400 flex-shrink-0">
-                                    <span class="material-icons text-lg sm:text-xl">arrow_back</span>
+                                    (click)="openNewMessageModal()"
+                                    [title]="'chat.newMessage' | translate"
+                                    class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary hover:bg-green-400 text-background-dark transition-all flex items-center justify-center shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40">
+                                    <span class="material-icons text-lg sm:text-xl">edit</span>
                                 </button>
+                            </div>
+
+                            <!-- Search Bar -->
+                            <div class="relative">
+                                <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg sm:text-xl">
+                                    search
+                                </span>
+                                <input 
+                                    type="text" 
+                                    [value]="searchQuery()"
+                                    (input)="searchQuery.set($any($event.target).value)"
+                                    [placeholder]="'chat.searchConversations' | translate"
+                                    class="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 md:py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-surface-card text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-xs sm:text-sm" />
+                            </div>
+                        </div>
+
+                        <!-- Conversations List -->
+                        <div class="flex-1 overflow-y-auto min-h-0">
+                            @if(loading()) {
+                            <div class="p-6 sm:p-8 text-center">
+                                <div class="inline-block animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-primary mb-3 sm:mb-4"></div>
+                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{{ 'chat.loadingConversations' | translate }}</p>
+                            </div>
+                            } @else if(filteredConversations().length > 0) {
+                            @for(conv of filteredConversations(); track conv.id) {
+                            <button 
+                                (click)="selectConversation(conv)" 
+                                [class]="getConversationClass(conv.id)"
+                                class="w-full p-2.5 sm:p-3 md:p-4 flex items-start gap-2 sm:gap-3 hover:bg-gray-50 dark:hover:bg-surface-card transition-all border-b border-gray-100 dark:border-white/5">
 
                                 <!-- Avatar -->
                                 <div class="relative flex-shrink-0">
                                     <div class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-primary to-green-400 flex items-center justify-center text-background-dark font-bold text-sm sm:text-base md:text-lg">
-                                        {{ selectedConversation()!.userName.charAt(0).toUpperCase() }}
+                                        {{ conv.userName.charAt(0).toUpperCase() }}
                                     </div>
-                                </div>
-
-                                <!-- User Info -->
-                                <div class="min-w-0 flex-1">
-                                    <h2 class="text-sm sm:text-base md:text-xl font-bold text-gray-900 dark:text-white truncate">
-                                        {{ selectedConversation()!.userName }}
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Messages Area -->
-                    <div #messagesContainer class="flex-1 overflow-y-auto p-2 sm:p-3 md:p-4 lg:p-6 space-y-2 sm:space-y-3 md:space-y-4 bg-gray-50 dark:bg-surface-card/50 min-h-0">
-                        @if(loading()) {
-                        <div class="flex items-center justify-center h-full">
-                            <div class="inline-block animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-primary"></div>
-                        </div>
-                        } @else if(currentMessages().length === 0) {
-                        <div class="flex items-center justify-center h-full">
-                            <div class="text-center px-4">
-                                <span class="material-icons text-4xl sm:text-5xl text-gray-400 mb-3 sm:mb-4">chat</span>
-                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{{ 'chat.noMessages' | translate }}</p>
-                            </div>
-                        </div>
-                        } @else {
-                        @for(group of groupedMessages(); track $index) {
-                        <div [class]="group.isCurrentUser ? 'flex justify-end' : 'flex justify-start'">
-                            <div [class]="group.isCurrentUser ? 'flex flex-row-reverse items-start gap-1.5 sm:gap-2 max-w-[90%] sm:max-w-[85%] md:max-w-[70%]' : 'flex items-start gap-1.5 sm:gap-2 max-w-[90%] sm:max-w-[85%] md:max-w-[70%]'">
-                                @if(!group.isCurrentUser) {
-                                <div class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-accent to-orange-400 flex items-center justify-center text-white font-bold text-[10px] sm:text-xs md:text-sm flex-shrink-0 mt-1 sm:mt-2">
-                                    {{ group.senderName.charAt(0).toUpperCase() }}
-                                </div>
-                                }
-                                <div class="min-w-0">
-                                    @if(!group.isCurrentUser) {
-                                    <span class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mb-0.5 sm:mb-1 block px-1">
-                                        {{ group.senderName }}
-                                    </span>
+                                    @if(conv.status) {
+                                    <div class="absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 bg-green-500 rounded-full border-2 border-white dark:border-surface-dark"></div>
                                     }
-                                    @for(msg of group.messages; track msg.id; let j = $index; let last = $last) {
-                                    <div [class]="getMessageBubbleClass(group.isCurrentUser) + (last ? '' : ' mb-0.5 sm:mb-1')">
-                                        <p class="break-words text-xs sm:text-sm md:text-base leading-relaxed">{{ msg.content }}</p>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="flex-1 min-w-0 text-left">
+                                    <div class="flex items-center justify-between mb-0.5 sm:mb-1">
+                                        <h3 class="font-bold text-xs sm:text-sm md:text-base text-gray-900 dark:text-white truncate">
+                                            {{ conv.userName }}
+                                        </h3>
+                                        <span class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ml-1 sm:ml-2">
+                                            {{ formatTime(conv.timestamp) }}
+                                        </span>
                                     </div>
-                                    @if(last) {
-                                    <div class="flex items-center gap-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-0.5 sm:mt-1 px-1">
-                                        <span>{{ formatMessageTime(msg.timestamp) }}</span>
-                                        @if(group.isCurrentUser) {
-                                        <span class="material-icons text-[10px] sm:text-xs">
-                                            {{ msg.status === 'read' ? 'done_all' : msg.status === 'delivered' ? 'done_all' : 'done' }}
+                                    <div class="flex items-center justify-between gap-1 sm:gap-2">
+                                        <p class="text-[11px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
+                                            {{ conv.lastMessage }}
+                                        </p>
+                                        @if(conv.unread > 0) {
+                                        <span class="flex-shrink-0 min-w-[1.125rem] sm:min-w-[1.25rem] h-4 sm:h-5 bg-primary text-background-dark rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold px-1 sm:px-1.5">
+                                            {{ conv.unread > 99 ? '99+' : conv.unread }}
                                         </span>
                                         }
                                     </div>
-                                    }
-                                    }
+                                </div>
+                            </button>
+                            }
+                            } @else {
+                            <div class="p-6 sm:p-8 text-center">
+                                <span class="material-icons text-3xl sm:text-4xl md:text-5xl text-gray-400 mb-3 sm:mb-4">search_off</span>
+                                <p class="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400">
+                                    {{ searchQuery() ? ('chat.noConversationsFound' | translate) : ('chat.noMessagesYet' | translate) }}
+                                </p>
+                            </div>
+                            }
+                        </div>
+                    </app-card>
+                </div>
+
+                <!-- Chat Area -->
+                <div 
+                    [class.hidden]="selectedConversation() === null"
+                    [class.block]="selectedConversation() !== null"
+                    class="lg:block lg:col-span-8 xl:col-span-9 flex flex-col h-full min-h-0">
+                    @if(selectedConversation()) {
+                    <app-card class="flex-1 flex flex-col overflow-hidden h-full min-h-0">
+                        <!-- Chat Header -->
+                        <div class="p-3 sm:p-4 md:p-6 border-b border-gray-200 dark:border-white/10 flex-shrink-0">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
+                                    <!-- Back Button (Mobile) -->
+                                    <button 
+                                        (click)="closeConversation()"
+                                        class="lg:hidden w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:bg-gray-100 dark:hover:bg-surface-card transition-colors flex items-center justify-center text-gray-600 dark:text-gray-400 flex-shrink-0">
+                                        <span class="material-icons text-lg sm:text-xl">arrow_back</span>
+                                    </button>
+
+                                    <!-- Avatar -->
+                                    <div class="relative flex-shrink-0">
+                                        <div class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-primary to-green-400 flex items-center justify-center text-background-dark font-bold text-sm sm:text-base md:text-lg">
+                                            {{ selectedConversation()!.userName.charAt(0).toUpperCase() }}
+                                        </div>
+                                    </div>
+
+                                    <!-- User Info -->
+                                    <div class="min-w-0 flex-1">
+                                        <h2 class="text-sm sm:text-base md:text-xl font-bold text-gray-900 dark:text-white truncate">
+                                            {{ selectedConversation()!.userName }}
+                                        </h2>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        }
-                        }
-                        <div #bottom></div>
-                    </div>
 
-                    <!-- Input Area -->
-                    <div class="p-2 sm:p-3 md:p-4 border-t border-gray-200 dark:border-white/10 bg-surface-dark flex-shrink-0">
-                        <div class="flex gap-1.5 sm:gap-2 md:gap-3 items-end">
-                            <!-- Message Input -->
-                            <div class="flex-1 relative">
-                                <textarea 
-                                    [value]="newMessage()"
-                                    (input)="newMessage.set($any($event.target).value)"
-                                    (keydown)="handleKeyPress($event)"
-                                    [placeholder]="'chat.typeMessage' | translate"
-                                    rows="1"
-                                    class="w-full px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-surface-card text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none text-xs sm:text-sm md:text-base"
-                                    style="max-height: 100px; overflow-y: auto;"></textarea>
+                        <!-- Messages Area -->
+                        <div #messagesContainer class="flex-1 overflow-y-auto p-2 sm:p-3 md:p-4 lg:p-6 space-y-2 sm:space-y-3 md:space-y-4 bg-gray-50 dark:bg-surface-card/50 min-h-0">
+                            @if(loading()) {
+                            <div class="flex items-center justify-center h-full">
+                                <div class="inline-block animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-primary"></div>
                             </div>
-                            <!-- Send Button -->
-                            <button 
-                                (click)="sendMessage()" 
-                                [disabled]="!newMessage().trim() || sending()"
-                                [title]="'chat.send' | translate"
-                                class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl bg-primary hover:bg-green-400 text-background-dark font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40">
-                                <span class="material-icons text-lg sm:text-xl md:text-2xl">send</span>
-                            </button>
+                            } @else if(currentMessages().length === 0) {
+                            <div class="flex items-center justify-center h-full">
+                                <div class="text-center px-4">
+                                    <span class="material-icons text-4xl sm:text-5xl text-gray-400 mb-3 sm:mb-4">chat</span>
+                                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{{ 'chat.noMessages' | translate }}</p>
+                                </div>
+                            </div>
+                            } @else {
+                            @for(group of groupedMessages(); track $index) {
+                            <div [class]="group.isCurrentUser ? 'flex justify-end' : 'flex justify-start'">
+                                <div [class]="group.isCurrentUser ? 'flex flex-row-reverse items-start gap-1.5 sm:gap-2 max-w-[90%] sm:max-w-[85%] md:max-w-[70%]' : 'flex items-start gap-1.5 sm:gap-2 max-w-[90%] sm:max-w-[85%] md:max-w-[70%]'">
+                                    @if(!group.isCurrentUser) {
+                                    <div class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-accent to-orange-400 flex items-center justify-center text-white font-bold text-[10px] sm:text-xs md:text-sm flex-shrink-0 mt-1 sm:mt-2">
+                                        {{ group.senderName.charAt(0).toUpperCase() }}
+                                    </div>
+                                    }
+                                    <div class="min-w-0">
+                                        @if(!group.isCurrentUser) {
+                                        <span class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mb-0.5 sm:mb-1 block px-1">
+                                            {{ group.senderName }}
+                                        </span>
+                                        }
+                                        @for(msg of group.messages; track msg.id; let j = $index; let last = $last) {
+                                        <div [class]="getMessageBubbleClass(group.isCurrentUser) + (last ? '' : ' mb-0.5 sm:mb-1')">
+                                            <p class="break-words text-xs sm:text-sm md:text-base leading-relaxed">{{ msg.content }}</p>
+                                        </div>
+                                        @if(last) {
+                                        <div class="flex items-center gap-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-0.5 sm:mt-1 px-1">
+                                            <span>{{ formatMessageTime(msg.timestamp) }}</span>
+                                            @if(group.isCurrentUser) {
+                                            <span class="material-icons text-[10px] sm:text-xs">
+                                                {{ msg.status === 'read' ? 'done_all' : msg.status === 'delivered' ? 'done_all' : 'done' }}
+                                            </span>
+                                            }
+                                        </div>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                            }
+                            <div #bottom></div>
                         </div>
-                    </div>
-                </app-card>
-                } @else {
-                <!-- No Conversation Selected -->
-                <app-card class="flex-1 flex items-center justify-center h-full min-h-0">
-                    <div class="text-center p-4">
-                        <div class="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 bg-gray-100 dark:bg-surface-card rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 md:mb-6">
-                            <span class="material-icons text-3xl sm:text-4xl md:text-6xl text-gray-400">chat_bubble_outline</span>
+
+                        <!-- Input Area -->
+                        <div class="p-2 sm:p-3 md:p-4 border-t border-gray-200 dark:border-white/10 bg-surface-dark flex-shrink-0">
+                            <div class="flex gap-1.5 sm:gap-2 md:gap-3 items-end">
+                                <!-- Message Input -->
+                                <div class="flex-1 relative">
+                                    <textarea 
+                                        [value]="newMessage()"
+                                        (input)="newMessage.set($any($event.target).value)"
+                                        (keydown)="handleKeyPress($event)"
+                                        [placeholder]="'chat.typeMessage' | translate"
+                                        rows="1"
+                                        class="w-full px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-surface-card text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none text-xs sm:text-sm md:text-base"
+                                        style="max-height: 100px; overflow-y: auto;"></textarea>
+                                </div>
+                                <!-- Send Button -->
+                                <button 
+                                    (click)="sendMessage()" 
+                                    [disabled]="!newMessage().trim() || sending()"
+                                    [title]="'chat.send' | translate"
+                                    class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl bg-primary hover:bg-green-400 text-background-dark font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40">
+                                    <span class="material-icons text-lg sm:text-xl md:text-2xl">send</span>
+                                </button>
+                            </div>
                         </div>
-                        <h3 class="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
-                            {{ 'chat.selectConversation' | translate }}
-                        </h3>
-                        <p class="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400">
-                            {{ 'chat.selectConversationDesc' | translate }}
-                        </p>
-                    </div>
-                </app-card>
-                }
+                    </app-card>
+                    } @else {
+                    <!-- No Conversation Selected -->
+                    <app-card class="flex-1 flex items-center justify-center h-full min-h-0">
+                        <div class="text-center p-4">
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 bg-gray-100 dark:bg-surface-card rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 md:mb-6">
+                                <span class="material-icons text-3xl sm:text-4xl md:text-6xl text-gray-400">chat_bubble_outline</span>
+                            </div>
+                            <h3 class="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
+                                {{ 'chat.selectConversation' | translate }}
+                            </h3>
+                            <p class="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400">
+                                {{ 'chat.selectConversationDesc' | translate }}
+                            </p>
+                        </div>
+                    </app-card>
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+@else if (currentUser()?.role === 'MANAGER') {
+    <app-manager-layout>
+        <div class="min-h-auto bg-background transition-colors duration-300">
+        <div class="container mx-auto px-2 sm:px-4 max-w-7xl h-[calc(100vh-7rem)] md:h-[calc(100vh-8rem)] min-h-0">
+            <div class="grid lg:grid-cols-12 gap-2 sm:gap-4 md:gap-6 h-full">
 
+                <!-- Conversations Sidebar -->
+                <div 
+                    [class.hidden]="selectedConversation() !== null"
+                    [class.block]="selectedConversation() === null"
+                    class="lg:block lg:col-span-4 xl:col-span-3 flex flex-col h-full min-h-0">
+                    <app-card class="flex-1 flex flex-col overflow-hidden h-full min-h-0">
+                        <!-- Header -->
+                        <div class="p-3 sm:p-4 md:p-6 border-b border-gray-200 dark:border-white/10 flex-shrink-0">
+                            <div class="flex items-center justify-between mb-3 sm:mb-4">
+                                <h2 class="text-lg sm:text-xl md:text-2xl font-black text-gray-900 dark:text-white">
+                                    {{ 'chat.messages' | translate }}
+                                </h2>
+                                <!-- New Message Button -->
+                                <button 
+                                    (click)="openNewMessageModal()"
+                                    [title]="'chat.newMessage' | translate"
+                                    class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary hover:bg-green-400 text-background-dark transition-all flex items-center justify-center shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40">
+                                    <span class="material-icons text-lg sm:text-xl">edit</span>
+                                </button>
+                            </div>
+
+                            <!-- Search Bar -->
+                            <div class="relative">
+                                <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg sm:text-xl">
+                                    search
+                                </span>
+                                <input 
+                                    type="text" 
+                                    [value]="searchQuery()"
+                                    (input)="searchQuery.set($any($event.target).value)"
+                                    [placeholder]="'chat.searchConversations' | translate"
+                                    class="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 md:py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-surface-card text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-xs sm:text-sm" />
+                            </div>
+                        </div>
+
+                        <!-- Conversations List -->
+                        <div class="flex-1 overflow-y-auto min-h-0">
+                            @if(loading()) {
+                            <div class="p-6 sm:p-8 text-center">
+                                <div class="inline-block animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-primary mb-3 sm:mb-4"></div>
+                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{{ 'chat.loadingConversations' | translate }}</p>
+                            </div>
+                            } @else if(filteredConversations().length > 0) {
+                            @for(conv of filteredConversations(); track conv.id) {
+                            <button 
+                                (click)="selectConversation(conv)" 
+                                [class]="getConversationClass(conv.id)"
+                                class="w-full p-2.5 sm:p-3 md:p-4 flex items-start gap-2 sm:gap-3 hover:bg-gray-50 dark:hover:bg-surface-card transition-all border-b border-gray-100 dark:border-white/5">
+
+                                <!-- Avatar -->
+                                <div class="relative flex-shrink-0">
+                                    <div class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-primary to-green-400 flex items-center justify-center text-background-dark font-bold text-sm sm:text-base md:text-lg">
+                                        {{ conv.userName.charAt(0).toUpperCase() }}
+                                    </div>
+                                    @if(conv.status) {
+                                    <div class="absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 bg-green-500 rounded-full border-2 border-white dark:border-surface-dark"></div>
+                                    }
+                                </div>
+
+                                <!-- Content -->
+                                <div class="flex-1 min-w-0 text-left">
+                                    <div class="flex items-center justify-between mb-0.5 sm:mb-1">
+                                        <h3 class="font-bold text-xs sm:text-sm md:text-base text-gray-900 dark:text-white truncate">
+                                            {{ conv.userName }}
+                                        </h3>
+                                        <span class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ml-1 sm:ml-2">
+                                            {{ formatTime(conv.timestamp) }}
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-1 sm:gap-2">
+                                        <p class="text-[11px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
+                                            {{ conv.lastMessage }}
+                                        </p>
+                                        @if(conv.unread > 0) {
+                                        <span class="flex-shrink-0 min-w-[1.125rem] sm:min-w-[1.25rem] h-4 sm:h-5 bg-primary text-background-dark rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold px-1 sm:px-1.5">
+                                            {{ conv.unread > 99 ? '99+' : conv.unread }}
+                                        </span>
+                                        }
+                                    </div>
+                                </div>
+                            </button>
+                            }
+                            } @else {
+                            <div class="p-6 sm:p-8 text-center">
+                                <span class="material-icons text-3xl sm:text-4xl md:text-5xl text-gray-400 mb-3 sm:mb-4">search_off</span>
+                                <p class="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400">
+                                    {{ searchQuery() ? ('chat.noConversationsFound' | translate) : ('chat.noMessagesYet' | translate) }}
+                                </p>
+                            </div>
+                            }
+                        </div>
+                    </app-card>
+                </div>
+
+                <!-- Chat Area -->
+                <div 
+                    [class.hidden]="selectedConversation() === null"
+                    [class.block]="selectedConversation() !== null"
+                    class="lg:block lg:col-span-8 xl:col-span-9 flex flex-col h-full min-h-0">
+                    @if(selectedConversation()) {
+                    <app-card class="flex-1 flex flex-col overflow-hidden h-full min-h-0">
+                        <!-- Chat Header -->
+                        <div class="p-3 sm:p-4 md:p-6 border-b border-gray-200 dark:border-white/10 flex-shrink-0">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
+                                    <!-- Back Button (Mobile) -->
+                                    <button 
+                                        (click)="closeConversation()"
+                                        class="lg:hidden w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:bg-gray-100 dark:hover:bg-surface-card transition-colors flex items-center justify-center text-gray-600 dark:text-gray-400 flex-shrink-0">
+                                        <span class="material-icons text-lg sm:text-xl">arrow_back</span>
+                                    </button>
+
+                                    <!-- Avatar -->
+                                    <div class="relative flex-shrink-0">
+                                        <div class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-primary to-green-400 flex items-center justify-center text-background-dark font-bold text-sm sm:text-base md:text-lg">
+                                            {{ selectedConversation()!.userName.charAt(0).toUpperCase() }}
+                                        </div>
+                                    </div>
+
+                                    <!-- User Info -->
+                                    <div class="min-w-0 flex-1">
+                                        <h2 class="text-sm sm:text-base md:text-xl font-bold text-gray-900 dark:text-white truncate">
+                                            {{ selectedConversation()!.userName }}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Messages Area -->
+                        <div #messagesContainer class="flex-1 overflow-y-auto p-2 sm:p-3 md:p-4 lg:p-6 space-y-2 sm:space-y-3 md:space-y-4 bg-gray-50 dark:bg-surface-card/50 min-h-0">
+                            @if(loading()) {
+                            <div class="flex items-center justify-center h-full">
+                                <div class="inline-block animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-primary"></div>
+                            </div>
+                            } @else if(currentMessages().length === 0) {
+                            <div class="flex items-center justify-center h-full">
+                                <div class="text-center px-4">
+                                    <span class="material-icons text-4xl sm:text-5xl text-gray-400 mb-3 sm:mb-4">chat</span>
+                                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{{ 'chat.noMessages' | translate }}</p>
+                                </div>
+                            </div>
+                            } @else {
+                            @for(group of groupedMessages(); track $index) {
+                            <div [class]="group.isCurrentUser ? 'flex justify-end' : 'flex justify-start'">
+                                <div [class]="group.isCurrentUser ? 'flex flex-row-reverse items-start gap-1.5 sm:gap-2 max-w-[90%] sm:max-w-[85%] md:max-w-[70%]' : 'flex items-start gap-1.5 sm:gap-2 max-w-[90%] sm:max-w-[85%] md:max-w-[70%]'">
+                                    @if(!group.isCurrentUser) {
+                                    <div class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-accent to-orange-400 flex items-center justify-center text-white font-bold text-[10px] sm:text-xs md:text-sm flex-shrink-0 mt-1 sm:mt-2">
+                                        {{ group.senderName.charAt(0).toUpperCase() }}
+                                    </div>
+                                    }
+                                    <div class="min-w-0">
+                                        @if(!group.isCurrentUser) {
+                                        <span class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mb-0.5 sm:mb-1 block px-1">
+                                            {{ group.senderName }}
+                                        </span>
+                                        }
+                                        @for(msg of group.messages; track msg.id; let j = $index; let last = $last) {
+                                        <div [class]="getMessageBubbleClass(group.isCurrentUser) + (last ? '' : ' mb-0.5 sm:mb-1')">
+                                            <p class="break-words text-xs sm:text-sm md:text-base leading-relaxed">{{ msg.content }}</p>
+                                        </div>
+                                        @if(last) {
+                                        <div class="flex items-center gap-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-0.5 sm:mt-1 px-1">
+                                            <span>{{ formatMessageTime(msg.timestamp) }}</span>
+                                            @if(group.isCurrentUser) {
+                                            <span class="material-icons text-[10px] sm:text-xs">
+                                                {{ msg.status === 'read' ? 'done_all' : msg.status === 'delivered' ? 'done_all' : 'done' }}
+                                            </span>
+                                            }
+                                        </div>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                            }
+                            <div #bottom></div>
+                        </div>
+
+                        <!-- Input Area -->
+                        <div class="p-2 sm:p-3 md:p-4 border-t border-gray-200 dark:border-white/10 bg-surface-dark flex-shrink-0">
+                            <div class="flex gap-1.5 sm:gap-2 md:gap-3 items-end">
+                                <!-- Message Input -->
+                                <div class="flex-1 relative">
+                                    <textarea 
+                                        [value]="newMessage()"
+                                        (input)="newMessage.set($any($event.target).value)"
+                                        (keydown)="handleKeyPress($event)"
+                                        [placeholder]="'chat.typeMessage' | translate"
+                                        rows="1"
+                                        class="w-full px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-surface-card text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none text-xs sm:text-sm md:text-base"
+                                        style="max-height: 100px; overflow-y: auto;"></textarea>
+                                </div>
+                                <!-- Send Button -->
+                                <button 
+                                    (click)="sendMessage()" 
+                                    [disabled]="!newMessage().trim() || sending()"
+                                    [title]="'chat.send' | translate"
+                                    class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl bg-primary hover:bg-green-400 text-background-dark font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40">
+                                    <span class="material-icons text-lg sm:text-xl md:text-2xl">send</span>
+                                </button>
+                            </div>
+                        </div>
+                    </app-card>
+                    } @else {
+                    <!-- No Conversation Selected -->
+                    <app-card class="flex-1 flex items-center justify-center h-full min-h-0">
+                        <div class="text-center p-4">
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 bg-gray-100 dark:bg-surface-card rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 md:mb-6">
+                                <span class="material-icons text-3xl sm:text-4xl md:text-6xl text-gray-400">chat_bubble_outline</span>
+                            </div>
+                            <h3 class="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
+                                {{ 'chat.selectConversation' | translate }}
+                            </h3>
+                            <p class="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400">
+                                {{ 'chat.selectConversationDesc' | translate }}
+                            </p>
+                        </div>
+                    </app-card>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    </app-manager-layout>
+}
 <!-- New Message Modal -->
 @if(showNewMessageModal()) {
 <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4" (click)="closeNewMessageModal()">
