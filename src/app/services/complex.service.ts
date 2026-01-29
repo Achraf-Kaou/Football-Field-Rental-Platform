@@ -23,7 +23,7 @@ export class ComplexService {
 
   getAllComplexes(page?: number, itemsPerPage?: number, search?: string, status?: string, userId?:number, sortBy?: string) {
     console.log('Fetching complexes with params:', { page, itemsPerPage, search, status, userId, sortBy });
-    return this.http.get<Complex[]>(`${this.baseUrl}/complex?page=${page}&limit=${itemsPerPage}&search=${search ? search : ''}&${(status) ? `&status=${status}` : ''}&${(userId) ? `&userId=${userId}` : ''}&${(sortBy) ? `&sort=${sortBy}` : ''}`);
+    return this.http.get<Complex[]>(`${this.baseUrl}/complex?page=${page}&limit=${itemsPerPage}&search=${search ? search : ''}&${(status) ? `&status=${status}` : ''}&${(userId) ? `&userId=${userId}` : ''}&${(sortBy) ? `&sortedBy=${sortBy}` : ''}`);
   }
 
   getComplexCount(userId?:number) {

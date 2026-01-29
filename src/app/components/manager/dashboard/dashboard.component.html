@@ -1,204 +1,297 @@
 <app-manager-layout>
-<div class="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)]">
-  <!-- Header -->
-  <header class="px-6 py-4 border-b border-[var(--border-green)] bg-[var(--color-surface)] flex items-center justify-between">
-    <h1 class="text-2xl font-bold">Manager Dashboard</h1>
-    <div class="flex items-center gap-3">
-      <input
-        type="text"
-        class="px-3 py-2 rounded-md bg-[var(--input-bg)] border border-[var(--input-border)] text-[var(--color-text-primary)]"
-        placeholder="Rechercher un complexe..."
-        [ngModel]="search()"
-        (ngModelChange)="search.set($event)"
-      />
-      <select
-        class="px-3 py-2 rounded-md bg-[var(--input-bg)] border border-[var(--input-border)]"
-        [value]="status() || ''"
-        (change)="onStatusChange($event)"
-      >
-        <option value="">Tous les statuts</option>
-        <option value="ACTIVE">Actif</option>
-        <option value="INACTIVE">Inactif</option>
-      </select>
-      <select
-        class="px-3 py-2 rounded-md bg-[var(--input-bg)] border border-[var(--input-border)]"
-        [value]="sortBy()"
-        (change)="onSortByChange($event)"
-      >
-        <option value="createdAt">Tri: Date</option>
-        <option value="name">Tri: Nom</option>
-      </select>
-    </div>
-  </header>
+  <div class="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)]">
+    <!-- Header -->
+    <header class="top-0 z-20 border-b border-[var(--border-green)] bg-[var(--color-surface)]/90 backdrop-blur">
+      <div class="px-4 sm:px-6 py-4">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <!-- Title -->
+          <div class="flex items-start sm:items-center justify-between gap-3">
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold leading-tight">Manager Dashboard</h1>
+              <p class="mt-1 text-xs sm:text-sm text-[var(--color-text-secondary)]">
+                Gérez vos complexes, terrains et réservations.
+              </p>
+            </div>
 
-  <main class="p-6 space-y-6">
-    <!-- Loading / Error -->
-    <div *ngIf="loading()" class="text-[var(--color-text-secondary)]">Chargement...</div>
-    <div *ngIf="error()" class="text-red-500">{{ error() }}</div>
-
-    <!-- Stats Cards -->
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="rounded-lg p-4 bg-[var(--color-surface-card)]">
-        <div class="text-sm text-[var(--color-text-secondary)]">Complexes</div>
-        <div class="text-3xl font-semibold">{{ totalComplexes() }}</div>
-      </div>
-      <div class="rounded-lg p-4 bg-[var(--color-surface-card)]">
-        <div class="text-sm text-[var(--color-text-secondary)]">Terrains</div>
-        <div class="text-3xl font-semibold">{{ totalFields() }}</div>
-      </div>
-      <div class="rounded-lg p-4 bg-[var(--color-surface-card)]">
-        <div class="text-sm text-[var(--color-text-secondary)]">Réservations</div>
-        <div class="text-3xl font-semibold">{{ totalBookings() }}</div>
-      </div>
-    </section>
-
-    <!-- Complexes List -->
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div class="lg:col-span-1 space-y-3">
-        <h2 class="text-xl font-semibold">Mes complexes</h2>
-
-        <ul class="space-y-2">
-          <li
-            *ngFor="let c of complexes()"
-            (click)="selectComplex(c)"
-            class="cursor-pointer rounded-md border border-[var(--border-green)] bg-[var(--color-surface)] p-3 hover:bg-[var(--color-surface-card)] transition"
-            [class.ring-2]="selectedComplex()?.id === c.id"
-            [class.ring-[var(--color-primary)]]="selectedComplex()?.id === c.id"
-          >
-            <div class="font-medium">{{ c.name }}</div>
-            <div class="text-sm text-[var(--color-text-secondary)]">{{ c.address }}</div>
-            <div class="text-sm text-[var(--color-text-secondary)]">Tél: {{ c.phone }}</div>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Complex Details -->
-      <div class="lg:col-span-2 space-y-6">
-
-        <div *ngIf="selectedComplex(); else noComplex">
-          <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold">Détails: {{ selectedComplex()?.name }}</h2>
-            <div class="flex gap-3">
-              
-                <a [routerLink]="['/complex', selectedComplex()?.id, 'edit']"
-                class="px-3 py-2 rounded-md bg-[var(--color-primary)] text-black font-semibold"
-                >Modifier</a>
-              
-                <a [routerLink]="['/fields', 'new']"
-                [queryParams]="{ complexId: selectedComplex()?.id }"
-                class="px-3 py-2 rounded-md bg-[var(--color-accent)] text-white font-semibold"
-                >Ajouter un terrain</a
-              >
+            <!-- Mobile quick stats -->
+            <div class="sm:hidden flex items-center gap-2">
+              <span class="inline-flex items-center rounded-full bg-[var(--color-surface-card)] px-2 py-1 text-xs border border-[var(--border-green)]">
+                {{ totalComplexes() }} complexes
+              </span>
+              <span class="inline-flex items-center rounded-full bg-[var(--color-surface-card)] px-2 py-1 text-xs border border-[var(--border-green)]">
+                {{ totalFields() }} terrains
+              </span>
             </div>
           </div>
 
-          <!-- Fields Table -->
-          <div class="rounded-lg border border-[var(--border-green)] overflow-hidden mt-4">
-            <div class="bg-[var(--color-surface)] px-4 py-2 font-medium">Terrains</div>
-            <div class="overflow-x-auto">
-              <table class="min-w-full">
-                <thead class="bg-[var(--color-surface-card)] text-sm">
-                  <tr>
-                    <th class="text-left px-4 py-2">Nom</th>
-                    <th class="text-left px-4 py-2">Type</th>
-                    <th class="text-left px-4 py-2">Statut</th>
-                    <th class="text-left px-4 py-2">Prix</th>
-                    <th class="text-left px-4 py-2">Avis</th>
-                    <th class="text-left px-4 py-2">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let f of fields()" class="border-t border-[var(--border-green)]">
-                    <td class="px-4 py-2">{{ f.name }}</td>
-                    <td class="px-4 py-2">{{ f.type }}</td>
-                    <td class="px-4 py-2">
-                      <span class="inline-flex items-center px-2 py-1 rounded text-xs"
-                            [class.bg-green-200]="f.status === 'available'"
-                            [class.bg-yellow-200]="f.status === 'maintenance'"
-                            [class.bg-red-200]="f.status === 'closed'">
-                        {{ f.status }}
-                      </span>
-                    </td>
-                    <td class="px-4 py-2">{{ formatCurrency(f.price) }}</td>
-                    <td class="px-4 py-2">
-                      <div class="flex items-center gap-2">
-                        <span class="font-semibold" [ngClass]="ratingColorClassFor(f.id)">
-                          {{ (ratingsMap()[f.id]?.averageRating ?? 0) | number:'1.1-1' }}
-                        </span>
-                        <div class="flex items-center gap-0.5">
-                          <ng-container *ngFor="let s of starIconsFor(f.id)">
-                            <span [ngSwitch]="s">
-                              <svg *ngSwitchCase="'full'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.037a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118L10 13.347l-2.935 2.158c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L3.43 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/>
-                              </svg>
-                              <svg *ngSwitchCase="'half'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                              </svg>
-                              <svg *ngSwitchCase="'empty'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.037a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118L10 13.347l-2.935 2.158c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L3.43 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/>
-                              </svg>
-                            </span>
-                          </ng-container>
-                        </div>
-                        <span class="text-xs text-[var(--color-text-secondary)]">
-                          ({{ ratingsMap()[f.id]?.totalReviews ?? 0 }} avis)
-                        </span>
-                      </div>
-                      <div class="text-xs text-[var(--color-text-secondary)]">
-                        {{ ratingTextFor(f.id) }}
-                      </div>
-                    </td>
-                    <td class="px-4 py-2">
-                      <div class="flex gap-2">
-                        <a [routerLink]="['/fields', f.id, 'edit']" class="text-[var(--color-primary)] hover:underline">Modifier</a>
-                        <a [routerLink]="['/bookings', 'new']" [queryParams]="{ fieldId: f.id }" class="text-[var(--color-accent)] hover:underline">Réserver</a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr *ngIf="fields().length === 0">
-                    <td class="px-4 py-3 text-[var(--color-text-secondary)]" colspan="6">
-                      Aucun terrain pour ce complexe.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Bookings list -->
-          <div class="rounded-lg border border-[var(--border-green)] overflow-hidden">
-            <div class="bg-[var(--color-surface)] px-4 py-2 font-medium">Réservations</div>
-            <div class="divide-y divide-[var(--border-green)]">
-              <div *ngFor="let b of bookings()" class="px-4 py-3 flex items-center justify-between">
-                <div class="flex flex-col">
-                  <span class="font-medium">Réservation # {{ b.id }}</span>
-                  <span class="text-sm text-[var(--color-text-secondary)]">
-                    {{ b.startAt | date:'short' }} → {{ b.endAt | date:'short' }}
-                  </span>
-                  <span class="text-sm text-[var(--color-text-secondary)]">
-                    Terrain: {{ b.field?.name || b.fieldId }}
-                  </span>
-                </div>
-                <span class="inline-flex items-center px-2 py-1 rounded text-xs"
-                      [class.bg-green-200]="b.status === 'CONFIRMED'"
-                      [class.bg-yellow-200]="b.status === 'PENDING'"
-                      [class.bg-red-200]="b.status === 'CANCELLED'">
-                  {{ b.status }}
-                </span>
-              </div>
-              <div *ngIf="bookings().length === 0" class="px-4 py-3 text-[var(--color-text-secondary)]">
-                Aucune réservation pour ce complexe.
-              </div>
+          <!-- Filters -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full lg:w-[720px]">
+            <!-- Search -->
+            <div class="relative">
+              <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]">
+                <!-- search icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.9 14.32a8 8 0 111.414-1.414l3.387 3.387a1 1 0 01-1.414 1.414l-3.387-3.387zM14 8a6 6 0 11-12 0 6 6 0 0112 0z" clip-rule="evenodd"/>
+                </svg>
+              </span>
+              <input
+                type="text"
+                class="w-full pl-9 pr-3 py-2.5 rounded-md bg-[var(--input-bg)] border border-[var(--input-border)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                placeholder="Rechercher un complexe..."
+                [ngModel]="search()"
+                (ngModelChange)="onSearchChange($event)"
+              />
             </div>
           </div>
         </div>
-
-        <ng-template #noComplex>
-          <div class="rounded-md border border-[var(--border-green)] bg-[var(--color-surface-card)] p-4">
-            Aucun complexe trouvé pour ce manager.
-          </div>
-        </ng-template>
       </div>
-    </section>
-  </main>
-</div>
+    </header>
+
+    <main class="p-4 sm:p-6 space-y-6">
+      <!-- Loading / Error -->
+      @if (loading()) {
+        <div class="rounded-lg border border-[var(--border-green)] bg-[var(--color-surface-card)] p-4 text-[var(--color-text-secondary)]">
+          Chargement...
+        </div>
+      }
+      @if (error()) {
+        <div class="rounded-lg border border-red-300 bg-red-50 p-4 text-red-700">
+          {{ error() }}
+        </div>
+      }
+
+      <!-- Stats Cards (hidden on very small where we show pills in header) -->
+      <section class="hidden sm:grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="rounded-lg p-4 bg-[var(--color-surface-card)] border border-[var(--border-green)]">
+          <div class="text-sm text-[var(--color-text-secondary)]">Complexes</div>
+          <div class="mt-1 text-3xl font-semibold">{{ totalComplexes() }}</div>
+        </div>
+        <div class="rounded-lg p-4 bg-[var(--color-surface-card)] border border-[var(--border-green)]">
+          <div class="text-sm text-[var(--color-text-secondary)]">Terrains</div>
+          <div class="mt-1 text-3xl font-semibold">{{ totalFields() }}</div>
+        </div>
+        <div class="rounded-lg p-4 bg-[var(--color-surface-card)] border border-[var(--border-green)]">
+          <div class="text-sm text-[var(--color-text-secondary)]">Réservations</div>
+          <div class="mt-1 text-3xl font-semibold">{{ totalBookings() }}</div>
+        </div>
+      </section>
+
+      <!-- Layout -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left: Complexes list -->
+        <aside class="lg:col-span-4 xl:col-span-3">
+          <div class="rounded-xl border border-[var(--border-green)] bg-[var(--color-surface)] overflow-hidden">
+            <div class="px-4 py-3 flex items-center justify-between border-b border-[var(--border-green)]">
+              <h2 class="text-base sm:text-lg font-semibold">Mes complexes</h2>
+              <span class="text-xs text-[var(--color-text-secondary)]">
+                {{ complexes().length }} total
+              </span>
+            </div>
+
+            <div class="max-h-[60vh] lg:max-h-[70vh] overflow-auto">
+              <ul class="divide-y divide-[var(--border-green)]">
+                @for (c of complexes(); track c.id) {
+                  <li>
+                    <button
+                      type="button"
+                      (click)="selectComplex(c)"
+                      class="w-full text-left px-4 py-3 transition hover:bg-[var(--color-surface-card)] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--color-primary)]"
+                      [class.bg-[var(--color-surface-card)]]="selectedComplex()?.id === c.id"
+                    >
+                      <div class="flex items-start justify-between gap-3">
+                        <div class="min-w-0">
+                          <div class="font-medium truncate">{{ c.name }}</div>
+                          <div class="mt-1 text-sm text-[var(--color-text-secondary)] truncate">
+                            {{ c.address }}
+                          </div>
+                          <div class="text-sm text-[var(--color-text-secondary)]">
+                            Tél: {{ c.phone }}
+                          </div>
+                        </div>
+
+                        <div class="shrink-0">
+                          <span
+                            class="inline-flex items-center rounded-full px-2 py-1 text-xs border"
+                            [class.border-[var(--border-green)]]="selectedComplex()?.id !== c.id"
+                            [class.border-[var(--color-primary)]]="selectedComplex()?.id === c.id"
+                          >
+                            {{ selectedComplex()?.id === c.id ? 'Sélectionné' : 'Voir' }}
+                          </span>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                }
+
+                @if (complexes().length === 0) {
+                  <li class="px-4 py-4 text-sm text-[var(--color-text-secondary)]">
+                    Aucun complexe trouvé.
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Right: Details -->
+        <section class="lg:col-span-8 xl:col-span-9 space-y-6">
+          @if (selectedComplex() != null) {
+            <!-- Details header -->
+            <div class="rounded-xl border border-[var(--border-green)] bg-[var(--color-surface)] p-4 sm:p-5">
+              <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div class="min-w-0">
+                  <h2 class="text-lg sm:text-xl font-semibold truncate">
+                    Complex {{ selectedComplex()?.name }}
+                  </h2>
+                  <div class="mt-1 text-sm text-[var(--color-text-secondary)]">
+                    {{ selectedComplex()?.address }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fields -->
+            <div class="rounded-xl border border-[var(--border-green)] overflow-hidden bg-[var(--color-surface)]">
+              <div class="px-4 py-3 font-medium border-b border-[var(--border-green)] bg-[var(--color-surface)]">
+                Terrains
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                  <thead class="bg-[var(--color-surface-card)] text-xs uppercase tracking-wide text-[var(--color-text-secondary)]">
+                    <tr>
+                      <th class="text-left px-4 py-3">Nom</th>
+                      <th class="text-left px-4 py-3 hidden md:table-cell">Type</th>
+                      <th class="text-left px-4 py-3">Statut</th>
+                      <th class="text-left px-4 py-3 hidden lg:table-cell">Prix</th>
+                      <th class="text-left px-4 py-3">Avis</th>
+                    </tr>
+                  </thead>
+
+                  <tbody class="divide-y divide-[var(--border-green)]">
+                    @for (f of fields(); track f.id) {
+                      <tr class="align-top">
+                        <td class="px-4 py-3">
+                          <div class="font-medium">{{ f.name }}</div>
+                          <div class="mt-0.5 text-xs text-[var(--color-text-secondary)] md:hidden">
+                            {{ f.type }} • {{ formatCurrency(f.price) }}
+                          </div>
+                        </td>
+
+                        <td class="px-4 py-3 hidden md:table-cell">
+                          {{ f.type }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                          <span
+                            class="inline-flex items-center px-2 py-1 rounded-full text-xs border"
+                            [class.bg-green-200]="f.status === 'available'"
+                            [class.border-green-300]="f.status === 'available'"
+                            [class.bg-yellow-200]="f.status === 'maintenance'"
+                            [class.border-yellow-300]="f.status === 'maintenance'"
+                            [class.bg-red-200]="f.status === 'closed'"
+                            [class.border-red-300]="f.status === 'closed'"
+                          >
+                            {{ f.status }}
+                          </span>
+                        </td>
+
+                        <td class="px-4 py-3 hidden lg:table-cell">
+                          {{ formatCurrency(f.price) }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                          <div class="flex items-center gap-2">
+                            <span class="font-semibold" [ngClass]="ratingColorClassFor(f.id)">
+                              {{ (ratingsMap()[f.id]?.averageRating ?? 0) | number:'1.1-1' }}
+                            </span>
+
+                            <div class="flex items-center gap-0.5">
+                              @for (s of starIconsFor(f.id); track $index) {
+                                <ng-container>
+                                  <span [ngSwitch]="s">
+                                    <svg *ngSwitchCase="'full'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.037a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118L10 13.347l-2.935 2.158c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L3.43 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/>
+                                    </svg>
+                                    <svg *ngSwitchCase="'half'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                    </svg>
+                                    <svg *ngSwitchCase="'empty'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.037a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118L10 13.347l-2.935 2.158c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L3.43 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/>
+                                    </svg>
+                                  </span>
+                                </ng-container>
+                              }
+                            </div>
+
+                            <span class="text-xs text-[var(--color-text-secondary)]">
+                              ({{ ratingsMap()[f.id]?.totalReviews ?? 0 }})
+                            </span>
+                          </div>
+                          <div class="text-xs text-[var(--color-text-secondary)] mt-1">
+                            {{ ratingTextFor(f.id) }}
+                          </div>
+                        </td>
+                      </tr>
+                    }
+
+                    @if (fields().length === 0) {
+                      <tr>
+                        <td class="px-4 py-4 text-[var(--color-text-secondary)]" colspan="6">
+                          Aucun terrain pour ce complexe.
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Bookings -->
+            <div class="rounded-xl border border-[var(--border-green)] overflow-hidden bg-[var(--color-surface)]">
+              <div class="px-4 py-3 font-medium border-b border-[var(--border-green)]">
+                Réservations
+              </div>
+
+              <div class="divide-y divide-[var(--border-green)]">
+                @for (b of bookings(); track b.id) {
+                  <div class="px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div class="min-w-0">
+                      <div class="font-medium">Réservation # {{ b.id }}</div>
+                      <div class="text-sm text-[var(--color-text-secondary)]">
+                        {{ b.startAt | date:'short' }} → {{ b.endAt | date:'short' }}
+                      </div>
+                      <div class="text-sm text-[var(--color-text-secondary)] truncate">
+                        Terrain: {{ b.field?.name || b.fieldId }}
+                      </div>
+                    </div>
+
+                    <span
+                      class="inline-flex w-fit items-center px-2 py-1 rounded-full text-xs border dark:text-black"
+                      [class.bg-green-200]="b.status === 'completed'"
+                      [class.bg-yellow-200]="b.status === 'pending'"
+                      [class.bg-red-200]="b.status === 'cancelled'"
+                    >
+                      {{ b.status }}
+                    </span>
+                  </div>
+                }
+
+                @if (bookings().length === 0) {
+                  <div class="px-4 py-4 text-[var(--color-text-secondary)]">
+                    Aucune réservation pour ce complexe.
+                  </div>
+                }
+              </div>
+            </div>
+          }
+          @else {
+            <div class="rounded-xl border border-[var(--border-green)] bg-[var(--color-surface-card)] p-6 text-[var(--color-text-secondary)]">
+              Aucun complexe trouvé pour ce manager.
+            </div>
+          }
+        </section>
+      </section>
+    </main>
+  </div>
+</app-manager-layout>

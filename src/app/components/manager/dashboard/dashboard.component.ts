@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -11,6 +11,7 @@ import { FieldModel } from '../../../models/field.model';
 import { forkJoin } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { ManagerLayout } from "../../layouts/manager-layout/manager-layout";
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -24,6 +25,7 @@ export class DashboardComponent {
   private fieldService = inject(FieldService);
   private bookingService = inject(BookingService);
   private reviewService = inject(ReviewService);
+  private destroyRef = inject(DestroyRef);
 
   // UI state
   loading = signal<boolean>(true);
@@ -44,75 +46,78 @@ export class DashboardComponent {
   // Ratings par terrain (fieldId -> AverageRating)
   ratingsMap = signal<Record<number, AverageRating>>({});
 
-  // Stats globales
+  // Stats
   totalComplexes = computed(() => this.complexes().length);
   totalFields = computed(() => this.fields().length);
   totalBookings = computed(() => this.bookings().length);
 
-  // Id du manager (depuis auth)
+  // Auth
   managerId = computed(() => this.auth.currentUser()?.id ?? null);
-  isManager = computed(() => {
-    const role = this.auth.currentUser()?.role;
-    return role === 'MANAGER' || role === 'ADMIN';
-  });
+  isManager = computed(() => this.auth.currentUser()?.role === 'MANAGER');
+
+  // Stabiliser l'id sélectionné si besoin
+  selectedComplexId = computed<number | null>(() => this.selectedComplex()?.id ?? null);
 
   constructor() {
-    // Charger complexes au démarrage
-    effect(() => {
-      if (!this.isManager()) {
-        this.error.set('Accès refusé: vous devez être MANAGER ou ADMIN.');
-        this.loading.set(false);
-        return;
-      }
-      const userId = this.managerId();
-      if (!userId) return;
-
-      this.fetchComplexes(userId);
-    });
-
-    // Quand on change de complex sélectionné, charger ses terrains et réservations
-    effect(() => {
-      const complex = this.selectedComplex();
-      if (complex?.id) {
-        this.fetchFields(complex.id);
-        this.fetchBookings(complex.id);
-      } else {
-        this.fields.set([]);
-        this.bookings.set([]);
-        this.ratingsMap.set({});
-      }
-    });
-
-    // Rafraîchir quand on change recherche/status/sort
-    effect(() => {
-      const userId = this.managerId();
-      if (!userId) return;
-      // On relance la requête complexes quand filtres changent
-      this.fetchComplexes(userId);
-    });
+    this.init();
   }
 
-  private fetchComplexes(userId: number) {
+  private init() {
+    if (!this.isManager()) {
+      this.error.set('Accès refusé: vous devez être MANAGER.');
+      this.loading.set(false);
+      return;
+    }
+
+    const userId = this.managerId();
+    if (!userId) {
+      this.error.set("Utilisateur non connecté.");
+      this.loading.set(false);
+      return;
+    }
+
+    this.loadComplexes();
+  }
+
+  // ====== LOADERS ======
+
+  loadComplexes() {
+    const userId = this.managerId();
+    if (!userId) return;
+
     this.loading.set(true);
     this.error.set(null);
 
     const page = 1;
     const itemsPerPage = 50;
-    const search = this.search() || undefined;
-    const status = this.status() || undefined;
-    const sortBy = this.sortBy() || undefined;
 
     this.complexService
-      .getAllComplexes(page, itemsPerPage, search, status ?? undefined, userId, sortBy)
+      .getAllComplexes(
+        page,
+        itemsPerPage,
+        this.search() || undefined,
+        this.status() || undefined,
+        userId,
+        this.sortBy() || undefined
+      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (complexes) => {
-          this.complexes.set(complexes || []);
-          // sélection automatique du premier complex
-          if (complexes && complexes.length > 0) {
-            this.selectedComplex.set(complexes[0]);
-          } else {
-            this.selectedComplex.set(null);
+          const list = complexes || [];
+          this.complexes.set(list);
+
+          // si aucun sélectionné, sélectionner le 1er + charger ses données
+          if (!this.selectedComplexId() && list.length > 0) {
+            this.selectComplex(list[0]);
           }
+
+          // si le sélectionné n'existe plus dans la liste, fallback
+          const currentId = this.selectedComplexId();
+          if (currentId && !list.some(c => c.id === currentId)) {
+            if (list[0]) this.selectComplex(list[0]);
+            else this.clearDetails();
+          }
+
           this.loading.set(false);
         },
         error: (err) => {
@@ -122,12 +127,15 @@ export class DashboardComponent {
       });
   }
 
-  private fetchFields(complexId: number) {
-    this.fieldService.getAllFields(undefined, undefined, undefined, undefined, undefined, complexId)
+  private loadFields(complexId: number) {
+    this.fieldService
+      .getAllFields(undefined, undefined, undefined, undefined, undefined, complexId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (fields) => {
-          this.fields.set(fields || []);
-          this.prefetchRatings(fields || []);
+          const list = fields || [];
+          this.fields.set(list);
+          this.prefetchRatings(list);
         },
         error: (err) => {
           this.error.set(err?.message || 'Erreur lors du chargement des terrains');
@@ -135,80 +143,108 @@ export class DashboardComponent {
       });
   }
 
-  private fetchBookings(complexId: number) {
-    this.bookingService.getBookingsByComplexId(complexId)
+  private loadBookings(complexId: number) {
+    this.bookingService
+      .getBookingsByComplexId(complexId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (bookings) => {
-          this.bookings.set(bookings || []);
-        },
+        next: (bookings) => this.bookings.set(bookings || []),
         error: (err) => {
           this.error.set(err?.message || 'Erreur lors du chargement des réservations');
         }
       });
   }
 
-  // Précharger les ratings pour chaque terrain
   private prefetchRatings(fields: FieldModel[]) {
-    if (!fields || fields.length === 0) {
+    if (!fields?.length) {
       this.ratingsMap.set({});
       return;
     }
+
     const requests = fields.map(f => this.reviewService.getFieldAverageRating(f.id));
-    forkJoin(requests).subscribe({
-      next: (results) => {
-        const map: Record<number, AverageRating> = {};
-        results.forEach((avg, idx) => {
-          const fieldId = fields[idx].id;
-          map[fieldId] = avg;
-        });
-        this.ratingsMap.set(map);
-      },
-      error: () => {
-        this.ratingsMap.set({});
-      }
-    });
+    forkJoin(requests)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (results) => {
+          const map: Record<number, AverageRating> = {};
+          results.forEach((avg, idx) => {
+            map[fields[idx].id] = avg;
+          });
+          this.ratingsMap.set(map);
+        },
+        error: () => this.ratingsMap.set({})
+      });
   }
 
-  // UI actions
+  private clearDetails() {
+    this.selectedComplex.set(null);
+    this.fields.set([]);
+    this.bookings.set([]);
+    this.ratingsMap.set({});
+  }
+
+  // ====== UI ACTIONS ======
+
   selectComplex(c: Complex) {
+    if (this.selectedComplexId() === c.id) return;
+
     this.selectedComplex.set(c);
+
+    // au click => charger les détails
+    this.fields.set([]);
+    this.bookings.set([]);
+    this.ratingsMap.set({});
+
+    this.loadFields(c.id);
+    this.loadBookings(c.id);
   }
 
-  // Event handlers
+  // ====== FILTER HANDLERS ======
+
   onStatusChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     this.status.set(target.value || null);
+    this.loadComplexes();
   }
 
   onSortByChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     this.sortBy.set(target.value);
+    this.loadComplexes();
   }
 
-  // Helpers UI
+  // optionnel: si tu veux déclencher la recherche "en live"
+  onSearchChange(value: string) {
+    this.search.set(value);
+    this.loadComplexes();
+  }
+
+  // ====== UI HELPERS ======
+
   ratingFor(fieldId: number): AverageRating | null {
     return this.ratingsMap()[fieldId] ?? null;
   }
 
   starIconsFor(fieldId: number): ('full' | 'half' | 'empty')[] {
-    const avg = this.ratingFor(fieldId);
-    const value = avg?.averageRating ?? 0;
+    const value = this.ratingFor(fieldId)?.averageRating ?? 0;
     return this.reviewService.getStarIcons(value);
   }
 
   ratingTextFor(fieldId: number): string {
-    const avg = this.ratingFor(fieldId);
-    const value = avg?.averageRating ?? 0;
+    const value = this.ratingFor(fieldId)?.averageRating ?? 0;
     return this.reviewService.getRatingText(value);
   }
 
   ratingColorClassFor(fieldId: number): string {
-    const avg = this.ratingFor(fieldId);
-    const value = avg?.averageRating ?? 0;
+    const value = this.ratingFor(fieldId)?.averageRating ?? 0;
     return this.reviewService.getRatingColorClass(value);
   }
 
   formatCurrency(amount: number): string {
     return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(amount);
+  }
+
+  trackById(_: number, item: { id: number }) {
+    return item.id;
   }
 }

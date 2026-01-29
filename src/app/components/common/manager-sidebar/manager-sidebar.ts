@@ -319,7 +319,7 @@ export class ManagerSidebar implements AfterViewInit, OnInit {
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        this.toastService.error(this.translate.instant('auth.logoutError'), 5000);
+        this.toastService.success(this.translate.instant('auth.logoutSuccess'), 3000);
         this.router.navigate(['/login']);
       }
     });
