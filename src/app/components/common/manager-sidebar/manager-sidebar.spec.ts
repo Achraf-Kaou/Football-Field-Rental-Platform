@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ManagerSidebar } from './manager-sidebar';
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ManagerSidebar', () => {
   let component: ManagerSidebar;
@@ -8,7 +9,7 @@ describe('ManagerSidebar', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ManagerSidebar]
+      imports: [ManagerSidebar, TranslateModule.forRoot(), HttpClientTestingModule]
     })
     .compileComponents();
 

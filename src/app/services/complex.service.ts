@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ComplexDTO } from '../interfaces/complex.dto';
 import { environment } from '../../environments/environment.development';
 import { Complex } from '../models/complex.model';
+import { HttpCacheService } from './http-cache.service';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +12,13 @@ import { Complex } from '../models/complex.model';
 export class ComplexService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
+  private cache = inject(HttpCacheService);
 
   createComplex(complex: ComplexDTO) {
     console.log(complex);
-    return this.http.post<ComplexDTO>(`${this.baseUrl}/complex`, complex);
+    return this.http
+      .post<ComplexDTO>(`${this.baseUrl}/complex`, complex)
+      .pipe(tap(() => this.cache.clearByPrefix(`${this.baseUrl}/complex`)));
   }
 
   getAllComplexes(page?: number, itemsPerPage?: number, search?: string, status?: string, userId?:number, sortBy?: string) {
@@ -30,11 +35,15 @@ export class ComplexService {
   }
 
   updateComplex(id: number |null, complex: ComplexDTO){
-    return this.http.patch<ComplexDTO>(`${this.baseUrl}/complex/${id}`, complex)
+    return this.http
+      .patch<ComplexDTO>(`${this.baseUrl}/complex/${id}`, complex)
+      .pipe(tap(() => this.cache.clearByPrefix(`${this.baseUrl}/complex`)));
   }
 
   deleteComplex(id: number) {
-    return this.http.delete(`${this.baseUrl}/complex/${id}`);
+    return this.http
+      .delete(`${this.baseUrl}/complex/${id}`)
+      .pipe(tap(() => this.cache.clearByPrefix(`${this.baseUrl}/complex`)));
   }
 
 }

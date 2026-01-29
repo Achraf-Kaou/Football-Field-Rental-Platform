@@ -3,6 +3,8 @@ import { FieldDTO } from '../interfaces/field.dto';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { FieldModel } from '../models/field.model';
+import { HttpCacheService } from './http-cache.service';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +12,12 @@ import { FieldModel } from '../models/field.model';
 export class FieldService {
   private baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
+  private cache = inject(HttpCacheService);
 
   createField(fieldDTO: FieldDTO) {
-    return this.http.post<FieldDTO>(`${this.baseUrl}/fields`, fieldDTO);
+    return this.http
+      .post<FieldDTO>(`${this.baseUrl}/fields`, fieldDTO)
+      .pipe(tap(() => this.cache.clearByPrefix(`${this.baseUrl}/fields`)));
   }
 
   getAllFields(page?: number, limit?: number, search?: string, sortedBy?: string, sortedDirection?: string, complexId?: number, status?: string, type?: string) {
@@ -25,11 +30,15 @@ export class FieldService {
   }
 
   updateField(id: number, fieldDTO: Partial<FieldModel>) {
-    return this.http.patch<FieldDTO>(`${this.baseUrl}/fields/${id}`, fieldDTO);
+    return this.http
+      .patch<FieldDTO>(`${this.baseUrl}/fields/${id}`, fieldDTO)
+      .pipe(tap(() => this.cache.clearByPrefix(`${this.baseUrl}/fields`)));
   }
 
   deleteField(id: number) {
-    return this.http.delete(`${this.baseUrl}/fields/${id}`);
+    return this.http
+      .delete(`${this.baseUrl}/fields/${id}`)
+      .pipe(tap(() => this.cache.clearByPrefix(`${this.baseUrl}/fields`)));
   }
   
   countAll(id?: number) {
