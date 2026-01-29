@@ -42,7 +42,7 @@ export class Profile implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s()]*$/)]],
+      phone: ['', [Validators.required, Validators.pattern(/^\+?[\d\s\-()]{10,}$/)]],
     });
   }
 
@@ -98,8 +98,16 @@ export class Profile implements OnInit {
     this.userService.update(user.id, updateData).subscribe({
       next: (updatedUser) => {
         // Update the auth service with the new user data
-        this.authService.getProfile().subscribe();
-        this.toastService.success('Profile updated successfully', 3000);
+        this.authService.getProfile().subscribe({
+          next: () => {
+            this.toastService.success('Profile updated successfully', 3000);
+          },
+          error: (error) => {
+            console.error('Error refreshing profile:', error);
+            // Still show success since the update succeeded
+            this.toastService.success('Profile updated successfully', 3000);
+          }
+        });
         this.isSaving.set(false);
       },
       error: (error) => {
