@@ -156,7 +156,7 @@ interface Translation {
           }
 
           <!-- Input -->
-          <div class="p-3 sm:p-4 bg-white border-t border-gray-200 flex-shrink-0">
+          <div class="p-3 sm:p-4 bg-white text-black border-t border-gray-200 flex-shrink-0">
             <div class="flex gap-2">
               <input
                 #messageInput

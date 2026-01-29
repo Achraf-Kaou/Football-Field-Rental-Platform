@@ -6,7 +6,8 @@
     "chat": "Chat",
     "signup": "Sign Up",
     "signin": "Sign In",
-    "logout": "Logout"
+    "logout": "Logout",
+    "profile": "Profile"
   },
   "dashboard": {
     "title": "Overview",
@@ -109,7 +110,8 @@
     "changeLanguage": "Change Language",
     "loading": "Loading...",
     "noComplexes": "No complexes found",
-    "chat": "Chat"
+    "chat": "Chat",
+    "profile": "Profile"
   },
   "user": {
     "profile": "Profile",

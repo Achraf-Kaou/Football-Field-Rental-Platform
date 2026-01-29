@@ -291,7 +291,9 @@ export class AuthService {
    * Get current user profile
    */
   getProfile(): Observable<User> {
-    return this.http.get<User>(`${this.API_URL}/auth/profile`)
+    return this.http.get<User>(`${this.API_URL}/auth/profile`, {headers: {
+      'Authorization': `Bearer ${this.getToken()}` 
+    }})
       .pipe(
         tap(user => {
           this.currentUserSignal.set(user);

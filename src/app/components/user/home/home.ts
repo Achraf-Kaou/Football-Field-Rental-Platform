@@ -275,6 +275,6 @@ export class Home implements OnInit {
   }
 
   goToComplex(idComplex: number) {
-    this.router.navigate(['/user/complex', idComplex]);
+    this.router.navigate(['/user/fields', { queryParams: { idComplex } }]);
   }
 }

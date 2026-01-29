@@ -39,7 +39,8 @@ export class NavbarMain {
     { path: '/user', label: 'navbar.home', icon: 'home' },
     { path: '/user/fields', label: 'navbar.fields', icon: 'sports_soccer' },
     { path: '/user/user-bookings', label: 'navbar.bookings', icon: 'event' },
-    { path: '/user/chat', label: 'navbar.chat', icon: 'chat' }
+    { path: '/user/chat', label: 'navbar.chat', icon: 'chat' },
+    { path: '/user/profile', label: 'navbar.profile', icon: 'person' }
   ];
 
   toggleTheme() {

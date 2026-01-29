@@ -51,7 +51,7 @@ export class ManagerSidebar implements AfterViewInit, OnInit {
     { id: 2, name: 'sidebar.bookings', icon: 'shopping_cart', path: null, active: false, hasDropdown: true },
     { id: 3, name: 'sidebar.availability', icon: 'event_available', path: null, active: false, hasDropdown: true },
     { id: 4, name: 'sidebar.chat', icon: 'chat', path: 'chat', active: false, hasDropdown: false },
-
+    { id: 5, name: 'sidebar.profile', icon: 'person', path: '/user/profile', active: false, hasDropdown: false }
   ]);
 
   // State signals

@@ -6,7 +6,8 @@
     "chat": "Discussion",
     "signup": "S'inscrire",
     "signin": "Se connecter",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "profile": "Profil"
   },
   "dashboard": {
     "title": "Vue d'ensemble",
@@ -109,7 +110,8 @@
     "changeLanguage": "Changer de langue",
     "loading": "Chargement...",
     "noComplexes": "Aucun complexe trouvé",
-    "chat": "Discussion"
+    "chat": "Discussion",
+    "profile": "Profil"
   },
   "user": {
     "profile": "Profil",

@@ -466,7 +466,7 @@
 <!-- New Message Modal -->
 @if(showNewMessageModal()) {
 <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4" (click)="closeNewMessageModal()">
-    <div class="bg-white dark:bg-surface-dark rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden" (click)="$event.stopPropagation()">
+    <div class="bg-white dark:bg-surface rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden" (click)="$event.stopPropagation()">
         <!-- Modal Header -->
         <div class="p-4 sm:p-6 border-b border-gray-200 dark:border-white/10 flex items-center justify-between">
             <h3 class="text-lg sm:text-xl font-black text-gray-900 dark:text-white">{{ 'chat.newMessage' | translate }}</h3>

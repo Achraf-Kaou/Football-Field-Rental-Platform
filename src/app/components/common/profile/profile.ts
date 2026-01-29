@@ -9,11 +9,12 @@ import { AuthService } from '../../../services/auth.service';
 import { UserService, UpdateUserDto } from '../../../services/user.service';
 import { ToastService } from '../../../services/toast.service';
 import { Router } from '@angular/router';
+import { ManagerLayout } from "../../layouts/manager-layout/manager-layout";
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, CardComponent, NavbarMain, FooterMain],
+  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, CardComponent, NavbarMain, FooterMain, ManagerLayout],
   templateUrl: './profile.html',
   styleUrls: ['./profile.css']
 })
@@ -42,7 +43,7 @@ export class Profile implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^\+?[\d\s\-()]{10,}$/)]],
+      phone: ['', [Validators.required, Validators.pattern(/^\+?[\d\s\-()]{8,}$/)]],
     });
   }
 
@@ -51,8 +52,12 @@ export class Profile implements OnInit {
    */
   private loadUserProfile(): void {
     this.isLoading.set(true);
-    
-    this.authService.getProfile().subscribe({
+    const user = this.currentUser();
+    if (!user) {
+      this.toastService.error('User not found', 3000);
+      return;
+    }
+    this.userService.findOne(user.id).subscribe({
       next: (user) => {
         this.profileForm.patchValue({
           firstName: user.firstName,
