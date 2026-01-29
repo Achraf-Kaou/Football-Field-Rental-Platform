@@ -328,5 +328,49 @@
     "CANCEL": "Annuler",
     "UPDATE": "Mettre à jour",
     "SLOT": "Créneau"
+  },
+  "MANAGER_DASHBOARD": {
+    "TITLE": "Tableau de bord du gestionnaire",
+    "SUBTITLE": "Gérez vos complexes, terrains et réservations",
+    "SEARCH_PLACEHOLDER": "Rechercher un complexe...",
+    "COMPLEXES": "complexes",
+    "FIELDS": "terrains",
+    "BOOKINGS": "réservations",
+    "SELECT_COMPLEX": "Sélectionnez un complexe pour voir les détails",
+    "NO_COMPLEXES": "Aucun complexe disponible",
+    "ERROR_LOADING": "Erreur lors du chargement des données",
+    "ACCESS_DENIED": "Accès refusé : vous devez être un GESTIONNAIRE",
+    "USER_NOT_CONNECTED": "Utilisateur non connecté"
+  },
+  "USER_COMPLEX_LIST": {
+    "TITLE": "Complexes Disponibles",
+    "SUBTITLE": "Parcourir et réserver des terrains de football",
+    "SEARCH_PLACEHOLDER": "Rechercher par nom de complexe, ville...",
+    "FILTER": "Filtrer",
+    "CLEAR_FILTERS": "Effacer les filtres",
+    "MOBILE_FILTERS": "Filtres",
+    "NO_COMPLEXES": "Aucun complexe trouvé",
+    "LOADING": "Chargement...",
+    "VIEW_FIELDS": "Voir les terrains",
+    "RESULTS": "résultats",
+    "SHOWING": "Affichage de"
+  },
+  "PROFILE": {
+    "TITLE": "Profil",
+    "SUBTITLE": "Gérer les informations de votre compte",
+    "FIRST_NAME": "Prénom",
+    "LAST_NAME": "Nom",
+    "EMAIL": "Email",
+    "PHONE": "Numéro de téléphone",
+    "SAVE": "Enregistrer les modifications",
+    "CANCEL": "Annuler",
+    "LOADING": "Chargement...",
+    "SAVING": "Enregistrement...",
+    "SUCCESS": "Profil mis à jour avec succès",
+    "ERROR": "Échec de la mise à jour du profil",
+    "REQUIRED": "Ce champ est requis",
+    "INVALID_EMAIL": "Veuillez entrer une adresse email valide",
+    "MIN_LENGTH": "La longueur minimale est de {{length}} caractères",
+    "INVALID_PHONE": "Veuillez entrer un numéro de téléphone valide"
   }
 }

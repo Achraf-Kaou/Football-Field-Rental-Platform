@@ -10,11 +10,12 @@ import { UserService, UpdateUserDto } from '../../../services/user.service';
 import { ToastService } from '../../../services/toast.service';
 import { Router } from '@angular/router';
 import { ManagerLayout } from "../../layouts/manager-layout/manager-layout";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, CardComponent, NavbarMain, FooterMain, ManagerLayout],
+  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, CardComponent, NavbarMain, FooterMain, ManagerLayout, TranslateModule],
   templateUrl: './profile.html',
   styleUrls: ['./profile.css']
 })

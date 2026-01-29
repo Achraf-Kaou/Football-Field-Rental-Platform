@@ -8,11 +8,12 @@ import { ComplexService } from '../../../services/complex.service';
 import { Complex } from '../../../models/complex.model';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../services/toast.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-complex-list',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, CardComponent, NavbarMain, FooterMain],
+  imports: [CommonModule, ButtonComponent, CardComponent, NavbarMain, FooterMain, TranslateModule],
   templateUrl: './complex-list.html',
   styles: [`
     @keyframes slide-down {

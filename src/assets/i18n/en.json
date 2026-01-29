@@ -328,5 +328,49 @@
     "CANCEL": "Cancel",
     "UPDATE": "Update",
     "SLOT": "Slot"
+  },
+  "MANAGER_DASHBOARD": {
+    "TITLE": "Manager Dashboard",
+    "SUBTITLE": "Manage your complexes, fields and bookings",
+    "SEARCH_PLACEHOLDER": "Search for a complex...",
+    "COMPLEXES": "complexes",
+    "FIELDS": "fields",
+    "BOOKINGS": "bookings",
+    "SELECT_COMPLEX": "Select a complex to view details",
+    "NO_COMPLEXES": "No complexes available",
+    "ERROR_LOADING": "Error loading data",
+    "ACCESS_DENIED": "Access denied: you must be a MANAGER",
+    "USER_NOT_CONNECTED": "User not connected"
+  },
+  "USER_COMPLEX_LIST": {
+    "TITLE": "Available Complexes",
+    "SUBTITLE": "Browse and book football fields",
+    "SEARCH_PLACEHOLDER": "Search by complex name, city...",
+    "FILTER": "Filter",
+    "CLEAR_FILTERS": "Clear Filters",
+    "MOBILE_FILTERS": "Filters",
+    "NO_COMPLEXES": "No complexes found",
+    "LOADING": "Loading...",
+    "VIEW_FIELDS": "View Fields",
+    "RESULTS": "results",
+    "SHOWING": "Showing"
+  },
+  "PROFILE": {
+    "TITLE": "Profile",
+    "SUBTITLE": "Manage your account information",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "EMAIL": "Email",
+    "PHONE": "Phone Number",
+    "SAVE": "Save Changes",
+    "CANCEL": "Cancel",
+    "LOADING": "Loading...",
+    "SAVING": "Saving...",
+    "SUCCESS": "Profile updated successfully",
+    "ERROR": "Failed to update profile",
+    "REQUIRED": "This field is required",
+    "INVALID_EMAIL": "Please enter a valid email address",
+    "MIN_LENGTH": "Minimum length is {{length}} characters",
+    "INVALID_PHONE": "Please enter a valid phone number"
   }
 }
