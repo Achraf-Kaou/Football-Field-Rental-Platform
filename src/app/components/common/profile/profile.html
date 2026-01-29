@@ -1,0 +1,157 @@
+<app-navbar-main></app-navbar-main>
+<div class="min-h-screen pt-20 md:pt-24 pb-12 bg-background transition-colors duration-300">
+  <div class="container mx-auto px-4 py-4 max-w-3xl">
+    <!-- Page Header -->
+    <div class="mb-6 md:mb-8">
+      <h1 class="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mb-2">
+        Edit Profile
+      </h1>
+      <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">
+        Update your personal information
+      </p>
+    </div>
+
+    <!-- Loading State -->
+    @if(isLoading()) {
+    <div class="flex justify-center items-center py-20">
+      <div class="animate-spin rounded-full h-16 w-16 border-4 border-primary border-t-transparent"></div>
+    </div>
+    }
+
+    <!-- Profile Form -->
+    @else {
+    <app-card>
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <!-- User Info Display -->
+        @if(currentUser()) {
+        <div class="pb-6 border-b border-gray-200 dark:border-white/10">
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+              <span class="text-2xl font-bold text-background-dark">
+                {{ currentUser()?.firstName?.charAt(0) }}{{ currentUser()?.lastName?.charAt(0) }}
+              </span>
+            </div>
+            <div>
+              <h2 class="text-xl font-bold text-gray-900 dark:text-white">
+                {{ currentUser()?.firstName }} {{ currentUser()?.lastName }}
+              </h2>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                {{ currentUser()?.role }}
+              </p>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- First Name -->
+        <div>
+          <label for="firstName" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+            First Name <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            formControlName="firstName"
+            placeholder="Enter your first name"
+            [class.border-red-500]="hasError('firstName', 'required') || hasError('firstName', 'minlength')"
+            class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-surface-card text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+          />
+          @if(profileForm.get('firstName')?.touched && profileForm.get('firstName')?.invalid) {
+          <p class="mt-1 text-sm text-red-500">{{ getErrorMessage('firstName') }}</p>
+          }
+        </div>
+
+        <!-- Last Name -->
+        <div>
+          <label for="lastName" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+            Last Name <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            formControlName="lastName"
+            placeholder="Enter your last name"
+            [class.border-red-500]="hasError('lastName', 'required') || hasError('lastName', 'minlength')"
+            class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-surface-card text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+          />
+          @if(profileForm.get('lastName')?.touched && profileForm.get('lastName')?.invalid) {
+          <p class="mt-1 text-sm text-red-500">{{ getErrorMessage('lastName') }}</p>
+          }
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+            Email Address <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Enter your email address"
+            [class.border-red-500]="hasError('email', 'required') || hasError('email', 'email')"
+            class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-surface-card text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+          />
+          @if(profileForm.get('email')?.touched && profileForm.get('email')?.invalid) {
+          <p class="mt-1 text-sm text-red-500">{{ getErrorMessage('email') }}</p>
+          }
+        </div>
+
+        <!-- Phone -->
+        <div>
+          <label for="phone" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+            Phone Number <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="phone"
+            type="tel"
+            formControlName="phone"
+            placeholder="Enter your phone number"
+            [class.border-red-500]="hasError('phone', 'required') || hasError('phone', 'pattern')"
+            class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-surface-card text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+          />
+          @if(profileForm.get('phone')?.touched && profileForm.get('phone')?.invalid) {
+          <p class="mt-1 text-sm text-red-500">{{ getErrorMessage('phone') }}</p>
+          }
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex flex-col sm:flex-row gap-3 pt-4">
+          <app-button
+            type="submit"
+            [variant]="'primary'"
+            [disabled]="isSaving()"
+            class="flex-1 sm:flex-initial"
+          >
+            @if(isSaving()) {
+              <span class="flex items-center justify-center gap-2">
+                <div class="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                Saving...
+              </span>
+            } @else {
+              <span class="flex items-center justify-center gap-2">
+                <span class="material-icons text-sm">save</span>
+                Save Changes
+              </span>
+            }
+          </app-button>
+          
+          <app-button
+            type="button"
+            [variant]="'outline'"
+            (click)="onCancel()"
+            [disabled]="isSaving()"
+            class="flex-1 sm:flex-initial"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="material-icons text-sm">close</span>
+              Cancel
+            </span>
+          </app-button>
+        </div>
+      </form>
+    </app-card>
+    }
+  </div>
+</div>
+<app-footer-main></app-footer-main>
