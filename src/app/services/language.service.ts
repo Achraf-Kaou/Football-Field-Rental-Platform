@@ -44,6 +44,8 @@ export class LanguageService {
     
     // Use saved or browser language
     this.translate.use(savedLang);
+    this.currentLanguageSignal.set(savedLang);
+    localStorage.setItem(this.LANGUAGE_KEY, savedLang);
     
     // Set HTML dir attribute for RTL support
     this.updateDirection(savedLang);

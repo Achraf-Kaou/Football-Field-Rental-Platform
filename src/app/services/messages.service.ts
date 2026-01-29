@@ -1,13 +1,14 @@
-import { Injectable, signal } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable, inject, signal } from '@angular/core';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, forkJoin } from 'rxjs';
-import { tap, catchError, map } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { User } from '../models/user.model';
 import { Message } from '../models/message.model';
 import { messageDTO } from '../interfaces/message.dto';
 import { FindAllMessageDto } from '../interfaces/find-all-message.dto';
 import { StartConversationDto } from '../interfaces/start-conversation.dto';
+import { SKIP_CACHE } from '../interceptors/auth.interceptor';
 
 export interface PaginatedMessages {
   data: Message[];
@@ -46,7 +47,8 @@ export class MessagesService {
   private messagesSubject = new BehaviorSubject<Message[]>([]);
   public messages$ = this.messagesSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+  private cacheContext = new HttpContext().set(SKIP_CACHE, true);
 
   sendMessage(messageDto: messageDTO): Observable<Message> {
     this.loadingSignal.set(true);
@@ -91,7 +93,7 @@ export class MessagesService {
     }
     console.log('Fetching messages with params:', params.toString());
 
-    return this.http.get<PaginatedMessages>(this.API_URL, { params }).pipe(
+    return this.http.get<PaginatedMessages>(this.API_URL, { params, context: this.cacheContext }).pipe(
       tap(response => {
         this.messagesSignal.set(response.data);
         this.messagesSubject.next(response.data);
@@ -104,7 +106,11 @@ export class MessagesService {
   findConversation(userId1: number, userId2: number): Observable<Message[]> {
     this.loadingSignal.set(true);
 
-    return this.http.get<Message[]>(`${this.API_URL}/conversation/${userId1}/${userId2}`).pipe(
+    return this.http
+      .get<Message[]>(`${this.API_URL}/conversation/${userId1}/${userId2}`, {
+        context: this.cacheContext
+      })
+      .pipe(
       tap(messages => {
         this.messagesSignal.set(messages);
         this.messagesSubject.next(messages);
@@ -136,7 +142,11 @@ export class MessagesService {
   }
 
   getUnreadCount(userId: number): Observable<UnreadCountResponse> {
-    return this.http.get<UnreadCountResponse>(`${this.API_URL}/unread/${userId}`).pipe(
+    return this.http
+      .get<UnreadCountResponse>(`${this.API_URL}/unread/${userId}`, {
+        context: this.cacheContext
+      })
+      .pipe(
       tap(response => {
         this.unreadCountSignal.set(response.unreadCount);
       }),

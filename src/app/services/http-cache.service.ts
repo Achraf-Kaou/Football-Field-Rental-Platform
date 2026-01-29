@@ -35,6 +35,17 @@ export class HttpCacheService {
     this.cache.clear();
   }
 
+  clearByPrefix(prefix: string): void {
+    if (!prefix) {
+      return;
+    }
+    for (const key of this.cache.keys()) {
+      if (key.startsWith(prefix)) {
+        this.cache.delete(key);
+      }
+    }
+  }
+
   delete(url: string): void {
     this.cache.delete(url);
   }

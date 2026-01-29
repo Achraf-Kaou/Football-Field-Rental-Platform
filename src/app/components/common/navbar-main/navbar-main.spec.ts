@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NavbarMain } from './navbar-main';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('NavbarMain', () => {
   let component: NavbarMain;
@@ -8,7 +8,7 @@ describe('NavbarMain', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NavbarMain]
+      imports: [NavbarMain, TranslateModule.forRoot()]
     })
     .compileComponents();
 
