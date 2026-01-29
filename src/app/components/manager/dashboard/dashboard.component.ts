@@ -17,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   standalone: true,
   selector: 'app-manager-dashboard',
-  imports: [CommonModule, FormsModule, RouterLink, ManagerLayout, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, ManagerLayout, TranslateModule],
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent {

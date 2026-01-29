@@ -354,22 +354,96 @@
     "RESULTS": "نتيجة",
     "SHOWING": "عرض"
   },
+  "COMMON": {
+    "LOADING": "جارٍ التحميل...",
+    "ERROR_GENERIC": "حدث خطأ ما",
+    "SEARCH": "بحث",
+    "FILTERS": "الفلاتر",
+    "APPLY_FILTERS": "تطبيق الفلاتر",
+    "CLEAR_FILTERS": "مسح الفلاتر",
+    "CANCEL": "إلغاء",
+    "SAVE_CHANGES": "حفظ التغييرات",
+    "SAVING": "جارٍ الحفظ...",
+    "PHONE": "الهاتف",
+    "EMAIL": "البريد الإلكتروني"
+  },
+  "DASHBOARD": {
+    "TITLE": "لوحة تحكم المدير",
+    "SUBTITLE": "قم بإدارة المجمعات والملاعب والحجوزات.",
+    "PILLS": {
+      "COMPLEXES": "{{count}} مجمع",
+      "FIELDS": "{{count}} ملعب"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "ابحث عن مجمع..."
+    },
+    "STATS": {
+      "COMPLEXES": "المجمعات",
+      "FIELDS": "الملاعب",
+      "BOOKINGS": "الحجوزات"
+    },
+    "MY_COMPLEXES": "مجمعاتي",
+    "TOTAL": "الإجمالي: {{count}}",
+    "NONE_FOUND": "لم يتم العثور على أي مجمع.",
+    "SELECTED": "محدد",
+    "VIEW": "عرض",
+    "COMPLEX_PREFIX": "المجمع {{name}}",
+    "FIELDS_SECTION": "الملاعب",
+    "TABLE": {
+      "NAME": "الاسم",
+      "TYPE": "النوع",
+      "STATUS": "الحالة",
+      "PRICE": "السعر",
+      "REVIEWS": "التقييمات"
+    },
+    "NO_FIELDS": "لا توجد ملاعب لهذا المجمع.",
+    "BOOKINGS_SECTION": "الحجوزات",
+    "BOOKING_PREFIX": "حجز رقم {{id}}",
+    "FIELD_LABEL": "الملعب: {{name}}",
+    "NO_BOOKINGS": "لا توجد حجوزات لهذا المجمع.",
+    "NO_COMPLEX_FOR_MANAGER": "لا يوجد مجمع لهذا المدير."
+  },
+  "COMPLEX_LIST_USER": {
+    "TITLE": "كتالوج المجمعات",
+    "SUBTITLE": "اكتشف المجمعات الرياضية والملاعب المتاحة",
+    "SEARCH_PLACEHOLDER": "ابحث بالاسم أو الموقع...",
+    "STATUS": {
+      "LABEL": "الحالة",
+      "ALL": "كل الحالات",
+      "OPEN": "مفتوح",
+      "CLOSED": "مغلق"
+    },
+    "RESULTS_FOUND": "تم العثور على {{count}} {{count, plural, =1 {مجمع} other {مجمعات}}}",
+    "CLEAR_FILTERS": "مسح الفلاتر",
+    "VIEW_FIELDS": "عرض الملاعب",
+    "FIELDS_COUNT": "{{count}} {{count, plural, =1 {ملعب} other {ملاعب}}}",
+    "SCHEDULE": "{{open}} - {{close}}",
+    "PAGINATION": {
+      "SHOWING": "عرض",
+      "TO": "إلى",
+      "OF": "من أصل",
+      "RESULTS": "نتائج"
+    },
+    "EMPTY": {
+      "TITLE": "لم يتم العثور على مجمعات",
+      "SUBTITLE": "جرّب تعديل معايير البحث",
+      "CLEAR_ALL": "مسح جميع الفلاتر"
+    }
+  },
   "PROFILE": {
-    "TITLE": "الملف الشخصي",
-    "SUBTITLE": "إدارة معلومات حسابك",
+    "TITLE": "تعديل الملف الشخصي",
+    "SUBTITLE": "حدّث معلوماتك الشخصية",
+    "ROLE": "الدور",
     "FIRST_NAME": "الاسم الأول",
     "LAST_NAME": "اسم العائلة",
     "EMAIL": "البريد الإلكتروني",
     "PHONE": "رقم الهاتف",
-    "SAVE": "حفظ التغييرات",
-    "CANCEL": "إلغاء",
-    "LOADING": "جاري التحميل...",
-    "SAVING": "جاري الحفظ...",
-    "SUCCESS": "تم تحديث الملف الشخصي بنجاح",
-    "ERROR": "فشل في تحديث الملف الشخصي",
-    "REQUIRED": "هذا الحقل مطلوب",
-    "INVALID_EMAIL": "يرجى إدخال عنوان بريد إلكتروني صالح",
-    "MIN_LENGTH": "الحد الأدنى للطول هو {{length}} حرفاً",
-    "INVALID_PHONE": "يرجى إدخال رقم هاتف صالح"
+    "REQUIRED": "*",
+    "PLACEHOLDERS": {
+      "FIRST_NAME": "أدخل اسمك الأول",
+      "LAST_NAME": "أدخل اسم العائلة",
+      "EMAIL": "أدخل بريدك الإلكتروني",
+      "PHONE": "أدخل رقم هاتفك"
+    }
   }
 }

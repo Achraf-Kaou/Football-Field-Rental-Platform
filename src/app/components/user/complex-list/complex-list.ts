@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-complex-list',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, CardComponent, NavbarMain, FooterMain, TranslateModule],
+  imports: [CommonModule, ButtonComponent, CardComponent, NavbarMain, FooterMain, TranslateModule, TranslateModule],
   templateUrl: './complex-list.html',
   styles: [`
     @keyframes slide-down {

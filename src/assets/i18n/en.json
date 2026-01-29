@@ -355,22 +355,96 @@
     "RESULTS": "results",
     "SHOWING": "Showing"
   },
+  "COMMON": {
+    "LOADING": "Loading...",
+    "ERROR_GENERIC": "An error occurred",
+    "SEARCH": "Search",
+    "FILTERS": "Filters",
+    "APPLY_FILTERS": "Apply filters",
+    "CLEAR_FILTERS": "Clear filters",
+    "CANCEL": "Cancel",
+    "SAVE_CHANGES": "Save changes",
+    "SAVING": "Saving...",
+    "PHONE": "Phone",
+    "EMAIL": "Email"
+  },
+  "DASHBOARD": {
+    "TITLE": "Manager Dashboard",
+    "SUBTITLE": "Manage your complexes, fields, and bookings.",
+    "PILLS": {
+      "COMPLEXES": "{{count}} complexes",
+      "FIELDS": "{{count}} fields"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "Search a complex..."
+    },
+    "STATS": {
+      "COMPLEXES": "Complexes",
+      "FIELDS": "Fields",
+      "BOOKINGS": "Bookings"
+    },
+    "MY_COMPLEXES": "My complexes",
+    "TOTAL": "{{count}} total",
+    "NONE_FOUND": "No complex found.",
+    "SELECTED": "Selected",
+    "VIEW": "View",
+    "COMPLEX_PREFIX": "Complex {{name}}",
+    "FIELDS_SECTION": "Fields",
+    "TABLE": {
+      "NAME": "Name",
+      "TYPE": "Type",
+      "STATUS": "Status",
+      "PRICE": "Price",
+      "REVIEWS": "Reviews"
+    },
+    "NO_FIELDS": "No fields for this complex.",
+    "BOOKINGS_SECTION": "Bookings",
+    "BOOKING_PREFIX": "Booking #{{id}}",
+    "FIELD_LABEL": "Field: {{name}}",
+    "NO_BOOKINGS": "No bookings for this complex.",
+    "NO_COMPLEX_FOR_MANAGER": "No complex found for this manager."
+  },
+  "COMPLEX_LIST_USER": {
+    "TITLE": "Complexes Catalog",
+    "SUBTITLE": "Discover sports complexes and their available fields",
+    "SEARCH_PLACEHOLDER": "Search by name or location...",
+    "STATUS": {
+      "LABEL": "Status",
+      "ALL": "All statuses",
+      "OPEN": "Open",
+      "CLOSED": "Closed"
+    },
+    "RESULTS_FOUND": "{{count}} {{count, plural, =1 {complex found} other {complexes found}}}",
+    "CLEAR_FILTERS": "Clear filters",
+    "VIEW_FIELDS": "View Fields",
+    "FIELDS_COUNT": "{{count}} {{count, plural, =1 {field} other {fields}}}",
+    "SCHEDULE": "{{open}} - {{close}}",
+    "PAGINATION": {
+      "SHOWING": "Showing",
+      "TO": "to",
+      "OF": "of",
+      "RESULTS": "results"
+    },
+    "EMPTY": {
+      "TITLE": "No complexes found",
+      "SUBTITLE": "Try adjusting your search criteria",
+      "CLEAR_ALL": "Clear All Filters"
+    }
+  },
   "PROFILE": {
-    "TITLE": "Profile",
-    "SUBTITLE": "Manage your account information",
+    "TITLE": "Edit Profile",
+    "SUBTITLE": "Update your personal information",
+    "ROLE": "Role",
     "FIRST_NAME": "First Name",
     "LAST_NAME": "Last Name",
-    "EMAIL": "Email",
+    "EMAIL": "Email Address",
     "PHONE": "Phone Number",
-    "SAVE": "Save Changes",
-    "CANCEL": "Cancel",
-    "LOADING": "Loading...",
-    "SAVING": "Saving...",
-    "SUCCESS": "Profile updated successfully",
-    "ERROR": "Failed to update profile",
-    "REQUIRED": "This field is required",
-    "INVALID_EMAIL": "Please enter a valid email address",
-    "MIN_LENGTH": "Minimum length is {{length}} characters",
-    "INVALID_PHONE": "Please enter a valid phone number"
+    "REQUIRED": "*",
+    "PLACEHOLDERS": {
+      "FIRST_NAME": "Enter your first name",
+      "LAST_NAME": "Enter your last name",
+      "EMAIL": "Enter your email address",
+      "PHONE": "Enter your phone number"
+    }
   }
 }

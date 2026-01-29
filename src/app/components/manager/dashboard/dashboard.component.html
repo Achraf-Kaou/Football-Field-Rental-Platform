@@ -7,19 +7,21 @@
           <!-- Title -->
           <div class="flex items-start sm:items-center justify-between gap-3">
             <div>
-              <h1 class="text-xl sm:text-2xl font-bold leading-tight">Manager Dashboard</h1>
+              <h1 class="text-xl sm:text-2xl font-bold leading-tight">
+                {{ 'DASHBOARD.TITLE' | translate }}
+              </h1>
               <p class="mt-1 text-xs sm:text-sm text-[var(--color-text-secondary)]">
-                Gérez vos complexes, terrains et réservations.
+                {{ 'DASHBOARD.SUBTITLE' | translate }}
               </p>
             </div>
 
             <!-- Mobile quick stats -->
             <div class="sm:hidden flex items-center gap-2">
               <span class="inline-flex items-center rounded-full bg-[var(--color-surface-card)] px-2 py-1 text-xs border border-[var(--border-green)]">
-                {{ totalComplexes() }} complexes
+                {{ 'DASHBOARD.PILLS.COMPLEXES' | translate:{ count: totalComplexes() } }}
               </span>
               <span class="inline-flex items-center rounded-full bg-[var(--color-surface-card)] px-2 py-1 text-xs border border-[var(--border-green)]">
-                {{ totalFields() }} terrains
+                {{ 'DASHBOARD.PILLS.FIELDS' | translate:{ count: totalFields() } }}
               </span>
             </div>
           </div>
@@ -29,7 +31,6 @@
             <!-- Search -->
             <div class="relative">
               <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]">
-                <!-- search icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M12.9 14.32a8 8 0 111.414-1.414l3.387 3.387a1 1 0 01-1.414 1.414l-3.387-3.387zM14 8a6 6 0 11-12 0 6 6 0 0112 0z" clip-rule="evenodd"/>
                 </svg>
@@ -37,7 +38,7 @@
               <input
                 type="text"
                 class="w-full pl-9 pr-3 py-2.5 rounded-md bg-[var(--input-bg)] border border-[var(--input-border)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
-                placeholder="Rechercher un complexe..."
+                [placeholder]="'DASHBOARD.FILTER.SEARCH_PLACEHOLDER' | translate"
                 [ngModel]="search()"
                 (ngModelChange)="onSearchChange($event)"
               />
@@ -51,7 +52,7 @@
       <!-- Loading / Error -->
       @if (loading()) {
         <div class="rounded-lg border border-[var(--border-green)] bg-[var(--color-surface-card)] p-4 text-[var(--color-text-secondary)]">
-          Chargement...
+          {{ 'COMMON.LOADING' | translate }}
         </div>
       }
       @if (error()) {
@@ -60,18 +61,18 @@
         </div>
       }
 
-      <!-- Stats Cards (hidden on very small where we show pills in header) -->
+      <!-- Stats Cards -->
       <section class="hidden sm:grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="rounded-lg p-4 bg-[var(--color-surface-card)] border border-[var(--border-green)]">
-          <div class="text-sm text-[var(--color-text-secondary)]">Complexes</div>
+          <div class="text-sm text-[var(--color-text-secondary)]">{{ 'DASHBOARD.STATS.COMPLEXES' | translate }}</div>
           <div class="mt-1 text-3xl font-semibold">{{ totalComplexes() }}</div>
         </div>
         <div class="rounded-lg p-4 bg-[var(--color-surface-card)] border border-[var(--border-green)]">
-          <div class="text-sm text-[var(--color-text-secondary)]">Terrains</div>
+          <div class="text-sm text-[var(--color-text-secondary)]">{{ 'DASHBOARD.STATS.FIELDS' | translate }}</div>
           <div class="mt-1 text-3xl font-semibold">{{ totalFields() }}</div>
         </div>
         <div class="rounded-lg p-4 bg-[var(--color-surface-card)] border border-[var(--border-green)]">
-          <div class="text-sm text-[var(--color-text-secondary)]">Réservations</div>
+          <div class="text-sm text-[var(--color-text-secondary)]">{{ 'DASHBOARD.STATS.BOOKINGS' | translate }}</div>
           <div class="mt-1 text-3xl font-semibold">{{ totalBookings() }}</div>
         </div>
       </section>
@@ -82,9 +83,9 @@
         <aside class="lg:col-span-4 xl:col-span-3">
           <div class="rounded-xl border border-[var(--border-green)] bg-[var(--color-surface)] overflow-hidden">
             <div class="px-4 py-3 flex items-center justify-between border-b border-[var(--border-green)]">
-              <h2 class="text-base sm:text-lg font-semibold">Mes complexes</h2>
+              <h2 class="text-base sm:text-lg font-semibold">{{ 'DASHBOARD.MY_COMPLEXES' | translate }}</h2>
               <span class="text-xs text-[var(--color-text-secondary)]">
-                {{ complexes().length }} total
+                {{ 'DASHBOARD.TOTAL' | translate:{ count: complexes().length } }}
               </span>
             </div>
 
@@ -105,7 +106,7 @@
                             {{ c.address }}
                           </div>
                           <div class="text-sm text-[var(--color-text-secondary)]">
-                            Tél: {{ c.phone }}
+                            {{ 'COMMON.PHONE' | translate }}: {{ c.phone }}
                           </div>
                         </div>
 
@@ -115,7 +116,7 @@
                             [class.border-[var(--border-green)]]="selectedComplex()?.id !== c.id"
                             [class.border-[var(--color-primary)]]="selectedComplex()?.id === c.id"
                           >
-                            {{ selectedComplex()?.id === c.id ? 'Sélectionné' : 'Voir' }}
+                            {{ (selectedComplex()?.id === c.id ? 'DASHBOARD.SELECTED' : 'DASHBOARD.VIEW') | translate }}
                           </span>
                         </div>
                       </div>
@@ -125,7 +126,7 @@
 
                 @if (complexes().length === 0) {
                   <li class="px-4 py-4 text-sm text-[var(--color-text-secondary)]">
-                    Aucun complexe trouvé.
+                    {{ 'DASHBOARD.NONE_FOUND' | translate }}
                   </li>
                 }
               </ul>
@@ -141,7 +142,7 @@
               <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div class="min-w-0">
                   <h2 class="text-lg sm:text-xl font-semibold truncate">
-                    Complex {{ selectedComplex()?.name }}
+                    {{ 'DASHBOARD.COMPLEX_PREFIX' | translate:{ name: selectedComplex()?.name } }}
                   </h2>
                   <div class="mt-1 text-sm text-[var(--color-text-secondary)]">
                     {{ selectedComplex()?.address }}
@@ -153,18 +154,18 @@
             <!-- Fields -->
             <div class="rounded-xl border border-[var(--border-green)] overflow-hidden bg-[var(--color-surface)]">
               <div class="px-4 py-3 font-medium border-b border-[var(--border-green)] bg-[var(--color-surface)]">
-                Terrains
+                {{ 'DASHBOARD.FIELDS_SECTION' | translate }}
               </div>
 
               <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
                   <thead class="bg-[var(--color-surface-card)] text-xs uppercase tracking-wide text-[var(--color-text-secondary)]">
                     <tr>
-                      <th class="text-left px-4 py-3">Nom</th>
-                      <th class="text-left px-4 py-3 hidden md:table-cell">Type</th>
-                      <th class="text-left px-4 py-3">Statut</th>
-                      <th class="text-left px-4 py-3 hidden lg:table-cell">Prix</th>
-                      <th class="text-left px-4 py-3">Avis</th>
+                      <th class="text-left px-4 py-3">{{ 'DASHBOARD.TABLE.NAME' | translate }}</th>
+                      <th class="text-left px-4 py-3 hidden md:table-cell">{{ 'DASHBOARD.TABLE.TYPE' | translate }}</th>
+                      <th class="text-left px-4 py-3">{{ 'DASHBOARD.TABLE.STATUS' | translate }}</th>
+                      <th class="text-left px-4 py-3 hidden lg:table-cell">{{ 'DASHBOARD.TABLE.PRICE' | translate }}</th>
+                      <th class="text-left px-4 py-3">{{ 'DASHBOARD.TABLE.REVIEWS' | translate }}</th>
                     </tr>
                   </thead>
 
@@ -217,7 +218,7 @@
                                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                                     </svg>
                                     <svg *ngSwitchCase="'empty'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.037a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118L10 13.347l-2.935 2.158c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 1 0 00-.364-1.118L3.43 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/>
+                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.037a1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118L10 13.347l-2.935 2.158c-.785.57-1.84-.197-1.54-1.118l1.07-3.292a1 0 00-.364-1.118L3.43 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 0 00.95-.69l1.07-3.292z"/>
                                     </svg>
                                   </span>
                                 </ng-container>
@@ -238,7 +239,7 @@
                     @if (fields().length === 0) {
                       <tr>
                         <td class="px-4 py-4 text-[var(--color-text-secondary)]" colspan="6">
-                          Aucun terrain pour ce complexe.
+                          {{ 'DASHBOARD.NO_FIELDS' | translate }}
                         </td>
                       </tr>
                     }
@@ -250,19 +251,21 @@
             <!-- Bookings -->
             <div class="rounded-xl border border-[var(--border-green)] overflow-hidden bg-[var(--color-surface)]">
               <div class="px-4 py-3 font-medium border-b border-[var(--border-green)]">
-                Réservations
+                {{ 'DASHBOARD.BOOKINGS_SECTION' | translate }}
               </div>
 
               <div class="divide-y divide-[var(--border-green)]">
                 @for (b of bookings(); track b.id) {
                   <div class="px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div class="min-w-0">
-                      <div class="font-medium">Réservation # {{ b.id }}</div>
+                      <div class="font-medium">
+                        {{ 'DASHBOARD.BOOKING_PREFIX' | translate:{ id: b.id } }}
+                      </div>
                       <div class="text-sm text-[var(--color-text-secondary)]">
                         {{ b.startAt | date:'short' }} → {{ b.endAt | date:'short' }}
                       </div>
                       <div class="text-sm text-[var(--color-text-secondary)] truncate">
-                        Terrain: {{ b.field?.name || b.fieldId }}
+                        {{ 'DASHBOARD.FIELD_LABEL' | translate:{ name: (b.field?.name || b.fieldId) } }}
                       </div>
                     </div>
 
@@ -279,7 +282,7 @@
 
                 @if (bookings().length === 0) {
                   <div class="px-4 py-4 text-[var(--color-text-secondary)]">
-                    Aucune réservation pour ce complexe.
+                    {{ 'DASHBOARD.NO_BOOKINGS' | translate }}
                   </div>
                 }
               </div>
@@ -287,7 +290,7 @@
           }
           @else {
             <div class="rounded-xl border border-[var(--border-green)] bg-[var(--color-surface-card)] p-6 text-[var(--color-text-secondary)]">
-              Aucun complexe trouvé pour ce manager.
+              {{ 'DASHBOARD.NO_COMPLEX_FOR_MANAGER' | translate }}
             </div>
           }
         </section>

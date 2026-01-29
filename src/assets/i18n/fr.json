@@ -355,22 +355,96 @@
     "RESULTS": "résultats",
     "SHOWING": "Affichage de"
   },
+  "COMMON": {
+    "LOADING": "Chargement...",
+    "ERROR_GENERIC": "Une erreur est survenue",
+    "SEARCH": "Rechercher",
+    "FILTERS": "Filtres",
+    "APPLY_FILTERS": "Appliquer les filtres",
+    "CLEAR_FILTERS": "Effacer les filtres",
+    "CANCEL": "Annuler",
+    "SAVE_CHANGES": "Enregistrer les modifications",
+    "SAVING": "Enregistrement...",
+    "PHONE": "Téléphone",
+    "EMAIL": "Email"
+  },
+  "DASHBOARD": {
+    "TITLE": "Tableau de bord manager",
+    "SUBTITLE": "Gérez vos complexes, terrains et réservations.",
+    "PILLS": {
+      "COMPLEXES": "{{count}} complexes",
+      "FIELDS": "{{count}} terrains"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "Rechercher un complexe..."
+    },
+    "STATS": {
+      "COMPLEXES": "Complexes",
+      "FIELDS": "Terrains",
+      "BOOKINGS": "Réservations"
+    },
+    "MY_COMPLEXES": "Mes complexes",
+    "TOTAL": "{{count}} total",
+    "NONE_FOUND": "Aucun complexe trouvé.",
+    "SELECTED": "Sélectionné",
+    "VIEW": "Voir",
+    "COMPLEX_PREFIX": "Complexe {{name}}",
+    "FIELDS_SECTION": "Terrains",
+    "TABLE": {
+      "NAME": "Nom",
+      "TYPE": "Type",
+      "STATUS": "Statut",
+      "PRICE": "Prix",
+      "REVIEWS": "Avis"
+    },
+    "NO_FIELDS": "Aucun terrain pour ce complexe.",
+    "BOOKINGS_SECTION": "Réservations",
+    "BOOKING_PREFIX": "Réservation #{{id}}",
+    "FIELD_LABEL": "Terrain: {{name}}",
+    "NO_BOOKINGS": "Aucune réservation pour ce complexe.",
+    "NO_COMPLEX_FOR_MANAGER": "Aucun complexe trouvé pour ce manager."
+  },
+  "COMPLEX_LIST_USER": {
+    "TITLE": "Catalogue des complexes",
+    "SUBTITLE": "Découvrez des complexes sportifs et leurs terrains disponibles",
+    "SEARCH_PLACEHOLDER": "Rechercher par nom ou localisation...",
+    "STATUS": {
+      "LABEL": "Statut",
+      "ALL": "Tous les statuts",
+      "OPEN": "Ouvert",
+      "CLOSED": "Fermé"
+    },
+    "RESULTS_FOUND": "{{count}} {{count, plural, =1 {complexe trouvé} other {complexes trouvés}}}",
+    "CLEAR_FILTERS": "Effacer les filtres",
+    "VIEW_FIELDS": "Voir les terrains",
+    "FIELDS_COUNT": "{{count}} {{count, plural, =1 {terrain} other {terrains}}}",
+    "SCHEDULE": "{{open}} - {{close}}",
+    "PAGINATION": {
+      "SHOWING": "Affichage de",
+      "TO": "à",
+      "OF": "sur",
+      "RESULTS": "résultats"
+    },
+    "EMPTY": {
+      "TITLE": "Aucun complexe trouvé",
+      "SUBTITLE": "Essayez d'ajuster vos critères de recherche",
+      "CLEAR_ALL": "Tout effacer"
+    }
+  },
   "PROFILE": {
-    "TITLE": "Profil",
-    "SUBTITLE": "Gérer les informations de votre compte",
+    "TITLE": "Modifier le profil",
+    "SUBTITLE": "Mettez à jour vos informations personnelles",
+    "ROLE": "Rôle",
     "FIRST_NAME": "Prénom",
     "LAST_NAME": "Nom",
-    "EMAIL": "Email",
+    "EMAIL": "Adresse email",
     "PHONE": "Numéro de téléphone",
-    "SAVE": "Enregistrer les modifications",
-    "CANCEL": "Annuler",
-    "LOADING": "Chargement...",
-    "SAVING": "Enregistrement...",
-    "SUCCESS": "Profil mis à jour avec succès",
-    "ERROR": "Échec de la mise à jour du profil",
-    "REQUIRED": "Ce champ est requis",
-    "INVALID_EMAIL": "Veuillez entrer une adresse email valide",
-    "MIN_LENGTH": "La longueur minimale est de {{length}} caractères",
-    "INVALID_PHONE": "Veuillez entrer un numéro de téléphone valide"
+    "REQUIRED": "*",
+    "PLACEHOLDERS": {
+      "FIRST_NAME": "Entrez votre prénom",
+      "LAST_NAME": "Entrez votre nom",
+      "EMAIL": "Entrez votre adresse email",
+      "PHONE": "Entrez votre numéro de téléphone"
+    }
   }
 }

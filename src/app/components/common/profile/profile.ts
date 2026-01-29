@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, CardComponent, NavbarMain, FooterMain, ManagerLayout, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, CardComponent, NavbarMain, FooterMain, ManagerLayout, TranslateModule, TranslateModule],
   templateUrl: './profile.html',
   styleUrls: ['./profile.css']
 })
