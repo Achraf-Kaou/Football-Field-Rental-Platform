@@ -327,5 +327,49 @@
     "CANCEL": "إلغاء",
     "UPDATE": "تحديث",
     "SLOT": "فترة"
+  },
+  "MANAGER_DASHBOARD": {
+    "TITLE": "لوحة تحكم المدير",
+    "SUBTITLE": "إدارة المجمعات والملاعب والحجوزات",
+    "SEARCH_PLACEHOLDER": "البحث عن مجمع...",
+    "COMPLEXES": "مجمعات",
+    "FIELDS": "ملاعب",
+    "BOOKINGS": "حجوزات",
+    "SELECT_COMPLEX": "اختر مجمعاً لعرض التفاصيل",
+    "NO_COMPLEXES": "لا توجد مجمعات متاحة",
+    "ERROR_LOADING": "خطأ في تحميل البيانات",
+    "ACCESS_DENIED": "تم رفض الوصول: يجب أن تكون مديراً",
+    "USER_NOT_CONNECTED": "المستخدم غير متصل"
+  },
+  "USER_COMPLEX_LIST": {
+    "TITLE": "المجمعات المتاحة",
+    "SUBTITLE": "تصفح واحجز ملاعب كرة القدم",
+    "SEARCH_PLACEHOLDER": "البحث باسم المجمع، المدينة...",
+    "FILTER": "تصفية",
+    "CLEAR_FILTERS": "مسح الفلاتر",
+    "MOBILE_FILTERS": "الفلاتر",
+    "NO_COMPLEXES": "لم يتم العثور على مجمعات",
+    "LOADING": "جاري التحميل...",
+    "VIEW_FIELDS": "عرض الملاعب",
+    "RESULTS": "نتيجة",
+    "SHOWING": "عرض"
+  },
+  "PROFILE": {
+    "TITLE": "الملف الشخصي",
+    "SUBTITLE": "إدارة معلومات حسابك",
+    "FIRST_NAME": "الاسم الأول",
+    "LAST_NAME": "اسم العائلة",
+    "EMAIL": "البريد الإلكتروني",
+    "PHONE": "رقم الهاتف",
+    "SAVE": "حفظ التغييرات",
+    "CANCEL": "إلغاء",
+    "LOADING": "جاري التحميل...",
+    "SAVING": "جاري الحفظ...",
+    "SUCCESS": "تم تحديث الملف الشخصي بنجاح",
+    "ERROR": "فشل في تحديث الملف الشخصي",
+    "REQUIRED": "هذا الحقل مطلوب",
+    "INVALID_EMAIL": "يرجى إدخال عنوان بريد إلكتروني صالح",
+    "MIN_LENGTH": "الحد الأدنى للطول هو {{length}} حرفاً",
+    "INVALID_PHONE": "يرجى إدخال رقم هاتف صالح"
   }
 }

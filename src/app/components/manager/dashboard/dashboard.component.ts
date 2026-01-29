@@ -12,11 +12,12 @@ import { forkJoin } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { ManagerLayout } from "../../layouts/manager-layout/manager-layout";
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-manager-dashboard',
-  imports: [CommonModule, FormsModule, RouterLink, ManagerLayout],
+  imports: [CommonModule, FormsModule, RouterLink, ManagerLayout, TranslateModule],
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent {
