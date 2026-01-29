@@ -18,6 +18,8 @@ import { ComplexList } from './components/manager/complex-list/complex-list';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard, UserRole } from './guards/role.guard';
 import { Unauthorized } from './components/common/unauthorized/unauthorized';
+import { Profile } from './components/common/profile/profile';
+import { ComplexList as UserComplexList } from './components/user/complex-list/complex-list';
 
 /* import { AuthCallbackComponent } from './components/common/auth-callback/auth-callback';
  */
@@ -66,6 +68,20 @@ export const routes: Routes = [
     path: 'user/chat',
     component: Chat,
     title: 'chat',
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: [UserRole.USER, UserRole.MANAGER, UserRole.ADMIN] }
+  },
+  {
+    path: 'user/profile',
+    component: Profile,
+    title: 'profile',
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: [UserRole.USER, UserRole.MANAGER, UserRole.ADMIN] }
+  },
+  {
+    path: 'user/complexes',
+    component: UserComplexList,
+    title: 'complexes list',
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: [UserRole.USER, UserRole.MANAGER, UserRole.ADMIN] }
   },
