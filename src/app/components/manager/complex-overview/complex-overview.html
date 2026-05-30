@@ -1,0 +1,454 @@
+<app-manager-layout>
+    <div class="flex flex-1 justify-center py-3 sm:py-6 px-3 sm:px-0">
+        <div class="flex flex-col flex-1 gap-4 sm:gap-6 max-w-7xl">
+            <!-- Main Content Grid -->
+            <div class="flex flex-col gap-4 sm:gap-6">
+                <!-- Complex Details Section -->
+                <div
+                    class="bg-card-light dark:bg-[#1d2e18] rounded-lg sm:rounded-xl overflow-hidden shadow-sm dark:shadow-none border border-[#e5e7eb] dark:border-[#2c4724]">
+                    <!-- Cover Image -->
+                    <div class="h-[150px] sm:h-[200px] md:h-[250px] w-full bg-cover bg-center relative"
+                        [style.background-image]="heroBackground">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-3 sm:p-4 md:p-6 w-full">
+                            <div class="flex flex-col gap-2 sm:gap-3">
+                                <div class="flex flex-col gap-1">
+                                    <h1 class="text-white text-xl sm:text-2xl md:text-3xl font-black leading-tight tracking-[-0.033em] line-clamp-2">
+                                        {{ complex()?.name }}
+                                    </h1>
+                                    <div class="flex items-start sm:items-center gap-1.5 sm:gap-2 text-[#e0e0e0]">
+                                        <span class="material-icons text-primary flex-shrink-0 mt-0.5 sm:mt-0"
+                                            style="font-size: 16px;">location_on</span>
+                                        <span class="text-xs sm:text-sm font-medium line-clamp-2 sm:line-clamp-1">{{ complex()?.address }}</span>
+                                    </div>
+                                </div>
+                                <button
+                                    class="flex items-center justify-center gap-1.5 sm:gap-2 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-bold transition-all border border-white/20 w-full sm:w-auto"
+                                    (click)="editComplex()">
+                                    <span class="material-icons" style="font-size: 16px;">edit</span>
+                                    <span class="hidden xs:inline">{{ 'COMPLEX_OVERVIEW.EDIT_DETAILS' | translate }}</span>
+                                    <span class="xs:hidden">{{ 'COMPLEX_OVERVIEW.EDIT_DETAILS' | translate }}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="p-3 sm:p-4 md:p-6 grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 border-t border-[#e5e7eb] dark:border-[#2c4724]">
+                        <div class="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-3 rounded-lg bg-[#f0f2f4] dark:bg-[#2c4724]/30">
+                            <p class="text-[#637588] dark:text-[#9fc893] text-[10px] sm:text-xs font-bold uppercase tracking-wide truncate">
+                                {{ 'COMPLEX_OVERVIEW.TOTAL_FIELDS' | translate }}
+                            </p>
+                            <p class="text-[#111418] dark:text-white text-lg sm:text-xl font-bold">{{totalItems()}}</p>
+                        </div>
+                        <div class="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-3 rounded-lg bg-[#f0f2f4] dark:bg-[#2c4724]/30">
+                            <p class="text-[#637588] dark:text-[#9fc893] text-[10px] sm:text-xs font-bold uppercase tracking-wide truncate">
+                                {{ 'COMPLEX_OVERVIEW.OPENING_TIME' | translate }}
+                            </p>
+                            <p class="text-[#111418] dark:text-white text-lg sm:text-xl font-bold">{{complex()?.openAt}}</p>
+                        </div>
+                        <div class="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-3 rounded-lg bg-[#f0f2f4] dark:bg-[#2c4724]/30">
+                            <p class="text-[#637588] dark:text-[#9fc893] text-[10px] sm:text-xs font-bold uppercase tracking-wide truncate">
+                                {{ 'COMPLEX_OVERVIEW.CLOSING_TIME' | translate }}
+                            </p>
+                            <p class="text-[#111418] dark:text-white text-lg sm:text-xl font-bold">{{complex()?.closeAt}}</p>
+                        </div>
+                        <div class="flex flex-col gap-0.5 sm:gap-1 p-2 sm:p-3 rounded-lg bg-[#f0f2f4] dark:bg-[#2c4724]/30">
+                            <p class="text-[#637588] dark:text-[#9fc893] text-[10px] sm:text-xs font-bold uppercase tracking-wide truncate">
+                                {{ 'COMPLEX_OVERVIEW.OVERALL_RATING' | translate }}
+                            </p>
+                            @if (complex()?.averageRating && complex()?.totalReviews) {
+                                <div class="flex items-center gap-1">
+                                    <span [class]="getRatingColorClass(complex()!.averageRating!) + ' text-lg sm:text-xl font-bold'">
+                                        {{ formatRating(complex()!.averageRating!) }}
+                                    </span>
+                                    <span class="material-icons text-yellow-400 text-xs sm:text-sm mb-0.5">star</span>
+                                </div>
+                                <p class="text-[10px] sm:text-xs text-[#637588] dark:text-[#9fc893] mt-0.5 truncate">
+                                    {{ complex()!.totalReviews }} {{ complex()!.totalReviews === 1 ? ('COMPLEX_OVERVIEW.REVIEW' | translate) : ('COMPLEX_OVERVIEW.REVIEWS' | translate) }}
+                                </p>
+                            } @else {
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[#637588] dark:text-[#9fc893] text-xs sm:text-sm truncate">
+                                        {{ 'COMPLEX_OVERVIEW.NO_REVIEWS' | translate }}
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fields Management Section -->
+                <div class="flex flex-col gap-3 sm:gap-4">
+                    <div class="flex flex-col gap-3 sm:gap-4">
+                        <h3 class="text-[#111418] dark:text-white text-lg sm:text-xl font-bold px-1">
+                            {{ 'COMPLEX_OVERVIEW.MANAGE_FIELDS' | translate }}
+                        </h3>
+                        
+                        <!-- Action Bar -->
+                        <div class="flex flex-col gap-2 sm:gap-3">
+                            <!-- Search Bar - Full width on mobile -->
+                            <div class="relative group w-full">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="material-icons text-[#637588] dark:text-[#9fc893]"
+                                        style="font-size: 18px;">search</span>
+                                </div>
+                                <input
+                                    class="block w-full pl-10 pr-3 py-2.5 sm:py-2 border-none rounded-lg leading-5 bg-card-light dark:bg-[#1d2e18] text-[#111418] dark:text-white placeholder-[#637588] dark:placeholder-[#64795e] focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                                    [placeholder]="'COMPLEX_OVERVIEW.SEARCH_FIELDS' | translate" 
+                                    type="text" 
+                                    (input)="updateSearch($event.target.value)"/>
+                            </div>
+                            
+                            <!-- Filters and Add Button -->
+                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                                <!-- Filters - Stacked on mobile, side by side on larger screens -->
+                                <div class="flex gap-2 flex-1">
+                                    <select
+                                        class="flex-1 sm:flex-none bg-card-light dark:bg-[#1d2e18] border-none text-[#111418] dark:text-white text-xs sm:text-sm rounded-lg focus:ring-primary block p-2.5 sm:p-2 pr-8 cursor-pointer"
+                                        (change)="updateStatus($event)">
+                                        <option value="">{{ 'COMPLEX_OVERVIEW.FILTERS.ALL_STATUSES' | translate }}</option>
+                                        <option value="available">🟢 {{ 'COMPLEX_OVERVIEW.FILTERS.AVAILABLE' | translate }}</option>
+                                        <option value="maintenance">🟠 {{ 'COMPLEX_OVERVIEW.FILTERS.MAINTENANCE' | translate }}</option>
+                                        <option value="closed">🔴 {{ 'COMPLEX_OVERVIEW.FILTERS.CLOSED' | translate }}</option>
+                                    </select>
+                                    <select
+                                        class="flex-1 sm:flex-none bg-card-light dark:bg-[#1d2e18] border-none text-[#111418] dark:text-white text-xs sm:text-sm rounded-lg focus:ring-primary block p-2.5 sm:p-2 pr-8 cursor-pointer"
+                                        (change)="updateType($event)">
+                                        <option value="">{{ 'COMPLEX_OVERVIEW.FILTERS.ALL_TYPES' | translate }}</option>
+                                        <option value="5">5 vs 5</option>
+                                        <option value="6">6 vs 6</option>
+                                        <option value="7">7 vs 7</option>
+                                        <option value="11">11 vs 11</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Add Button - Full width on mobile -->
+                                <button
+                                    class="flex items-center justify-center gap-2 bg-primary hover:bg-[#3cd310] text-[#152211] px-4 py-2.5 sm:py-2 rounded-lg text-xs sm:text-sm font-bold transition-colors shadow-lg shadow-primary/20 whitespace-nowrap w-full sm:w-auto"
+                                    (click)="addField()">
+                                    <span class="material-icons" style="font-size: 18px;">add</span>
+                                    <span class="hidden xs:inline">{{ 'COMPLEX_OVERVIEW.ADD_FIELD' | translate }}</span>
+                                    <span class="xs:hidden">{{ 'COMPLEX_OVERVIEW.ADD_FIELD' | translate }}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fields Grid/List -->
+                    <div class="bg-card-light dark:bg-[#1d2e18] rounded-lg sm:rounded-xl border border-[#e5e7eb] dark:border-[#2c4724] overflow-hidden">
+                        <!-- Mobile Card View -->
+                        <div class="block lg:hidden">
+                            @if (totalItems() === 0) {
+                                <div class="px-4 py-12 text-center text-[#637588] dark:text-[#9fc893]">
+                                    <span class="material-icons text-4xl mb-2 opacity-50">inventory_2</span>
+                                    <p class="text-sm">{{ 'COMPLEX_OVERVIEW.NO_FIELDS' | translate }}</p>
+                                </div>
+                            } @else {
+                                <div class="divide-y divide-[#e5e7eb] dark:divide-[#2c4724]">
+                                    @for(field of fields(); track field.id) {
+                                        <div class="p-3 sm:p-4 hover:bg-[#f9fafb] dark:hover:bg-[#23351d] transition-colors">
+                                            <div class="flex gap-3">
+                                                <!-- Image -->
+                                                <div
+                                                    class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg bg-[#e5e7eb] dark:bg-[#2c4724] bg-center bg-cover flex-shrink-0"
+                                                    [attr.data-alt]="field.name"
+                                                    [style.background-image]="'url(' + field.images[0] + ')'">
+                                                </div>
+                                                
+                                                <!-- Content -->
+                                                <div class="flex-1 min-w-0">
+                                                    <!-- Header -->
+                                                    <div class="flex items-start justify-between gap-2 mb-2">
+                                                        <div class="flex-1 min-w-0">
+                                                            <h4 class="font-bold text-[#111418] dark:text-white text-sm sm:text-base truncate">
+                                                                {{field.name}}
+                                                            </h4>
+                                                            <p class="text-xs text-[#637588] dark:text-[#88a07e] line-clamp-1">
+                                                                {{field.description}}
+                                                            </p>
+                                                        </div>
+                                                        <!-- Status Badge -->
+                                                        @switch (field.status) {
+                                                            @case ('available') {
+                                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800 border border-green-200 whitespace-nowrap flex-shrink-0">
+                                                                    <span class="size-1 rounded-full bg-green-600"></span>
+                                                                    <span class="hidden xs:inline">{{ 'COMPLEX_OVERVIEW.STATUS.AVAILABLE' | translate }}</span>
+                                                                </span>
+                                                            }
+                                                            @case ('maintenance') {
+                                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-accent/10 text-accent border border-accent/20 whitespace-nowrap flex-shrink-0">
+                                                                    <span class="size-1 rounded-full bg-accent"></span>
+                                                                    <span class="hidden xs:inline">{{ 'COMPLEX_OVERVIEW.STATUS.MAINTENANCE' | translate }}</span>
+                                                                </span>
+                                                            }
+                                                            @case ('closed') {
+                                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 border border-red-200 whitespace-nowrap flex-shrink-0">
+                                                                    <span class="size-1 rounded-full bg-red-600"></span>
+                                                                    <span class="hidden xs:inline">{{ 'COMPLEX_OVERVIEW.STATUS.CLOSED' | translate }}</span>
+                                                                </span>
+                                                            }
+                                                        }
+                                                    </div>
+                                                    
+                                                    <!-- Info Grid -->
+                                                    <div class="grid grid-cols-2 gap-2 mb-2 text-xs">
+                                                        <div class="flex items-center gap-1">
+                                                            <span class="text-[#637588] dark:text-[#9fc893]">Type:</span>
+                                                            <span class="font-medium text-[#111418] dark:text-white">{{field.type}}v{{field.type}}</span>
+                                                        </div>
+                                                        <div class="flex items-center gap-1">
+                                                            <span class="text-[#637588] dark:text-[#9fc893]">Surface:</span>
+                                                            <span class="font-medium text-[#111418] dark:text-white">{{field.surface}}m²</span>
+                                                        </div>
+                                                        <div class="flex items-center gap-1">
+                                                            <span class="text-[#637588] dark:text-[#9fc893]">Price:</span>
+                                                            <span class="font-bold text-primary">{{field.price}} DT/h</span>
+                                                        </div>
+                                                        <div class="flex items-center gap-1">
+                                                            @if (field.averageRating && field.totalReviews) {
+                                                                <div class="flex items-center gap-1">
+                                                                    <span class="material-icons text-yellow-400 text-xs">star</span>
+                                                                    <span [class]="getRatingColorClass(field.averageRating) + ' font-bold'">
+                                                                        {{formatRating(field.averageRating)}}
+                                                                    </span>
+                                                                    <span class="text-[#637588] dark:text-[#9fc893]">({{field.totalReviews}})</span>
+                                                                </div>
+                                                            } @else {
+                                                                <span class="text-[#637588] dark:text-[#9fc893]">
+                                                                    {{ 'COMPLEX_OVERVIEW.NO_RATING' | translate }}
+                                                                </span>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Actions -->
+                                                    <div class="flex gap-2">
+                                                        <button
+                                                            class="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#637588] dark:text-[#9fc893] bg-[#f0f2f4] dark:bg-[#2c4724] hover:bg-[#e5e7eb] dark:hover:bg-[#374d2f] transition-colors"
+                                                            (click)="editField(field.id)">
+                                                            <span class="material-icons" style="font-size: 16px;">edit</span>
+                                                            <span>{{ 'COMPLEX_OVERVIEW.ACTIONS.EDIT' | translate }}</span>
+                                                        </button>
+                                                        <button
+                                                            class="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-red-600 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+                                                            (click)="deleteField(field.id)">
+                                                            <span class="material-icons" style="font-size: 16px;">delete</span>
+                                                            <span>{{ 'COMPLEX_OVERVIEW.ACTIONS.DELETE' | translate }}</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Desktop Table View -->
+                        <div class="hidden lg:block overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs text-[#637588] dark:text-[#9fc893] uppercase bg-[#f6f8f6] dark:bg-[#152211] border-b border-[#e5e7eb] dark:border-[#2c4724]">
+                                    <tr>
+                                        <th class="px-6 py-4 font-bold" scope="col">{{ 'COMPLEX_OVERVIEW.TABLE.FIELD_NAME' | translate }}</th>
+                                        <th class="px-6 py-4 font-bold" scope="col">{{ 'COMPLEX_OVERVIEW.TABLE.TYPE' | translate }}</th>
+                                        <th class="px-6 py-4 font-bold" scope="col">{{ 'COMPLEX_OVERVIEW.TABLE.SURFACE' | translate }}</th>
+                                        <th class="px-6 py-4 font-bold" scope="col">{{ 'COMPLEX_OVERVIEW.TABLE.PRICE' | translate }}</th>
+                                        <th class="px-6 py-4 font-bold" scope="col">{{ 'COMPLEX_OVERVIEW.TABLE.RATING' | translate }}</th>
+                                        <th class="px-6 py-4 font-bold" scope="col">{{ 'COMPLEX_OVERVIEW.TABLE.STATUS' | translate }}</th>
+                                        <th class="px-6 py-4 font-bold text-right" scope="col">{{ 'COMPLEX_OVERVIEW.TABLE.ACTIONS' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                @if (totalItems() === 0) {
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="7" class="px-6 py-12 text-center text-[#637588] dark:text-[#9fc893]">
+                                                <span class="material-icons text-4xl mb-2 opacity-50">inventory_2</span>
+                                                <p>{{ 'COMPLEX_OVERVIEW.NO_FIELDS' | translate }}</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                } @else {
+                                    <tbody class="divide-y divide-[#e5e7eb] dark:divide-[#2c4724]">
+                                        @for(field of fields(); track field.id) {
+                                            <tr class="hover:bg-[#f9fafb] dark:hover:bg-[#23351d] transition-colors group">
+                                                <td class="px-6 py-4 font-medium text-[#111418] dark:text-white">
+                                                    <div class="flex items-center gap-3">
+                                                        <div
+                                                            class="size-10 rounded bg-[#e5e7eb] dark:bg-[#2c4724] bg-center bg-cover flex-shrink-0"
+                                                            [attr.data-alt]="field.name"
+                                                            [style.background-image]="'url(' + field.images[0] + ')'">
+                                                        </div>
+                                                        <div class="min-w-0">
+                                                            <p class="font-bold truncate">{{field.name}}</p>
+                                                            <p class="text-xs text-[#637588] dark:text-[#88a07e] truncate">{{field.description}}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-[#f0f2f4] dark:bg-[#2c4724] text-[#111418] dark:text-white whitespace-nowrap">
+                                                        {{field.type}} vs {{field.type}}
+                                                    </span>
+                                                </td>
+                                                <td class="px-6 py-4 text-[#637588] dark:text-[#c4dcc0] whitespace-nowrap">{{field.surface}} m²</td>
+                                                <td class="px-6 py-4 font-bold text-[#111418] dark:text-white whitespace-nowrap">{{field.price}} DT/h</td>
+                                                <td class="px-6 py-4">
+                                                    @if (field.averageRating && field.totalReviews) {
+                                                        <div class="flex items-center gap-1.5">
+                                                            <div class="flex items-center gap-0.5">
+                                                                @for (star of getStarIcons(field.averageRating); track $index; let idx = $index) {
+                                                                    @if (idx < 3) {
+                                                                        @if (star === 'full') {
+                                                                            <span class="material-icons text-yellow-400 text-[14px]">star</span>
+                                                                        } @else if (star === 'half') {
+                                                                            <span class="material-icons text-yellow-400 text-[14px]">star_half</span>
+                                                                        } @else {
+                                                                            <span class="material-icons text-slate-300 dark:text-slate-600 text-[14px]">star_outline</span>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </div>
+                                                            <span [class]="getRatingColorClass(field.averageRating) + ' text-xs font-bold'">
+                                                                {{formatRating(field.averageRating)}}
+                                                            </span>
+                                                            <span class="text-xs text-[#637588] dark:text-[#9fc893]">
+                                                                ({{field.totalReviews}})
+                                                            </span>
+                                                        </div>
+                                                    } @else {
+                                                        <span class="text-xs text-[#637588] dark:text-[#9fc893]">
+                                                            {{ 'COMPLEX_OVERVIEW.NO_RATING' | translate }}
+                                                        </span>
+                                                    }
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    @switch (field.status) {
+                                                        @case ('available') {
+                                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800 border border-green-200 whitespace-nowrap">
+                                                                <span class="size-1.5 rounded-full bg-green-600"></span>
+                                                                {{ 'COMPLEX_OVERVIEW.STATUS.AVAILABLE' | translate }}
+                                                            </span>
+                                                        }
+                                                        @case ('maintenance') {
+                                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-accent/10 text-accent border border-accent/20 whitespace-nowrap">
+                                                                <span class="size-1.5 rounded-full bg-accent"></span>
+                                                                {{ 'COMPLEX_OVERVIEW.STATUS.MAINTENANCE' | translate }}
+                                                            </span>
+                                                        }
+                                                        @case ('closed') {
+                                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-200 whitespace-nowrap">
+                                                                <span class="size-1.5 rounded-full bg-red-600"></span>
+                                                                {{ 'COMPLEX_OVERVIEW.STATUS.CLOSED' | translate }}
+                                                            </span>
+                                                        }
+                                                        @default {
+                                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-[#2c4724] dark:text-primary border border-primary/20 whitespace-nowrap">
+                                                                <span class="size-1.5 rounded-full bg-primary"></span>
+                                                                {{field.status}}
+                                                            </span>
+                                                        }
+                                                    }
+                                                </td>
+                                                <td class="px-6 py-4 text-right">
+                                                    <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <button
+                                                            class="p-2 rounded-lg text-[#637588] dark:text-[#9fc893] hover:bg-[#f0f2f4] dark:hover:bg-[#2c4724] hover:text-[#111418] dark:hover:text-white transition-colors"
+                                                            [title]="'COMPLEX_OVERVIEW.ACTIONS.EDIT' | translate"
+                                                            (click)="editField(field.id)">
+                                                            <span class="material-icons" style="font-size: 20px;">edit</span>
+                                                        </button>
+                                                        <button
+                                                            class="p-2 rounded-lg text-[#637588] dark:text-[#9fc893] hover:bg-accent-orange/10 hover:text-accent-orange transition-colors"
+                                                            [title]="'COMPLEX_OVERVIEW.ACTIONS.DELETE' | translate"
+                                                            (click)="deleteField(field.id)">
+                                                            <span class="material-icons" style="font-size: 20px;">delete</span>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="px-3 sm:px-4 md:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-200 dark:border-[#2c4724]">
+                            <!-- Results Info -->
+                            <div class="w-full sm:w-auto text-center sm:text-left">
+                                <p class="text-xs sm:text-sm text-slate-500 dark:text-gray-400">
+                                    {{ 'COMPLEX_OVERVIEW.PAGINATION.SHOWING' | translate }} 
+                                    <span class="font-medium text-slate-900 dark:text-white">{{startIndex()}}</span>
+                                    {{ 'COMPLEX_OVERVIEW.PAGINATION.TO' | translate }}
+                                    <span class="font-medium text-slate-900 dark:text-white">{{endIndex()}}</span>
+                                    {{ 'COMPLEX_OVERVIEW.PAGINATION.OF' | translate }}
+                                    <span class="font-medium text-slate-900 dark:text-white">{{totalItems()}}</span>
+                                    {{ 'COMPLEX_OVERVIEW.PAGINATION.RESULTS' | translate }}
+                                </p>
+                            </div>
+                            
+                            <!-- Pagination Controls -->
+                            <nav aria-label="Pagination" class="flex items-center gap-1">
+                                <button 
+                                    class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-slate-300 dark:border-[#2c4724] bg-white dark:bg-[#111a0d] text-sm font-medium text-slate-500 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-[#1e2e1a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    [disabled]="page() === 1"
+                                    (click)="prevPage()">
+                                    <span class="sr-only">{{ 'COMPLEX_OVERVIEW.PAGINATION.PREVIOUS' | translate }}</span>
+                                    <span class="material-icons text-[18px] sm:text-[20px]">chevron_left</span>
+                                </button>
+                                
+                                <!-- Page Numbers - Hidden on very small screens -->
+                                <div class="hidden xs:flex items-center">
+                                    @for(i of generateRange(1, totalPages()); track $index) {
+                                        <button
+                                            class="relative inline-flex items-center px-3 sm:px-4 py-2 border text-xs sm:text-sm font-medium transition-colors"
+                                            [class.bg-primary/10]="page() === i"
+                                            [class.border-primary]="page() === i"
+                                            [class.text-primary]="page() === i"
+                                            [class.bg-white]="page() !== i"
+                                            [class.dark:bg-[#111a0d]]="page() !== i"
+                                            [class.border-slate-300]="page() !== i"
+                                            [class.dark:border-[#2c4724]]="page() !== i"
+                                            [class.text-slate-700]="page() !== i"
+                                            [class.dark:text-gray-400]="page() !== i"
+                                            [class.hover:bg-slate-50]="page() !== i"
+                                            [class.dark:hover:bg-[#1e2e1a]]="page() !== i"
+                                            (click)="handlePageChange(i)">
+                                            {{i}}
+                                        </button>
+                                    }
+                                </div>
+                                
+                                <!-- Current page indicator for very small screens -->
+                                <div class="xs:hidden flex items-center px-3 py-2 text-xs font-medium text-slate-700 dark:text-gray-400">
+                                    {{page()}} / {{totalPages()}}
+                                </div>
+                                
+                                <button 
+                                    class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-slate-300 dark:border-[#2c4724] bg-white dark:bg-[#111a0d] text-sm font-medium text-slate-500 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-[#1e2e1a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    [disabled]="page() === totalPages()"
+                                    (click)="nextPage()">
+                                    <span class="sr-only">{{ 'COMPLEX_OVERVIEW.PAGINATION.NEXT' | translate }}</span>
+                                    <span class="material-icons text-[18px] sm:text-[20px]">chevron_right</span>
+                                </button>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-manager-layout>
+
+@if (showDeleteModal()) {
+  <app-delete-modal
+    [icon]="'delete'"
+    [title]="'COMPLEX_OVERVIEW.DELETE_MODAL.TITLE' | translate"
+    [message]="'COMPLEX_OVERVIEW.DELETE_MODAL.MESSAGE' | translate"
+    [cancelText]="'COMPLEX_OVERVIEW.DELETE_MODAL.CANCEL' | translate"
+    [confirmText]="'COMPLEX_OVERVIEW.DELETE_MODAL.CONFIRM' | translate"
+    [severity]="'error'"
+    [cancelAction]="cancelDelete"
+    [confirmAction]="confirmDelete"
+  />
+}

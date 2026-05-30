@@ -1,0 +1,202 @@
+<app-manager-layout>
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header Section -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+            <div class="flex flex-col gap-2">
+                <h1
+                    class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-black dark:text-white tracking-tight">
+                    {{ 'COMPLEX_LIST.TITLE' | translate }}
+                </h1>
+                <p class="text-slate-500 dark:text-[#9fc893] text-base">
+                    {{ 'COMPLEX_LIST.SUBTITLE' | translate }}
+                </p>
+            </div>
+            <button (click)="addComplex()"
+                class="group flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-black font-bold py-2.5 px-5 rounded-lg transition-all shadow-[0_0_15px_rgba(73,230,25,0.3)] hover:shadow-[0_0_20px_rgba(73,230,25,0.5)]">
+                <span class="material-icons text-[20px]">add_circle</span>
+                <span>{{ 'COMPLEX_LIST.ADD_COMPLEX' | translate }}</span>
+            </button>
+        </div>
+        
+        <!-- Filters & Search Bar -->
+        <div
+            class="bg-white dark:bg-surface rounded-xl p-4 mb-8 shadow-sm border border-slate-200 dark:border-[#2c4724]">
+            <div class="flex flex-col lg:flex-row gap-4 items-center justify-between">
+                <!-- Search Input -->
+                <div class="relative w-full lg:max-w-md">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="material-icons text-slate-400 dark:text-[#9fc893]">search</span>
+                    </div>
+                    <input
+                        class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-[#2c4724] rounded-lg leading-5 bg-slate-50 dark:bg-[#111a0d] text-slate-900 dark:text-black dark:text-white placeholder-slate-400 dark:placeholder-[#5b7a52] focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors"
+                        [placeholder]="'COMPLEX_LIST.SEARCH_PLACEHOLDER' | translate" 
+                        type="text"
+                        (input)="updateSearch($event.target.value)" />
+                </div>
+                
+                <!-- Filter Chips -->
+                <div class="flex gap-2 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
+                    <select (change)="updateStatus($event)"
+                        class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-[#2c4724] text-slate-600 dark:text-gray-300 text-sm font-medium whitespace-nowrap hover:bg-slate-200 dark:hover:bg-[#3a5e30] transition-colors">
+                        <option value="all">{{ 'COMPLEX_LIST.STATUS.ALL' | translate }}</option>
+                        <option value="true">🟢 {{ 'COMPLEX_LIST.STATUS.OPEN' | translate }}</option>
+                        <option value="false">🔴 {{ 'COMPLEX_LIST.STATUS.CLOSED' | translate }}</option>
+                    </select>
+                    <button
+                        class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-[#2c4724] text-slate-600 dark:text-gray-300 text-sm font-medium whitespace-nowrap hover:bg-slate-200 dark:hover:bg-[#3a5e30] transition-colors"
+                        (click)="updateSortBy($event)" 
+                        value="newest">
+                        {{ 'COMPLEX_LIST.SORT_BY' | translate }}: {{sortBy()}}
+                        <span class="material-icons text-[16px]">sort</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content Grid/List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            @for(complex of complexes(); track complex.id) {
+            <div
+                class="group bg-white dark:bg-surface rounded-xl overflow-hidden border border-slate-200 dark:border-[#2c4724] hover:border-primary/50 transition-all hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] flex flex-col h-full">
+                <div class="relative h-48 overflow-hidden">
+                    <div
+                        class="absolute top-3 right-3 z-10 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-xs font-bold text-black dark:text-white flex items-center gap-1 border border-white/10">
+                        @if (handleStatus(complex) == 'Closed') {
+                        <span class="material-icons text-red-500 text-[14px]">circle</span> 
+                        {{ 'COMPLEX_LIST.STATUS.CLOSED' | translate }}
+                        } @else {
+                        <span class="material-icons text-primary text-[14px]">circle</span> 
+                        {{ 'COMPLEX_LIST.STATUS.OPEN' | translate }}
+                        }
+                    </div>
+                    <div class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
+                        [style.background-image]="'url(' + complex.images[0] + ')'">
+                    </div>
+                </div>
+                
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex-1">
+                            <h3
+                                class="text-xl font-bold text-slate-900 dark:text-black dark:text-white group-hover:text-primary transition-colors">
+                                {{complex.name}}
+                            </h3>
+                            <p class="text-sm text-slate-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+                                <span class="material-icons text-[16px]">location_on</span>
+                                {{complex.address}}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Rating Section -->
+                    @if (complex.averageRating && complex.totalReviews) {
+                    <div class="flex items-center gap-2 mt-3 mb-2">
+                        <div class="flex items-center gap-1">
+                            @for (star of getStarIcons(complex.averageRating); track $index) {
+                                @if (star === 'full') {
+                                    <span class="material-icons text-yellow-400 text-[18px]">star</span>
+                                } @else if (star === 'half') {
+                                    <span class="material-icons text-yellow-400 text-[18px]">star_half</span>
+                                } @else {
+                                    <span class="material-icons text-slate-300 dark:text-slate-600 text-[18px]">star_outline</span>
+                                }
+                            }
+                        </div>
+                        <span [class]="getRatingColorClass(complex.averageRating) + ' font-bold text-sm'">
+                            {{formatRating(complex.averageRating)}}
+                        </span>
+                        <span class="text-xs text-slate-500 dark:text-gray-400">
+                            ({{complex.totalReviews}} {{ complex.totalReviews === 1 ? ('COMPLEX_LIST.REVIEW' | translate) : ('COMPLEX_LIST.REVIEWS' | translate) }})
+                        </span>
+                    </div>
+                    }
+                    
+                    <!-- Tags -->
+                    <div class="flex items-center gap-3 mt-4 mb-6">
+                        @for (tag of complex.tags; track $index) {
+                        <span
+                            class="px-2 py-1 rounded bg-slate-100 dark:bg-[#111a0d] text-xs font-medium text-slate-600 dark:text-[#9fc893] border border-slate-200 dark:border-[#2c4724]">
+                            {{tag}}
+                        </span>
+                        }
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div
+                        class="mt-auto pt-4 border-t border-slate-100 dark:border-[#2c4724] flex items-center justify-between">
+                        <div class="flex gap-2">
+                            <button
+                                class="p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-[#2c4724] hover:text-primary transition-colors"
+                                [title]="'COMPLEX_LIST.ACTIONS.VIEW_DETAILS' | translate" 
+                                (click)="overwiewComplex(complex.id)">
+                                <span class="material-icons text-[20px]">visibility</span>
+                            </button>
+                            <button
+                                class="p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-[#2c4724] hover:text-primary transition-colors"
+                                [title]="'COMPLEX_LIST.ACTIONS.EDIT' | translate" 
+                                (click)="editComplex(complex.id)">
+                                <span class="material-icons text-[20px]">edit</span>
+                            </button>
+                            <button
+                                class="p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:bg-accent/10 hover:text-accent transition-colors"
+                                [title]="'COMPLEX_LIST.ACTIONS.DELETE' | translate"
+                                (click)="openDeleteModal(complex.id)">
+                                <span class="material-icons text-[20px]">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+        
+        <!-- Pagination -->
+        <div class="mt-12 flex items-center justify-between border-t border-slate-200 dark:border-[#2c4724] pt-6">
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm text-slate-500 dark:text-gray-400">
+                        {{ 'COMPLEX_LIST.PAGINATION.SHOWING' | translate }} 
+                        <span class="font-medium text-slate-900 dark:text-black dark:text-white">{{startIndex()}}</span>
+                        {{ 'COMPLEX_LIST.PAGINATION.TO' | translate }}
+                        <span class="font-medium text-slate-900 dark:text-black dark:text-white">{{endIndex()}}</span>
+                        {{ 'COMPLEX_LIST.PAGINATION.OF' | translate }}
+                        <span class="font-medium text-slate-900 dark:text-black dark:text-white">{{totalItems()}}</span>
+                        {{ 'COMPLEX_LIST.PAGINATION.RESULTS' | translate }}
+                    </p>
+                </div>
+                <div>
+                    <nav aria-label="Pagination" class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                        <a class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-slate-300 dark:border-[#2c4724] bg-white dark:bg-[#111a0d] text-sm font-medium text-slate-500 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-[#1e2e1a]"
+                            (click)="prevPage()">
+                            <span class="sr-only">{{ 'COMPLEX_LIST.PAGINATION.PREVIOUS' | translate }}</span>
+                            <span class="material-icons text-[20px]">chevron_left</span>
+                        </a>
+                        @for(i of generateRange(1, totalPages()); track $index) {
+                        <a aria-current="page"
+                            class="z-10 bg-primary/10 border-primary text-primary relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                            (click)="handlePageChange(i)">{{i}}</a>
+                        }
+                        <a class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-slate-300 dark:border-[#2c4724] bg-white dark:bg-[#111a0d] text-sm font-medium text-slate-500 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-[#1e2e1a]"
+                            (click)="nextPage()">
+                            <span class="sr-only">{{ 'COMPLEX_LIST.PAGINATION.NEXT' | translate }}</span>
+                            <span class="material-icons text-[20px]">chevron_right</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
+</app-manager-layout>
+
+@if (showDeleteModal()) {
+  <app-delete-modal
+    [icon]="'delete'"
+    [title]="'COMPLEX_LIST.DELETE_MODAL.TITLE' | translate"
+    [message]="'COMPLEX_LIST.DELETE_MODAL.MESSAGE' | translate"
+    [cancelText]="'COMPLEX_LIST.DELETE_MODAL.CANCEL' | translate"
+    [confirmText]="'COMPLEX_LIST.DELETE_MODAL.CONFIRM' | translate"
+    [severity]="'error'"
+    [cancelAction]="cancelDelete"
+    [confirmAction]="confirmDelete"
+  />
+}

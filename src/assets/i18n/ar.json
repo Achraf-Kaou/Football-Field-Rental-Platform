@@ -1,0 +1,522 @@
+{
+  "navbar": {
+    "home": "الرئيسية",
+    "fields": "الملاعب",
+    "bookings": "حجوزاتي",
+    "chat": "المحادثة",
+    "signup": "التسجيل",
+    "signin": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "profile": "الملف الشخصي"
+  },
+  "dashboard": {
+    "title": "نظرة عامة",
+    "liveUpdates": "تحديثات مباشرة",
+    "today": "اليوم",
+    "week": "أسبوع",
+    "month": "شهر",
+    "searchPlaceholder": "البحث عن الحجوزات أو العملاء أو الملاعب...",
+    "refresh": "تحديث",
+    "newComplex": "مجمع جديد",
+    
+    "totalRevenue": "إجمالي الإيرادات",
+    "occupancyRate": "معدل الإشغال",
+    "todayBookings": "حجوزات اليوم",
+    "newCustomers": "عملاء جدد",
+    
+    "vsLastWeek": "مقارنة بالأسبوع الماضي",
+    "peakHours": "ساعات الذروة",
+    "slotsLeft": "فترات متبقية",
+    "highRetention": "معدل احتفاظ عالي",
+    
+    "revenueOccupancy": "الإيرادات والإشغال",
+    "weeklyTrend": "تحليل الاتجاه الأسبوعي",
+    "revenue": "الإيرادات",
+    "occupancy": "الإشغال",
+    
+    "liveFieldStatus": "حالة الملاعب المباشرة",
+    "viewAllFields": "عرض جميع الملاعب",
+    "bookNow": "احجز الآن",
+    "left": "متبقية",
+    "noFieldsAvailable": "لا توجد ملاعب متاحة",
+    
+    "upcomingMatches": "المباريات القادمة",
+    "paymentPending": "الدفع قيد الانتظار",
+    "noUpcomingBookings": "لا توجد حجوزات قادمة",
+    "viewFullSchedule": "عرض الجدول الكامل",
+    
+    "status": {
+      "LIVE": "مباشر",
+      "VACANT": "فارغ",
+      "MAINTENANCE": "صيانة"
+    }
+  },
+  "chat": {
+    "messages": "الرسائل",
+    "newMessage": "رسالة جديدة",
+    "searchConversations": "البحث في المحادثات...",
+    "loadingConversations": "جاري تحميل المحادثات...",
+    "noConversationsFound": "لم يتم العثور على محادثات",
+    "noMessagesYet": "لا توجد رسائل بعد",
+    "selectConversation": "اختر محادثة",
+    "selectConversationDesc": "اختر محادثة من القائمة لبدء الدردشة",
+    "typeMessage": "اكتب رسالة...",
+    "send": "إرسال",
+    "justNow": "الآن",
+    "yesterday": "أمس",
+    "online": "متصل",
+    "offline": "غير متصل",
+    "noMessages": "لا توجد رسائل بعد. ابدأ المحادثة!",
+    "startConversation": "بدء محادثة",
+    "searchUsers": "البحث عن المستخدمين بالاسم أو البريد الإلكتروني...",
+    "to": "إلى:",
+    "messageOptional": "الرسالة (اختياري):",
+    "typeYourMessage": "اكتب رسالتك...",
+    "cancel": "إلغاء",
+    "startChat": "بدء الدردشة",
+    "noUsersFound": "لم يتم العثور على مستخدمين",
+    "searchingUsers": "البحث عن مستخدمين...",
+    "you": "أنت",
+    "sent": "تم الإرسال",
+    "delivered": "تم التسليم",
+    "read": "تمت القراءة"
+  },
+  "CHATBOT": {
+    "TITLE": "مساعد الدردشة الآلي",
+    "WELCOME": "مرحبا! 👋 أنا مساعدك الآلي. كيف يمكنني مساعدتك اليوم؟",
+    "PLACEHOLDER": "اكتب رسالتك هنا...",
+    "SEND": "إرسال",
+    "CLEAR": "مسح الدردشة",
+    "CONFIRM_CLEAR": "هل أنت متأكد أنك تريد مسح سجل الدردشة؟",
+    "ERROR": "عذرا، حدث خطأ",
+    "TYPING": "الروبوت يكتب...",
+    "CONNECTED": "متصل",
+    "DISCONNECTED": "غير متصل"
+  },
+  "sidebar": {
+    "mainNavigation": "التنقل الرئيسي",
+    "primaryNavigation": "التنقل الأساسي",
+    "expandSidebar": "توسيع الشريط الجانبي",
+    "collapseSidebar": "طي الشريط الجانبي",
+    "closeSidebar": "إغلاق الشريط الجانبي",
+    "dashboard": "لوحة القيادة",
+    "complexes": "المجمعات",
+    "bookings": "الحجوزات",
+    "availability": "التوفر",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "switchToLightMode": "التبديل إلى الوضع الفاتح",
+    "switchToDarkMode": "التبديل إلى الوضع الداكن",
+    "changeLanguage": "تغيير اللغة",
+    "loading": "جاري التحميل...",
+    "noComplexes": "لم يتم العثور على مجمعات",
+    "chat": "الدردشة",
+    "profile": "الملف الشخصي"
+  },
+  "user": {
+    "profile": "الملف الشخصي",
+    "account": "الحساب",
+    "preferences": "التفضيلات"
+  },
+  "languages": {
+    "english": "الإنجليزية",
+    "french": "الفرنسية",
+    "arabic": "العربية"
+  },
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "close": "إغلاق",
+    "confirm": "تأكيد",
+    "search": "بحث",
+    "filter": "تصفية",
+    "loading": "جاري التحميل...",
+    "noResults": "لم يتم العثور على نتائج",
+    "error": "حدث خطأ",
+    "success": "تمت العملية بنجاح",
+    "complex": "المجمع",
+    "unknownField": "ملعب غير معروف",
+    "unknown": "غير معروف"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "logoutSuccess": "تم تسجيل الخروج بنجاح",
+    "logoutError": "خطأ أثناء تسجيل الخروج. يرجى المحاولة مرة أخرى."
+  },
+  "COMPLEX_LIST": {
+    "TITLE": "المجمعات المُدارة",
+    "SUBTITLE": "عرض وإدارة جميع مرافق كرة القدم المتاحة للحجز.",
+    "ADD_COMPLEX": "إضافة مجمع جديد",
+    "SEARCH_PLACEHOLDER": "البحث بواسطة اسم المجمع، المدينة",
+    "SORT_BY": "ترتيب حسب",
+    "REVIEW": "تقييم",
+    "REVIEWS": "تقييمات",
+    "STATUS": {
+      "ALL": "الكل",
+      "OPEN": "مفتوح",
+      "CLOSED": "مغلق"
+    },
+    "ACTIONS": {
+      "BOOKINGS": "الحجوزات",
+      "VIEW_DETAILS": "عرض التفاصيل",
+      "AVAILABILITY": "تقويم التوفر",
+      "EDIT": "تعديل",
+      "DELETE": "حذف"
+    },
+    "PAGINATION": {
+      "SHOWING": "عرض",
+      "TO": "إلى",
+      "OF": "من",
+      "RESULTS": "نتيجة",
+      "PREVIOUS": "السابق",
+      "NEXT": "التالي"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "حذف المجمع",
+      "MESSAGE": "هل أنت متأكد من رغبتك في حذف هذا المجمع؟ لا يمكن التراجع عن هذا الإجراء.",
+      "CANCEL": "إلغاء",
+      "CONFIRM": "حذف"
+    }
+  }, "COMPLEX_OVERVIEW": {
+    "EDIT_DETAILS": "تعديل التفاصيل",
+    "TOTAL_FIELDS": "إجمالي الملاعب",
+    "OPENING_TIME": "وقت الفتح",
+    "CLOSING_TIME": "وقت الإغلاق",
+    "OVERALL_RATING": "التقييم العام",
+    "NO_REVIEWS": "لا توجد تقييمات",
+    "REVIEW": "تقييم",
+    "REVIEWS": "تقييمات",
+    "MANAGE_FIELDS": "إدارة الملاعب",
+    "SEARCH_FIELDS": "البحث عن ملاعب...",
+    "ADD_FIELD": "إضافة ملعب",
+    "NO_FIELDS": "لا توجد ملاعب متاحة.",
+    "NO_RATING": "لا يوجد تقييم",
+    "FILTERS": {
+      "ALL_STATUSES": "جميع الحالات",
+      "AVAILABLE": "متاح",
+      "MAINTENANCE": "صيانة",
+      "CLOSED": "مغلق",
+      "ALL_TYPES": "جميع الأنواع"
+    },
+    "STATUS": {
+      "AVAILABLE": "متاح",
+      "MAINTENANCE": "صيانة",
+      "CLOSED": "مغلق"
+    },
+    "TABLE": {
+      "FIELD_NAME": "اسم الملعب",
+      "TYPE": "النوع",
+      "SURFACE": "المساحة",
+      "PRICE": "السعر / ساعة",
+      "RATING": "التقييم",
+      "STATUS": "الحالة",
+      "ACTIONS": "الإجراءات"
+    },
+    "ACTIONS": {
+      "EDIT": "تعديل",
+      "DELETE": "حذف"
+    },
+    "PAGINATION": {
+      "SHOWING": "عرض",
+      "TO": "إلى",
+      "OF": "من",
+      "RESULTS": "نتيجة",
+      "PREVIOUS": "السابق",
+      "NEXT": "التالي"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "حذف الملعب",
+      "MESSAGE": "هل أنت متأكد من رغبتك في حذف هذا الملعب؟ لا يمكن التراجع عن هذا الإجراء.",
+      "CANCEL": "إلغاء",
+      "CONFIRM": "حذف"
+    }
+  },
+  "actions": {
+    "export": "تصدير"
+  },
+  "managerBooking": {
+    "title": "حجوزات {{name}}",
+    "subtitle": "عرض وإدارة جميع حجوزات الملاعب والجداول"
+  },
+  "stats": {
+    "today": "حجوزات اليوم",
+    "active": "نشطة",
+    "activeFields": "الملاعب النشطة",
+    "utilization": "نسبة الاستخدام",
+    "revenueEst": "الإيرادات (تقديري)",
+    "confirmed": "مؤكدة"
+  },
+  "filters": {
+    "search": "بحث",
+    "searchPlaceholder": "ابحث باسم العميل أو رقم الحجز...",
+    "selectDate": "اختر التاريخ",
+    "allFields": "جميع الملاعب",
+    "allStatuses": "جميع الحالات"
+  },
+  "status": {
+    "confirmed": "مؤكد",
+    "pending": "قيد الانتظار",
+    "cancelled": "ملغى",
+    "completed": "مكتمل"
+  },
+  "table": {
+    "bookingDetails": "تفاصيل الحجز",
+    "dateTime": "التاريخ والوقت",
+    "customer": "العميل",
+    "status": "الحالة",
+    "price": "السعر",
+    "action": "إجراء",
+    "noBookings": "لا توجد حجوزات"
+  },
+  "pagination": {
+    "showing": "إظهار",
+    "to": "إلى",
+    "of": "من",
+    "bookings": "حجوزات",
+    "previous": "السابق",
+    "next": "التالي"
+  },
+  "AUTH": {
+    "LOGIN": "تسجيل الدخول",
+    "REGISTER": "التسجيل",
+    "LOGIN_WELCOME": "مرحباً بعودتك! يرجى تسجيل الدخول للمتابعة",
+    "SIGNUP_WELCOME": "مرحباً! يرجى التسجيل للمتابعة",
+    "EMAIL": "البريد الإلكتروني",
+    "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
+    "PASSWORD": "كلمة المرور",
+    "PASSWORD_PLACEHOLDER": "أدخل كلمة المرور",
+    "CREATE_PASSWORD": "إنشاء كلمة مرور",
+    "REMEMBER_ME": "تذكرني",
+    "FORGOT_PASSWORD": "هل نسيت كلمة المرور؟",
+    "SIGN_IN": "تسجيل الدخول",
+    "REGISTER_AS": "التسجيل كـ",
+    "USER": "مستخدم",
+    "MANAGER": "مدير",
+    "FIRST_NAME": "الاسم الأول",
+    "LAST_NAME": "اسم العائلة",
+    "PHONE": "رقم الهاتف",
+    "PHONE_PLACEHOLDER": "أدخل رقم هاتفك",
+    "CREATE_ACCOUNT": "إنشاء حساب"
+  },
+  "SCHEDULES": {
+    "TITLE": "إدارة جداول الملاعب المركب",
+    "SUBTITLE": "قم بتكوين ساعات العمل وإدارة توافر ملاعبك",
+    "SELECT_DATE": "اختر التاريخ",
+    "FIELDS": "الملاعب",
+    "SELECTED": "محدد",
+    "LEGEND": "دليل الألوان",
+    "STATUS": {
+      "AVAILABLE": "متاح",
+      "MAINTENANCE": "صيانة",
+      "BLOCKED": "محظور"
+    },
+    "SELECT_FIELD_MESSAGE": "اختر ملعباً للبدء",
+    "SELECT_FIELD_TO_VIEW": "اختر ملعباً لعرض وإدارة الفترات الزمنية",
+    "ADD_TIME_SLOT": "إضافة فترة زمنية",
+    "EDIT": "تعديل",
+    "ADD": "إضافة",
+    "TIME_SLOT": "فترة زمنية",
+    "START_TIME": "وقت البداية",
+    "END_TIME": "وقت النهاية",
+    "STATUS_LABEL": "الحالة",
+    "NOTES": "ملاحظات (اختياري)",
+    "NOTES_PLACEHOLDER": "أضف أي ملاحظات...",
+    "CANCEL": "إلغاء",
+    "UPDATE": "تحديث",
+    "SLOT": "فترة"
+  },
+  "MANAGER_DASHBOARD": {
+    "TITLE": "لوحة تحكم المدير",
+    "SUBTITLE": "إدارة المجمعات والملاعب والحجوزات",
+    "SEARCH_PLACEHOLDER": "البحث عن مجمع...",
+    "COMPLEXES": "مجمعات",
+    "FIELDS": "ملاعب",
+    "BOOKINGS": "حجوزات",
+    "SELECT_COMPLEX": "اختر مجمعاً لعرض التفاصيل",
+    "NO_COMPLEXES": "لا توجد مجمعات متاحة",
+    "ERROR_LOADING": "خطأ في تحميل البيانات",
+    "ACCESS_DENIED": "تم رفض الوصول: يجب أن تكون مديراً",
+    "USER_NOT_CONNECTED": "المستخدم غير متصل"
+  },
+  "USER_COMPLEX_LIST": {
+    "TITLE": "المجمعات المتاحة",
+    "SUBTITLE": "تصفح واحجز ملاعب كرة القدم",
+    "SEARCH_PLACEHOLDER": "البحث باسم المجمع، المدينة...",
+    "FILTER": "تصفية",
+    "CLEAR_FILTERS": "مسح الفلاتر",
+    "MOBILE_FILTERS": "الفلاتر",
+    "NO_COMPLEXES": "لم يتم العثور على مجمعات",
+    "LOADING": "جاري التحميل...",
+    "VIEW_FIELDS": "عرض الملاعب",
+    "RESULTS": "نتيجة",
+    "SHOWING": "عرض"
+  },
+  "COMMON": {
+    "LOADING": "جارٍ التحميل...",
+    "ERROR_GENERIC": "حدث خطأ ما",
+    "SEARCH": "بحث",
+    "FILTERS": "الفلاتر",
+    "APPLY_FILTERS": "تطبيق الفلاتر",
+    "CLEAR_FILTERS": "مسح الفلاتر",
+    "CANCEL": "إلغاء",
+    "SAVE_CHANGES": "حفظ التغييرات",
+    "SAVING": "جارٍ الحفظ...",
+    "PHONE": "الهاتف",
+    "EMAIL": "البريد الإلكتروني"
+  },
+  "DASHBOARD": {
+    "TITLE": "لوحة تحكم المدير",
+    "SUBTITLE": "قم بإدارة المجمعات والملاعب والحجوزات.",
+    "PILLS": {
+      "COMPLEXES": "{{count}} مجمع",
+      "FIELDS": "{{count}} ملعب"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "ابحث عن مجمع..."
+    },
+    "STATS": {
+      "COMPLEXES": "المجمعات",
+      "FIELDS": "الملاعب",
+      "BOOKINGS": "الحجوزات"
+    },
+    "MY_COMPLEXES": "مجمعاتي",
+    "TOTAL": "الإجمالي: {{count}}",
+    "NONE_FOUND": "لم يتم العثور على أي مجمع.",
+    "SELECTED": "محدد",
+    "VIEW": "عرض",
+    "COMPLEX_PREFIX": "المجمع {{name}}",
+    "FIELDS_SECTION": "الملاعب",
+    "TABLE": {
+      "NAME": "الاسم",
+      "TYPE": "النوع",
+      "STATUS": "الحالة",
+      "PRICE": "السعر",
+      "REVIEWS": "التقييمات"
+    },
+    "NO_FIELDS": "لا توجد ملاعب لهذا المجمع.",
+    "BOOKINGS_SECTION": "الحجوزات",
+    "BOOKING_PREFIX": "حجز رقم {{id}}",
+    "FIELD_LABEL": "الملعب: {{name}}",
+    "NO_BOOKINGS": "لا توجد حجوزات لهذا المجمع.",
+    "NO_COMPLEX_FOR_MANAGER": "لا يوجد مجمع لهذا المدير."
+  },
+  "COMPLEX_LIST_USER": {
+    "TITLE": "كتالوج المجمعات",
+    "SUBTITLE": "اكتشف المجمعات الرياضية والملاعب المتاحة",
+    "SEARCH_PLACEHOLDER": "ابحث بالاسم أو الموقع...",
+    "STATUS": {
+      "LABEL": "الحالة",
+      "ALL": "كل الحالات",
+      "OPEN": "مفتوح",
+      "CLOSED": "مغلق"
+    },
+    "RESULTS_FOUND": "تم العثور على {{count}} {{count, plural, =1 {مجمع} other {مجمعات}}}",
+    "CLEAR_FILTERS": "مسح الفلاتر",
+    "VIEW_FIELDS": "عرض الملاعب",
+    "FIELDS_COUNT": "{{count}} {{count, plural, =1 {ملعب} other {ملاعب}}}",
+    "SCHEDULE": "{{open}} - {{close}}",
+    "PAGINATION": {
+      "SHOWING": "عرض",
+      "TO": "إلى",
+      "OF": "من أصل",
+      "RESULTS": "نتائج"
+    },
+    "EMPTY": {
+      "TITLE": "لم يتم العثور على مجمعات",
+      "SUBTITLE": "جرّب تعديل معايير البحث",
+      "CLEAR_ALL": "مسح جميع الفلاتر"
+    }
+  },
+  "PROFILE": {
+    "TITLE": "تعديل الملف الشخصي",
+    "SUBTITLE": "حدّث معلوماتك الشخصية",
+    "ROLE": "الدور",
+    "FIRST_NAME": "الاسم الأول",
+    "LAST_NAME": "اسم العائلة",
+    "EMAIL": "البريد الإلكتروني",
+    "PHONE": "رقم الهاتف",
+    "REQUIRED": "*",
+    "PLACEHOLDERS": {
+      "FIRST_NAME": "أدخل اسمك الأول",
+      "LAST_NAME": "أدخل اسم العائلة",
+      "EMAIL": "أدخل بريدك الإلكتروني",
+      "PHONE": "أدخل رقم هاتفك"
+    }
+  },
+  "HOME": {
+    "HERO": {
+      "TITLE_LINE_1": "الملعب لك.",
+      "TITLE_LINE_2": "في أي وقت. في أي مكان.",
+      "DESCRIPTION": "المنصة الأفضل لحجز مباريات 5 ضد 5 و 6 ضد 6. اعثر على لعبتك أو أدر ملعبك بسهولة.",
+      "CTA_PLAY": "أريد أن ألعب",
+      "CTA_OWNER": "أنا أملك ملعبًا",
+      "SEARCH_PLACEHOLDER": "أين تريد أن تلعب؟"
+    },
+    "PLAYERS": {
+      "TITLE": "للاعبين",
+      "DESCRIPTION": "كل ما تحتاجه لتبدأ المباراة بدون أي تعقيد.",
+      "CTA_FIND_FIELD": "اعثر على ملعب",
+      "CARDS": {
+        "REALTIME": {
+          "TITLE": "التوفر في الوقت الحقيقي",
+          "DESCRIPTION": "اعرف الملاعب المتاحة ��لآن واحجز فورًا بدون مكالمات هاتفية."
+        },
+        "SPLIT_PAYMENTS": {
+          "TITLE": "تقسيم الدفع",
+          "DESCRIPTION": "شارك التكلفة مع فريقك بسهولة عبر التطبيق قبل المباراة."
+        },
+        "CONFIRMATION": {
+          "TITLE": "تأكيد فوري",
+          "DESCRIPTION": "احجز مكانك خلال ثوانٍ واستلم تذاكر رقمية فورًا."
+        }
+      }
+    },
+    "MANAGERS": {
+      "TITLE": "للمديرين",
+      "DESCRIPTION": "زد من نسبة إشغال ملاعبك وبسّط عمليات الإدارة.",
+      "CTA_LIST_COMPLEX": "أضف مجمعك",
+      "CARDS": {
+        "CALENDAR": {
+          "TITLE": "إدارة التقويم",
+          "DESCRIPTION": "نظّم جميع حجوزاتك في عرض واحد وتجنب الحجز المزدوج بسهولة."
+        },
+        "ANALYTICS": {
+          "TITLE": "لوحة تحليلات",
+          "DESCRIPTION": "تابع أداء عملك وأوقات الذروة ونمو الإيرادات عبر مخططات مفصلة."
+        },
+        "PAYMENTS": {
+          "TITLE": "مدفوعات تلقائية",
+          "DESCRIPTION": "احصل على أموالك أسرع، وتعامل مع الاسترجاعات بسهولة، واحمِ إيراداتك عبر الفوترة التلقائية."
+        }
+      }
+    },
+    "REVIEWS": {
+      "TITLE": "مراجعات المجتمع",
+      "BADGE_MANAGER": "مدير",
+      "ROLES": {
+        "PLAYER": "لاعب",
+        "OWNER": "مالك"
+      },
+      "ITEMS": {
+        "ALEX": {
+          "NAME": "Alex Johnson",
+          "ROLE": "لاعب",
+          "QUOTE": "\"تطبيق رائع! وجدت ملعبًا خلال دقائق لمباراتنا 5 ضد 5. ميزة تقسيم الدفع وفرت عليّ الكثير من العناء في جمع المال.\""
+        },
+        "MARIA": {
+          "NAME": "Maria Garcia",
+          "ROLE": "مالك",
+          "QUOTE": "\"كمالك لمجمع، أصبح تنظيم الحجوزات أسهل بكثير. لا مزيد من الحجوزات المزدوجة ولوحة التحليلات مفيدة جدًا.\""
+        },
+        "LIAM": {
+          "NAME": "Liam Smith",
+          "ROLE": "لاعب",
+          "QUOTE": "\"تجربة ممتازة. الواجهة نظيفة والحجز سلس. أتمنى إضافة المزيد من الملاعب في منطقتي قريبًا.\""
+        }
+      }
+    }
+  }
+}

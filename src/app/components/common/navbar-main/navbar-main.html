@@ -1,0 +1,154 @@
+<nav class="fixed top-0 left-0 right-0 z-50 flex justify-center p-4 animate-slide-down">
+    <div
+        class="w-full bg-white dark:bg-background rounded-full px-6 py-3 flex items-center justify-between shadow-xl shadow-black/10 dark:shadow-black/40 backdrop-blur-lg bg-white/95 dark:bg-background-dark/95 border border-gray-200 dark:border-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-black/20 dark:hover:shadow-black/50">
+
+        <!-- Logo Section -->
+        <div class="flex items-center gap-3 group cursor-pointer" (click)="navigateToHome()">
+            <div
+                class="w-12 h-12 text-primary flex items-center justify-center transition-transform group-hover:scale-110 group-hover:rotate-12">
+                @if(!isDarkMode()) {
+                <img src="blacklogo.png" alt="Logo">
+                }@else {
+                <img src="whitelogo.png" alt="Logo">
+                }
+            </div>
+            <span
+                class="font-bold text-lg tracking-tight hidden sm:block text-gray-900 dark:text-white transition-colors">
+                Takwirti
+            </span>
+        </div>
+
+        <!-- Center Navigation - Only for authenticated users -->
+        @if (isAuthenticated() && isUserRole()) {
+        <div class="hidden lg:flex items-center gap-1">
+            @for (route of userRoutes; track route.path) {
+            <a [routerLink]="route.path" routerLinkActive="bg-primary/10 text-primary dark:bg-primary/20"
+                class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-surface-dark transition-all hover:scale-105">
+                <span class="material-icons text-lg">{{ route.icon }}</span>
+                <span>{{ route.label | translate }}</span>
+            </a>
+            }
+        </div>
+        }
+
+        <!-- Right Section -->
+        <div class="flex items-center gap-3 md:gap-4">
+
+            <!-- Language Selector -->
+            <div class="relative">
+                <button (click)="toggleLanguageMenu()"
+                    class="w-10 h-10 rounded-full text-gray-600 dark:text-gray-300 bg-surface-card border border-gray-200 dark:border-white/10 flex items-center justify-center hover:scale-110 hover:border-primary dark:hover:border-primary transition-all duration-300 group text-xl">
+                    {{ getCurrentLanguageOption().flag }}
+                </button>
+
+                <!-- Language Dropdown -->
+                @if (showLanguageMenu()) {
+                <div
+                    class="absolute right-0 mt-2 w-48 text-gray-600 dark:text-gray-300 bg-white dark:bg-surface-card rounded-2xl shadow-xl border border-gray-200 dark:border-white/10 overflow-hidden animate-fade-in">
+                    @for (lang of languages; track lang.code) {
+                    <button (click)="changeLanguage(lang.code)"
+                        [class.bg-primary/10]="currentLanguage() === lang.code"
+                        [class.text-primary]="currentLanguage() === lang.code"
+                        class="text-gray-600 dark:text-gray-300 w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-surface-dark transition-colors flex items-center gap-3">
+                        <span class="text-xl">{{ lang.flag }}</span>
+                        <span class="font-medium text-sm text-gray-600 dark:text-gray-300">{{ lang.name }}</span>
+                        @if (currentLanguage() === lang.code) {
+                        <span class="material-icons text-sm ml-auto">check</span>
+                        }
+                    </button>
+                    }
+                </div>
+                }
+            </div>
+
+            <!-- Theme Switch -->
+            <button (click)="toggleTheme()"
+                class="w-10 h-10 rounded-full bg-gray-100 dark:bg-surface-card border border-gray-200 dark:border-white/10 flex items-center justify-center hover:scale-110 hover:border-primary dark:hover:border-primary transition-all duration-300 group">
+                @if (isDarkMode()) {
+                <span
+                    class="material-icons text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors text-xl">
+                    light_mode
+                </span>
+                }@else {
+                <span
+                    class="material-icons text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors text-xl">
+                    dark_mode
+                </span>
+                }
+            </button>
+
+            <!-- Auth Section -->
+            @if (!isAuthenticated()) {
+            <!-- Not Authenticated - Show Sign Up/Sign In -->
+            <div class="flex items-center gap-2">
+                <button (click)="navigateToRegister()"
+                    class="bg-primary hover:bg-green-400 text-background-dark text-sm font-bold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-primary/50">
+                    {{ 'navbar.signup' | translate }}
+                </button>
+                <button (click)="navigateToLogin()"
+                    class="hidden sm:block border-2 border-gray-300 dark:border-gray-700 bg-transparent hover:bg-gray-100 dark:hover:bg-surface-dark text-gray-900 dark:text-white text-sm font-bold px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 hover:border-gray-400 dark:hover:border-gray-600">
+                    {{ 'navbar.signin' | translate }}
+                </button>
+            </div>
+            } @else {
+            <!-- Authenticated - Show User Menu -->
+            <div class="relative">
+                <button (click)="toggleUserMenu()"
+                    class="flex items-center gap-2 bg-gray-100 dark:bg-surface-card border border-gray-200 dark:border-white/10 px-3 py-2 rounded-full hover:scale-105 hover:border-primary dark:hover:border-primary transition-all duration-300">
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">
+                        {{ currentUser()?.firstName?.charAt(0) || 'U' }}
+                    </div>
+                    <span class="hidden md:block font-medium text-sm text-gray-900 dark:text-white">
+                        {{ currentUser()?.firstName }}
+                    </span>
+                    <span class="material-icons text-gray-600 dark:text-gray-300 text-lg">
+                        {{ showUserMenu() ? 'expand_less' : 'expand_more' }}
+                    </span>
+                </button>
+
+                <!-- User Dropdown -->
+                @if (showUserMenu()) {
+                <div
+                    class="absolute right-0 mt-2 w-56 bg-white dark:bg-surface-card rounded-2xl shadow-xl border border-gray-200 dark:border-white/10 overflow-hidden animate-fade-in">
+                    
+                    <!-- User Info -->
+                    <div class="px-4 py-3 border-b border-gray-200 dark:border-white/10">
+                        <p class="font-semibold text-gray-900 dark:text-white text-sm">
+                            {{ currentUser()?.firstName }} {{ currentUser()?.lastName }}
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            {{ currentUser()?.email }}
+                        </p>
+                    </div>
+
+                    <!-- Mobile Navigation Links -->
+                    @if (isUserRole()) {
+                    <div class="lg:hidden border-b border-gray-200 dark:border-white/10">
+                        @for (route of userRoutes; track route.path) {
+                        <a [routerLink]="route.path" (click)="closeMenus()" routerLinkActive="bg-primary/10 text-primary"
+                            class="flex items-center text-gray-900 dark:text-white  gap-3 px-4 py-3 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-surface-dark transition-colors">
+                            <span class="material-icons text-lg">{{ route.icon }}</span>
+                            <span class="text-sm font-medium">{{ route.label | translate }}</span>
+                        </a>
+                        }
+                    </div>
+                    }
+
+                    <!-- Logout -->
+                    <button (click)="logout()"
+                        class="w-full px-4 py-3 text-left hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-3 text-red-600 dark:text-red-400">
+                        <span class="material-icons text-lg">logout</span>
+                        <span class="text-sm font-medium">{{ 'navbar.logout' | translate }}</span>
+                    </button>
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</nav>
+
+<!-- Click outside to close menus -->
+@if (showLanguageMenu() || showUserMenu()) {
+<div class="fixed inset-0 z-40" (click)="closeMenus()"></div>
+}

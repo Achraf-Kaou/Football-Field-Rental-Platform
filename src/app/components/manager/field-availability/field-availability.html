@@ -1,0 +1,200 @@
+<app-manager-layout>
+  <div class="min-h-screen bg-background text-white p-4 md:p-6">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold mb-2">{{ 'SCHEDULES.TITLE' | translate }} : {{complex()?.name }}</h1>
+          <p class="text-gray-400 text-sm md:text-base">{{ 'SCHEDULES.SUBTITLE' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+        <!-- Left Sidebar -->
+        <div class="lg:col-span-3 space-y-4 md:space-y-6">
+          <!-- Date Picker -->
+          <div class="bg-surface-card rounded-xl p-4 border border-emerald-500/30">
+            <h3 class="font-bold mb-3 text-sm md:text-base">{{ 'SCHEDULES.SELECT_DATE' | translate }}</h3>
+            <input type="date" [ngModel]="selectedDate()" (ngModelChange)="selectedDate.set($event)"
+              class="w-full bg-input-bg border border-gray-600 rounded px-3 py-2 text-white text-sm md:text-base" />
+            <p class="text-xs text-gray-400 mt-2">
+              {{ formatDate(selectedDate()) }}
+            </p>
+          </div>
+
+          <!-- Field Selection -->
+          <div>
+            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">{{ 'SCHEDULES.FIELDS' | translate }}</h3>
+            <div class="space-y-3 max-h-[300px] lg:max-h-none overflow-y-auto">
+              @for (field of fields(); track field.id) {
+              <div (click)="selectField(field)" [class]="getFieldClasses(field)"
+                class="bg-surface-card p-3 rounded-xl cursor-pointer transition-all">
+                <div class="flex items-center gap-3">
+                  <div [class]="getFieldIconClasses(field)"
+                    class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span class="text-2xl">🏟️</span>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="font-bold text-sm truncate">{{ field.name }}</p>
+                    <p [class]="getFieldStatusClasses(field)" class="text-xs truncate">
+                      {{ selectedField()?.id === field.id ? ('SCHEDULES.SELECTED' | translate) : field.type }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="bg-surface-card rounded-xl p-4 border border-gray-700">
+            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-3">{{ 'SCHEDULES.LEGEND' | translate }}</h3>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3">
+                <div class="w-4 h-4 rounded bg-emerald-500/20 border border-emerald-500 flex-shrink-0"></div>
+                <span class="text-sm">{{ 'SCHEDULES.STATUS.AVAILABLE' | translate }}</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-4 h-4 rounded bg-orange-500/20 border border-orange-500 flex-shrink-0"></div>
+                <span class="text-sm">{{ 'SCHEDULES.STATUS.MAINTENANCE' | translate }}</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-4 h-4 rounded bg-gray-500/20 border border-gray-700 flex-shrink-0"></div>
+                <span class="text-sm">{{ 'SCHEDULES.STATUS.BLOCKED' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Calendar -->
+        <div class="lg:col-span-9">
+          <div class="bg-surface-card rounded-xl border border-gray-700 overflow-hidden">
+            <!-- Toolbar -->
+            <div
+              class="p-3 md:p-4 border-b border-gray-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <h2 class="font-bold text-base md:text-lg truncate max-w-full">
+                {{ selectedField() ? selectedField()!.name + ' - ' + selectedDate() : ('SCHEDULES.SELECT_FIELD_MESSAGE' | translate) }}
+              </h2>
+              @if (selectedField()) {
+              <button (click)="openSlotModal()"
+                class="w-full sm:w-auto px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg font-semibold transition-colors text-sm md:text-base whitespace-nowrap">
+                + {{ 'SCHEDULES.ADD_TIME_SLOT' | translate }}
+              </button>
+              }
+            </div>
+
+            <!-- Calendar Grid -->
+            @if (selectedField()) {
+            <div class="p-3 md:p-4 overflow-x-auto">
+              <div class="grid grid-cols-[40px_1fr] min-w-[300px]">
+                <!-- Time Labels -->
+                <div class="border-r border-gray-700">
+                  @for (time of timeSlots(); track time) {
+                  <div
+                    class="h-10 border-b border-gray-700/50 flex items-start justify-center pt-2 text-xs md:text-sm text-gray-500">
+                    {{ time }}
+                  </div>
+                  }
+                </div>
+
+                <!-- Slots Container -->
+                <div class="relative h-auto border-l border-gray-700/50">
+                  <!-- Grid Lines -->
+                  <div class="absolute inset-0 pointer-events-none">
+                    @for (time of timeSlots(); track $index) {
+                    <div class="h-10 border-b border-gray-700/30 border-dashed"></div>
+                    }
+                  </div>
+
+                  <!-- Slots -->
+                  @for (slot of filteredSlots(); track slot.id) {
+                  <div (click)="editSlot(slot)" [style.top.px]="getSlotTop(slot.startTime)"
+                    [style.height.px]="getSlotHeight(slot.startTime, slot.endTime)"
+                    [class]="'absolute left-2 right-2 rounded-lg border-l-4 p-2 md:p-3 cursor-pointer hover:opacity-80 transition-opacity ' + getStatusColor(slot.status)">
+                    <div class="flex justify-between items-start mb-1">
+                      <span class="font-bold text-xs md:text-sm">{{ slot.startTime }} - {{ slot.endTime }}</span>
+                      <p class="text-xs opacity-90">{{ getStatusLabel(slot.status) }}</p>
+                      @if (slot.notes) {
+                      <p class="text-xs text-gray-400 mt-1 truncate">{{ slot.notes }}</p>
+                      }
+                      <button (click)="deleteSlot($event, slot.id)"
+                        class="text-red-400 hover:text-red-300 text-sm md:text-base">
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                  }
+                </div>
+              </div>
+            </div>
+            } @else {
+            <div
+              class="h-64 md:h-96 flex items-center justify-center text-gray-500 text-sm md:text-base px-4 text-center">
+              {{ 'SCHEDULES.SELECT_FIELD_TO_VIEW' | translate }}
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Add/Edit Slot Modal -->
+      @if (showSlotModal()) {
+      <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+        <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md border border-gray-700">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold">{{ (editingSlot() ? 'SCHEDULES.EDIT' : 'SCHEDULES.ADD') | translate }} {{ 'SCHEDULES.TIME_SLOT' | translate }}</h3>
+            <button (click)="closeSlotModal()" class="text-gray-400 hover:text-white">
+              ✕
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-sm text-gray-400 mb-1">{{ 'SCHEDULES.START_TIME' | translate }}</label>
+                <input type="time" [ngModel]="newSlot().startTime" (ngModelChange)="updateSlotForm('startTime', $event)"
+                  class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm md:text-base" />
+              </div>
+              <div>
+                <label class="block text-sm text-gray-400 mb-1">{{ 'SCHEDULES.END_TIME' | translate }}</label>
+                <input type="time" [ngModel]="newSlot().endTime" (ngModelChange)="updateSlotForm('endTime', $event)"
+                  class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm md:text-base" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm text-gray-400 mb-1">{{ 'SCHEDULES.STATUS_LABEL' | translate }}</label>
+              <div class="grid grid-cols-3 gap-2">
+                @for (status of statusOptions; track status) {
+                <button (click)="updateSlotForm('status', status)" [class]="getStatusButtonClasses(status)"
+                  class="py-2 md:py-2.5 rounded font-semibold text-xs md:text-sm transition-colors">
+                  {{ 'SCHEDULES.STATUS.' + status.toUpperCase() | translate }}
+                </button>
+                }
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm text-gray-400 mb-1">{{ 'SCHEDULES.NOTES' | translate }}</label>
+              <textarea [ngModel]="newSlot().notes" (ngModelChange)="updateSlotForm('notes', $event)"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 h-20 md:h-24 resize-none text-sm md:text-base"
+                [placeholder]="'SCHEDULES.NOTES_PLACEHOLDER' | translate"></textarea>
+            </div>
+            
+            <div class="flex gap-3 pt-4">
+              <button (click)="closeSlotModal()"
+                class="flex-1 py-2.5 md:py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors text-sm md:text-base">
+                {{ 'SCHEDULES.CANCEL' | translate }}
+              </button>
+              <button (click)="saveSlot()"
+                class="flex-1 py-2.5 md:py-3 bg-emerald-600 hover:bg-emerald-700 rounded-lg font-semibold transition-colors text-sm md:text-base">
+                {{ (editingSlot() ? 'SCHEDULES.UPDATE' : 'SCHEDULES.ADD') | translate }} {{ 'SCHEDULES.SLOT' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</app-manager-layout>

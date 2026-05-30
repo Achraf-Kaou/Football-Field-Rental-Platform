@@ -1,0 +1,274 @@
+<app-navbar-main></app-navbar-main>
+<main class="w-full bg-white dark:bg-background pt-24 pb-12 flex flex-col gap-16 md:gap-24">
+  <!-- Hero Section -->
+  <section class="container mx-auto px-4 md:px-6">
+    <div
+      class="relative w-full rounded-3xl overflow-hidden shadow-2xl shadow-primary/10 border border-gray-200 dark:border-white/5 group"
+      style="background-image: url('hero-section.png');"
+    >
+      <div class="relative z-10 flex flex-col items-center justify-center min-h-[600px] text-center px-4 py-12 gap-8">
+        <div class="max-w-3xl flex flex-col gap-6 animate-float">
+          <h1 class="font-black text-5xl md:text-7xl leading-tight text-white drop-shadow-2xl">
+            {{ 'HOME.HERO.TITLE_LINE_1' | translate }}<br />
+            <span class="bg-gradient-to-r from-primary via-green-400 to-primary bg-clip-text text-transparent">
+              {{ 'HOME.HERO.TITLE_LINE_2' | translate }}
+            </span>
+          </h1>
+
+          <p class="text-gray-300 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+            {{ 'HOME.HERO.DESCRIPTION' | translate }}
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 w-full max-w-md justify-center">
+          <button
+            (click)="handleButtonClick()"
+            class="group/btn flex-1 bg-primary hover:bg-green-400 text-background-dark font-bold text-base py-4 px-8 rounded-full animate-glow transition-all transform hover:-translate-y-1 hover:scale-105 flex items-center justify-center gap-2"
+          >
+            <span class="material-icons transition-transform group-hover/btn:rotate-12">sports_soccer</span>
+            {{ 'HOME.HERO.CTA_PLAY' | translate }}
+          </button>
+
+          <button
+            (click)="handleButtonClick()"
+            class="group/btn flex-1 bg-accent hover:bg-orange-400 text-white font-bold text-base py-4 px-8 rounded-full shadow-[0_0_20px_rgba(249,115,22,0.4)] hover:shadow-[0_0_30px_rgba(249,115,22,0.6)] transition-all transform hover:-translate-y-1 hover:scale-105 flex items-center justify-center gap-2"
+          >
+            <span class="material-icons transition-transform group-hover/btn:rotate-12">stadium</span>
+            {{ 'HOME.HERO.CTA_OWNER' | translate }}
+          </button>
+        </div>
+
+        <div
+          class="w-full max-w-2xl mt-8 bg-white/80 dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 rounded-full p-2 pl-6 flex items-center gap-3 shadow-lg hover:shadow-xl transition-all hover:bg-white/90 dark:hover:bg-white/15"
+        >
+          <span class="material-icons text-gray-600 dark:text-gray-300">search</span>
+          <input
+            class="flex-1 bg-transparent border-none text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-0 text-base h-10 outline-none"
+            [placeholder]="'HOME.HERO.SEARCH_PLACEHOLDER' | translate"
+            type="text"
+          />
+          <button
+            (click)="handleButtonClick()"
+            class="bg-primary text-background-dark w-10 h-10 rounded-full flex items-center justify-center hover:bg-green-400 transition-all hover:scale-110"
+          >
+            <span class="material-icons text-xl">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- For Players Section -->
+  <section class="container mx-auto px-4 md:px-6 max-w-6xl">
+    <div class="flex flex-col md:flex-row justify-between gap-6 mb-12 border-b border-gray-200 dark:border-white/10 pb-8">
+      <div class="space-y-3">
+        <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+          {{ 'HOME.PLAYERS.TITLE' | translate }}
+        </h2>
+        <p class="text-gray-600 dark:text-gray-300 text-lg max-w-2xl">
+          {{ 'HOME.PLAYERS.DESCRIPTION' | translate }}
+        </p>
+      </div>
+
+      <button
+        (click)="handleButtonClick()"
+        class="px-6 py-3 rounded-full border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/30"
+      >
+        {{ 'HOME.PLAYERS.CTA_FIND_FIELD' | translate }}
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div
+        class="bg-surface dark:bg-surface-dark border border-gray-200 dark:border-white/5 rounded-2xl p-8 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 group hover:-translate-y-2"
+      >
+        <div
+          class="w-14 h-14 rounded-full bg-white dark:bg-surface-card border border-gray-300 dark:border-white/5 flex items-center justify-center text-primary mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-lg"
+        >
+          <span class="material-icons">schedule</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+          {{ 'HOME.PLAYERS.CARDS.REALTIME.TITLE' | translate }}
+        </h3>
+        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+          {{ 'HOME.PLAYERS.CARDS.REALTIME.DESCRIPTION' | translate }}
+        </p>
+      </div>
+
+      <div
+        class="bg-surface dark:bg-surface-dark border border-gray-200 dark:border-white/5 rounded-2xl p-8 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 group hover:-translate-y-2"
+      >
+        <div
+          class="w-14 h-14 rounded-full bg-white dark:bg-surface-card border border-gray-300 dark:border-white/5 flex items-center justify-center text-primary mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-lg"
+        >
+          <span class="material-icons">credit_card</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+          {{ 'HOME.PLAYERS.CARDS.SPLIT_PAYMENTS.TITLE' | translate }}
+        </h3>
+        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+          {{ 'HOME.PLAYERS.CARDS.SPLIT_PAYMENTS.DESCRIPTION' | translate }}
+        </p>
+      </div>
+
+      <div
+        class="bg-surface dark:bg-surface-dark border border-gray-200 dark:border-white/5 rounded-2xl p-8 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 group hover:-translate-y-2"
+      >
+        <div
+          class="w-14 h-14 rounded-full bg-white dark:bg-surface-card border border-gray-300 dark:border-white/5 flex items-center justify-center text-primary mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-lg"
+        >
+          <span class="material-icons">check_circle</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+          {{ 'HOME.PLAYERS.CARDS.CONFIRMATION.TITLE' | translate }}
+        </h3>
+        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+          {{ 'HOME.PLAYERS.CARDS.CONFIRMATION.DESCRIPTION' | translate }}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- For Managers Section -->
+  <section class="w-full bg-gray-100 dark:bg-emerald-950 border-y border-gray-200 dark:border-white/5 py-20">
+    <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+      <div class="flex flex-col md:flex-row justify-between gap-6 mb-12">
+        <div class="space-y-3">
+          <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+            {{ 'HOME.MANAGERS.TITLE' | translate }}
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300 text-lg max-w-2xl">
+            {{ 'HOME.MANAGERS.DESCRIPTION' | translate }}
+          </p>
+        </div>
+
+        <button
+          (click)="handleButtonClick()"
+          class="px-6 py-3 rounded-full bg-accent text-white font-bold hover:bg-orange-400 shadow-lg shadow-accent/20 hover:shadow-xl hover:shadow-accent/30 transition-all duration-300 hover:scale-105"
+        >
+          {{ 'HOME.MANAGERS.CTA_LIST_COMPLEX' | translate }}
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          class="bg-surface dark:bg-surface-card border border-gray-200 dark:border-white/5 rounded-2xl p-8 hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 transition-all duration-300 group relative overflow-hidden hover:-translate-y-2"
+        >
+          <div class="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-150 group-hover:bg-accent/10"></div>
+          <div
+            class="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6 relative z-10 group-hover:rotate-12 group-hover:scale-110 transition-transform shadow-lg"
+          >
+            <span class="material-icons">calendar_today</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 relative z-10">
+            {{ 'HOME.MANAGERS.CARDS.CALENDAR.TITLE' | translate }}
+          </h3>
+          <p class="text-gray-600 dark:text-gray-300 leading-relaxed relative z-10">
+            {{ 'HOME.MANAGERS.CARDS.CALENDAR.DESCRIPTION' | translate }}
+          </p>
+        </div>
+
+        <div
+          class="bg-surface dark:bg-surface-card border border-gray-200 dark:border-white/5 rounded-2xl p-8 hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 transition-all duration-300 group relative overflow-hidden hover:-translate-y-2"
+        >
+          <div class="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-150 group-hover:bg-accent/10"></div>
+          <div
+            class="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6 relative z-10 group-hover:rotate-12 group-hover:scale-110 transition-transform shadow-lg"
+          >
+            <span class="material-icons">trending_up</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 relative z-10">
+            {{ 'HOME.MANAGERS.CARDS.ANALYTICS.TITLE' | translate }}
+          </h3>
+          <p class="text-gray-600 dark:text-gray-300 leading-relaxed relative z-10">
+            {{ 'HOME.MANAGERS.CARDS.ANALYTICS.DESCRIPTION' | translate }}
+          </p>
+        </div>
+
+        <div
+          class="bg-surface dark:bg-surface-card border border-gray-200 dark:border-white/5 rounded-2xl p-8 hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 transition-all duration-300 group relative overflow-hidden hover:-translate-y-2"
+        >
+          <div class="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-150 group-hover:bg-accent/10"></div>
+          <div
+            class="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6 relative z-10 group-hover:rotate-12 group-hover:scale-110 transition-transform shadow-lg"
+          >
+            <span class="material-icons">payments</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 relative z-10">
+            {{ 'HOME.MANAGERS.CARDS.PAYMENTS.TITLE' | translate }}
+          </h3>
+          <p class="text-gray-600 dark:text-gray-300 leading-relaxed relative z-10">
+            {{ 'HOME.MANAGERS.CARDS.PAYMENTS.DESCRIPTION' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Reviews Section -->
+  <section class="container mx-auto px-4 md:px-6 max-w-6xl">
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-10 pl-4 border-l-4 border-primary">
+      {{ 'HOME.REVIEWS.TITLE' | translate }}
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-surface dark:bg-surface-dark p-8 rounded-2xl border border-gray-200 dark:border-white/5 flex flex-col gap-4 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-2">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-green-400 border-2 border-primary shadow-lg"></div>
+          <div>
+            <h4 class="font-bold text-gray-900 dark:text-white">{{ 'HOME.REVIEWS.ITEMS.ALEX.NAME' | translate }}</h4>
+            <span class="text-xs text-primary uppercase tracking-wider font-semibold">
+              {{ 'HOME.REVIEWS.ROLES.PLAYER' | translate }}
+            </span>
+          </div>
+        </div>
+        <div class="flex text-primary gap-0.5">
+          <span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span>
+        </div>
+        <p class="text-gray-600 dark:text-gray-300 text-sm italic leading-relaxed">
+          {{ 'HOME.REVIEWS.ITEMS.ALEX.QUOTE' | translate }}
+        </p>
+      </div>
+
+      <div class="bg-surface dark:bg-surface-dark p-8 rounded-2xl border-2 border-accent/30 dark:border-accent/20 flex flex-col gap-4 relative overflow-hidden hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 transition-all duration-300 hover:-translate-y-2">
+        <div class="absolute top-0 right-0 bg-accent text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider shadow-lg">
+          {{ 'HOME.REVIEWS.BADGE_MANAGER' | translate }}
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-orange-400 border-2 border-accent shadow-lg"></div>
+          <div>
+            <h4 class="font-bold text-gray-900 dark:text-white">{{ 'HOME.REVIEWS.ITEMS.MARIA.NAME' | translate }}</h4>
+            <span class="text-xs text-accent uppercase tracking-wider font-semibold">
+              {{ 'HOME.REVIEWS.ROLES.OWNER' | translate }}
+            </span>
+          </div>
+        </div>
+        <div class="flex text-accent gap-0.5">
+          <span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span>
+        </div>
+        <p class="text-gray-600 dark:text-gray-300 text-sm italic leading-relaxed">
+          {{ 'HOME.REVIEWS.ITEMS.MARIA.QUOTE' | translate }}
+        </p>
+      </div>
+
+      <div class="bg-surface dark:bg-surface-dark p-8 rounded-2xl border border-gray-200 dark:border-white/5 flex flex-col gap-4 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-2">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-green-400 border-2 border-primary shadow-lg"></div>
+          <div>
+            <h4 class="font-bold text-gray-900 dark:text-white">{{ 'HOME.REVIEWS.ITEMS.LIAM.NAME' | translate }}</h4>
+            <span class="text-xs text-primary uppercase tracking-wider font-semibold">
+              {{ 'HOME.REVIEWS.ROLES.PLAYER' | translate }}
+            </span>
+          </div>
+        </div>
+        <div class="flex text-primary gap-0.5">
+          <span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span><span class="material-icons text-lg">star</span>
+        </div>
+        <p class="text-gray-600 dark:text-gray-300 text-sm italic leading-relaxed">
+          {{ 'HOME.REVIEWS.ITEMS.LIAM.QUOTE' | translate }}
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+<app-footer-main></app-footer-main>

@@ -1,0 +1,523 @@
+{
+  "navbar": {
+    "home": "Home",
+    "fields": "Fields",
+    "bookings": "My Bookings",
+    "chat": "Chat",
+    "signup": "Sign Up",
+    "signin": "Sign In",
+    "logout": "Logout",
+    "profile": "Profile"
+  },
+  "dashboard": {
+    "title": "Overview",
+    "liveUpdates": "Live Updates",
+    "today": "Today",
+    "week": "Week",
+    "month": "Month",
+    "searchPlaceholder": "Search bookings, customers, or fields...",
+    "refresh": "Refresh",
+    "newComplex": "New Complex",
+    
+    "totalRevenue": "Total Revenue",
+    "occupancyRate": "Occupancy Rate",
+    "todayBookings": "Today's Bookings",
+    "newCustomers": "New Customers",
+    
+    "vsLastWeek": "vs last week",
+    "peakHours": "Peak hours",
+    "slotsLeft": "slots left",
+    "highRetention": "High retention",
+    
+    "revenueOccupancy": "Revenue & Occupancy",
+    "weeklyTrend": "Weekly trend analysis",
+    "revenue": "Revenue",
+    "occupancy": "Occupancy",
+    
+    "liveFieldStatus": "Live Field Status",
+    "viewAllFields": "View All Fields",
+    "bookNow": "Book Now",
+    "left": "left",
+    "noFieldsAvailable": "No fields available",
+    
+    "upcomingMatches": "Upcoming Matches",
+    "paymentPending": "Payment Pending",
+    "noUpcomingBookings": "No upcoming bookings",
+    "viewFullSchedule": "View Full Schedule",
+    
+    "status": {
+      "LIVE": "Live",
+      "VACANT": "Vacant",
+      "MAINTENANCE": "Maint."
+    }
+  }, 
+  "chat": {
+    "messages": "Messages",
+    "newMessage": "New Message",
+    "searchConversations": "Search conversations...",
+    "loadingConversations": "Loading conversations...",
+    "noConversationsFound": "No conversations found",
+    "noMessagesYet": "No messages yet",
+    "selectConversation": "Select a conversation",
+    "selectConversationDesc": "Choose a conversation from the list to start chatting",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "justNow": "Just now",
+    "yesterday": "Yesterday",
+    "online": "Online",
+    "offline": "Offline",
+    "noMessages": "No messages yet. Start the conversation!",
+    "startConversation": "Start a conversation",
+    "searchUsers": "Search users by name or email...",
+    "to": "To:",
+    "messageOptional": "Message (optional):",
+    "typeYourMessage": "Type your message...",
+    "cancel": "Cancel",
+    "startChat": "Start Chat",
+    "noUsersFound": "No users found",
+    "searchingUsers": "Searching users...",
+    "you": "You",
+    "sent": "Sent",
+    "delivered": "Delivered",
+    "read": "Read"
+  },
+  "CHATBOT": {
+    "TITLE": "AI Chatbot Assistant",
+    "WELCOME": "Hello! 👋 I'm your AI assistant. How can I help you today?",
+    "PLACEHOLDER": "Type your message here...",
+    "SEND": "Send",
+    "CLEAR": "Clear Chat",
+    "CONFIRM_CLEAR": "Are you sure you want to clear the chat history?",
+    "ERROR": "Sorry, an error occurred",
+    "TYPING": "Bot is typing...",
+    "CONNECTED": "Connected",
+    "DISCONNECTED": "Disconnected"
+  },
+  "sidebar": {
+    "mainNavigation": "Main Navigation",
+    "primaryNavigation": "Primary Navigation",
+    "expandSidebar": "Expand Sidebar",
+    "collapseSidebar": "Collapse Sidebar",
+    "closeSidebar": "Close Sidebar",
+    "dashboard": "Dashboard",
+    "complexes": "Complexes",
+    "bookings": "Bookings",
+    "availability": "Availability",
+    "settings": "Settings",
+    "logout": "Logout",
+    "switchToLightMode": "Switch to Light Mode",
+    "switchToDarkMode": "Switch to Dark Mode",
+    "changeLanguage": "Change Language",
+    "loading": "Loading...",
+    "noComplexes": "No complexes found",
+    "chat": "Chat",
+    "profile": "Profile"
+  },
+  "user": {
+    "profile": "Profile",
+    "account": "Account",
+    "preferences": "Preferences"
+  },
+  "languages": {
+    "english": "English",
+    "french": "French",
+    "arabic": "Arabic"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "confirm": "Confirm",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "noResults": "No results found",
+    "error": "An error occurred",
+    "success": "Operation successful",
+    "complex": "Complex",
+    "unknownField": "Unknown Field",
+    "unknown": "Unknown"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "logoutSuccess": "Successfully logged out",
+    "logoutError": "Error during logout. Please try again."
+  }, 
+  "COMPLEX_LIST": {
+    "TITLE": "Managed Complexes",
+    "SUBTITLE": "View and manage all football facilities available for booking.",
+    "ADD_COMPLEX": "Add New Complex",
+    "SEARCH_PLACEHOLDER": "Search by complex name, city",
+    "SORT_BY": "Sort By",
+    "REVIEW": "review",
+    "REVIEWS": "reviews",
+    "STATUS": {
+      "ALL": "All",
+      "OPEN": "Open",
+      "CLOSED": "Closed"
+    },
+    "ACTIONS": {
+      "BOOKINGS": "Bookings",
+      "VIEW_DETAILS": "View Details",
+      "AVAILABILITY": "Availability Calendar",
+      "EDIT": "Edit",
+      "DELETE": "Delete"
+    },
+    "PAGINATION": {
+      "SHOWING": "Showing",
+      "TO": "to",
+      "OF": "of",
+      "RESULTS": "results",
+      "PREVIOUS": "Previous",
+      "NEXT": "Next"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Delete Complex",
+      "MESSAGE": "Are you sure you want to delete this complex? This action cannot be undone.",
+      "CANCEL": "Cancel",
+      "CONFIRM": "Delete"
+    }
+  },
+  "COMPLEX_OVERVIEW": {
+    "EDIT_DETAILS": "Edit Details",
+    "TOTAL_FIELDS": "Total Fields",
+    "OPENING_TIME": "Opening Time",
+    "CLOSING_TIME": "Closing Time",
+    "OVERALL_RATING": "Overall Rating",
+    "NO_REVIEWS": "No reviews yet",
+    "REVIEW": "review",
+    "REVIEWS": "reviews",
+    "MANAGE_FIELDS": "Manage Fields",
+    "SEARCH_FIELDS": "Search fields...",
+    "ADD_FIELD": "Add Field",
+    "NO_FIELDS": "No fields available.",
+    "NO_RATING": "No rating",
+    "FILTERS": {
+      "ALL_STATUSES": "All Statuses",
+      "AVAILABLE": "Available",
+      "MAINTENANCE": "Maintenance",
+      "CLOSED": "Closed",
+      "ALL_TYPES": "All Types"
+    },
+    "STATUS": {
+      "AVAILABLE": "Available",
+      "MAINTENANCE": "Maintenance",
+      "CLOSED": "Closed"
+    },
+    "TABLE": {
+      "FIELD_NAME": "Field Name",
+      "TYPE": "Type",
+      "SURFACE": "Surface",
+      "PRICE": "Price / Hour",
+      "RATING": "Rating",
+      "STATUS": "Status",
+      "ACTIONS": "Actions"
+    },
+    "ACTIONS": {
+      "EDIT": "Edit",
+      "DELETE": "Delete"
+    },
+    "PAGINATION": {
+      "SHOWING": "Showing",
+      "TO": "to",
+      "OF": "of",
+      "RESULTS": "results",
+      "PREVIOUS": "Previous",
+      "NEXT": "Next"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Delete Field",
+      "MESSAGE": "Are you sure you want to delete this field? This action cannot be undone.",
+      "CANCEL": "Cancel",
+      "CONFIRM": "Delete"
+    }
+  },
+  "actions": {
+    "export": "Export"
+  },
+  "managerBooking": {
+    "title": "{{name}} Bookings",
+    "subtitle": "View and manage all field reservations and schedules"
+  },
+  "stats": {
+    "today": "Today's Bookings",
+    "active": "active",
+    "activeFields": "Active Fields",
+    "utilization": "Utilization",
+    "revenueEst": "Revenue (Est.)",
+    "confirmed": "confirmed"
+  },
+  "filters": {
+    "search": "Search",
+    "searchPlaceholder": "Search by client name or booking ID...",
+    "selectDate": "Select Date",
+    "allFields": "All Fields",
+    "allStatuses": "All Statuses"
+  },
+  "status": {
+    "confirmed": "Confirmed",
+    "pending": "Pending",
+    "cancelled": "Cancelled",
+    "completed": "Completed"
+  },
+  "table": {
+    "bookingDetails": "Booking Details",
+    "dateTime": "Date & Time",
+    "customer": "Customer",
+    "status": "Status",
+    "price": "Price",
+    "action": "Action",
+    "noBookings": "No bookings found"
+  },
+  "pagination": {
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "bookings": "bookings",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "AUTH": {
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "LOGIN_WELCOME": "Welcome back! Please sign in to continue",
+    "SIGNUP_WELCOME": "Welcome! Please sign up to continue",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "CREATE_PASSWORD": "Create a password",
+    "REMEMBER_ME": "Remember me",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "SIGN_IN": "Sign In",
+    "REGISTER_AS": "Register as",
+    "USER": "User",
+    "MANAGER": "Manager",
+    "FIRST_NAME": "First name",
+    "LAST_NAME": "Last name",
+    "PHONE": "Phone number",
+    "PHONE_PLACEHOLDER": "Enter your phone number",
+    "CREATE_ACCOUNT": "Create Account"
+  },
+  "SCHEDULES": {
+    "TITLE": "Manage Field Schedules complex",
+    "SUBTITLE": "Configure operating hours and manage availability for your fields",
+    "SELECT_DATE": "Select Date",
+    "FIELDS": "Fields",
+    "SELECTED": "Selected",
+    "LEGEND": "Legend",
+    "STATUS": {
+      "AVAILABLE": "Available",
+      "MAINTENANCE": "Maintenance",
+      "BLOCKED": "Blocked"
+    },
+    "SELECT_FIELD_MESSAGE": "Select a field to begin",
+    "SELECT_FIELD_TO_VIEW": "Select a field to view and manage time slots",
+    "ADD_TIME_SLOT": "Add Time Slot",
+    "EDIT": "Edit",
+    "ADD": "Add",
+    "TIME_SLOT": "Time Slot",
+    "START_TIME": "Start Time",
+    "END_TIME": "End Time",
+    "STATUS_LABEL": "Status",
+    "NOTES": "Notes (Optional)",
+    "NOTES_PLACEHOLDER": "Add any notes...",
+    "CANCEL": "Cancel",
+    "UPDATE": "Update",
+    "SLOT": "Slot"
+  },
+  "MANAGER_DASHBOARD": {
+    "TITLE": "Manager Dashboard",
+    "SUBTITLE": "Manage your complexes, fields and bookings",
+    "SEARCH_PLACEHOLDER": "Search for a complex...",
+    "COMPLEXES": "complexes",
+    "FIELDS": "fields",
+    "BOOKINGS": "bookings",
+    "SELECT_COMPLEX": "Select a complex to view details",
+    "NO_COMPLEXES": "No complexes available",
+    "ERROR_LOADING": "Error loading data",
+    "ACCESS_DENIED": "Access denied: you must be a MANAGER",
+    "USER_NOT_CONNECTED": "User not connected"
+  },
+  "USER_COMPLEX_LIST": {
+    "TITLE": "Available Complexes",
+    "SUBTITLE": "Browse and book football fields",
+    "SEARCH_PLACEHOLDER": "Search by complex name, city...",
+    "FILTER": "Filter",
+    "CLEAR_FILTERS": "Clear Filters",
+    "MOBILE_FILTERS": "Filters",
+    "NO_COMPLEXES": "No complexes found",
+    "LOADING": "Loading...",
+    "VIEW_FIELDS": "View Fields",
+    "RESULTS": "results",
+    "SHOWING": "Showing"
+  },
+  "COMMON": {
+    "LOADING": "Loading...",
+    "ERROR_GENERIC": "An error occurred",
+    "SEARCH": "Search",
+    "FILTERS": "Filters",
+    "APPLY_FILTERS": "Apply filters",
+    "CLEAR_FILTERS": "Clear filters",
+    "CANCEL": "Cancel",
+    "SAVE_CHANGES": "Save changes",
+    "SAVING": "Saving...",
+    "PHONE": "Phone",
+    "EMAIL": "Email"
+  },
+  "DASHBOARD": {
+    "TITLE": "Manager Dashboard",
+    "SUBTITLE": "Manage your complexes, fields, and bookings.",
+    "PILLS": {
+      "COMPLEXES": "{{count}} complexes",
+      "FIELDS": "{{count}} fields"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "Search a complex..."
+    },
+    "STATS": {
+      "COMPLEXES": "Complexes",
+      "FIELDS": "Fields",
+      "BOOKINGS": "Bookings"
+    },
+    "MY_COMPLEXES": "My complexes",
+    "TOTAL": "{{count}} total",
+    "NONE_FOUND": "No complex found.",
+    "SELECTED": "Selected",
+    "VIEW": "View",
+    "COMPLEX_PREFIX": "Complex {{name}}",
+    "FIELDS_SECTION": "Fields",
+    "TABLE": {
+      "NAME": "Name",
+      "TYPE": "Type",
+      "STATUS": "Status",
+      "PRICE": "Price",
+      "REVIEWS": "Reviews"
+    },
+    "NO_FIELDS": "No fields for this complex.",
+    "BOOKINGS_SECTION": "Bookings",
+    "BOOKING_PREFIX": "Booking #{{id}}",
+    "FIELD_LABEL": "Field: {{name}}",
+    "NO_BOOKINGS": "No bookings for this complex.",
+    "NO_COMPLEX_FOR_MANAGER": "No complex found for this manager."
+  },
+  "COMPLEX_LIST_USER": {
+    "TITLE": "Complexes Catalog",
+    "SUBTITLE": "Discover sports complexes and their available fields",
+    "SEARCH_PLACEHOLDER": "Search by name or location...",
+    "STATUS": {
+      "LABEL": "Status",
+      "ALL": "All statuses",
+      "OPEN": "Open",
+      "CLOSED": "Closed"
+    },
+    "RESULTS_FOUND": "{{count}} {{count, plural, =1 {complex found} other {complexes found}}}",
+    "CLEAR_FILTERS": "Clear filters",
+    "VIEW_FIELDS": "View Fields",
+    "FIELDS_COUNT": "{{count}} {{count, plural, =1 {field} other {fields}}}",
+    "SCHEDULE": "{{open}} - {{close}}",
+    "PAGINATION": {
+      "SHOWING": "Showing",
+      "TO": "to",
+      "OF": "of",
+      "RESULTS": "results"
+    },
+    "EMPTY": {
+      "TITLE": "No complexes found",
+      "SUBTITLE": "Try adjusting your search criteria",
+      "CLEAR_ALL": "Clear All Filters"
+    }
+  },
+  "PROFILE": {
+    "TITLE": "Edit Profile",
+    "SUBTITLE": "Update your personal information",
+    "ROLE": "Role",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "EMAIL": "Email Address",
+    "PHONE": "Phone Number",
+    "REQUIRED": "*",
+    "PLACEHOLDERS": {
+      "FIRST_NAME": "Enter your first name",
+      "LAST_NAME": "Enter your last name",
+      "EMAIL": "Enter your email address",
+      "PHONE": "Enter your phone number"
+    }
+  },
+  "HOME": {
+    "HERO": {
+      "TITLE_LINE_1": "The Field is Yours.",
+      "TITLE_LINE_2": "Anytime. Anywhere.",
+      "DESCRIPTION": "The ultimate platform for 5vs5 and 6vs6 match bookings. Find your game or manage your turf with ease.",
+      "CTA_PLAY": "I want to Play",
+      "CTA_OWNER": "I own a Field",
+      "SEARCH_PLACEHOLDER": "Where do you want to play?"
+    },
+    "PLAYERS": {
+      "TITLE": "For Players",
+      "DESCRIPTION": "Everything you need to get the game going without the hassle.",
+      "CTA_FIND_FIELD": "Find a Field",
+      "CARDS": {
+        "REALTIME": {
+          "TITLE": "Real-time Availability",
+          "DESCRIPTION": "See which fields are free right now and book instantly without phone calls."
+        },
+        "SPLIT_PAYMENTS": {
+          "TITLE": "Split Payments",
+          "DESCRIPTION": "Share the cost with your team easily directly through the app before the game."
+        },
+        "CONFIRMATION": {
+          "TITLE": "Instant Confirmation",
+          "DESCRIPTION": "Book your spot in seconds and receive digital tickets immediately."
+        }
+      }
+    },
+    "MANAGERS": {
+      "TITLE": "For Managers",
+      "DESCRIPTION": "Maximize your field occupancy and simplify your business operations.",
+      "CTA_LIST_COMPLEX": "List Your Complex",
+      "CARDS": {
+        "CALENDAR": {
+          "TITLE": "Calendar Management",
+          "DESCRIPTION": "Organize all your bookings in one view and prevent double bookings effortlessly."
+        },
+        "ANALYTICS": {
+          "TITLE": "Analytics Dashboard",
+          "DESCRIPTION": "Track your business performance, peak hours, and revenue growth with detailed charts."
+        },
+        "PAYMENTS": {
+          "TITLE": "Automated Payments",
+          "DESCRIPTION": "Get paid faster, handle refunds easily, and secure your revenue with auto-invoicing."
+        }
+      }
+    },
+    "REVIEWS": {
+      "TITLE": "Community Reviews",
+      "BADGE_MANAGER": "Manager",
+      "ROLES": {
+        "PLAYER": "Player",
+        "OWNER": "Owner"
+      },
+      "ITEMS": {
+        "ALEX": {
+          "NAME": "Alex Johnson",
+          "ROLE": "Player",
+          "QUOTE": "\"Great app! Found a field in minutes for our 5-a-side game. The split payment feature saved me so much hassle collecting money.\""
+        },
+        "MARIA": {
+          "NAME": "Maria Garcia",
+          "ROLE": "Owner",
+          "QUOTE": "\"As a complex owner, this has made managing bookings so much easier. No more double bookings and the analytics are super helpful.\""
+        },
+        "LIAM": {
+          "NAME": "Liam Smith",
+          "ROLE": "Player",
+          "QUOTE": "\"Solid experience. The interface is clean and booking is smooth. Would love to see more venues added in my area soon.\""
+        }
+      }
+    }
+  }
+}

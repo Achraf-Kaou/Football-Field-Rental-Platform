@@ -1,0 +1,120 @@
+<app-navbar-main></app-navbar-main>
+<div class="min-h-screen bg-background flex items-center justify-center pt-24 pb-12 px-4">
+  <div
+    class="max-w-md w-full bg-surface p-8 rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 transition-all">
+
+    <!-- Tabs -->
+    <div
+      class="grid grid-cols-2 gap-2 mb-6 bg-gray-100 dark:bg-surface-card p-1 rounded-xl border border-gray-200 dark:border-white/5">
+      <button (click)="switchMode('login')" id="loginTab"
+        class="py-3 rounded-lg font-semibold transition-all text-black dark:text-white"
+        [class]="mode() == 'login' ? 'bg-white dark:bg-surface-dark !text-black shadow-sm border border-gray-200 dark:border-white/10' : ''">
+        {{ 'AUTH.LOGIN' | translate }}
+      </button>
+      <button (click)="switchMode('signup')" id="signupTab"
+        class="py-3 rounded-lg font-semibold transition-all text-black dark:text-white"
+        [class]="mode() == 'signup' ? 'bg-white dark:bg-surface-dark !text-black shadow-sm border border-gray-200 dark:border-white/10' : ''">
+        {{ 'AUTH.REGISTER' | translate }}
+      </button>
+    </div>
+
+    <!-- Login Form -->
+    @if(mode() == "login") {
+    <div id="loginForm" class="animate-fade-in">
+      <h3 class="text-lg font-semibold mb-6 text-center text-gray-900 dark:text-white">
+        {{ 'AUTH.LOGIN_WELCOME' | translate }}
+      </h3>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block font-medium mb-2 text-gray-900 dark:text-white">{{ 'AUTH.EMAIL' | translate }}</label>
+          <input type="email" [placeholder]="'AUTH.EMAIL_PLACEHOLDER' | translate" [field]="loginForm.email"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-surface-card border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        </div>
+
+        <div>
+          <label class="block font-medium mb-2 text-gray-900 dark:text-white">{{ 'AUTH.PASSWORD' | translate }}</label>
+          <input type="password" [placeholder]="'AUTH.PASSWORD_PLACEHOLDER' | translate" [field]="loginForm.password"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-surface-card border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        </div>
+
+        <div class="flex items-center justify-between text-sm">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary">
+            <span class="text-gray-600 dark:text-gray-400">{{ 'AUTH.REMEMBER_ME' | translate }}</span>
+          </label>
+          <a href="#" class="text-primary hover:text-green-400 font-semibold transition-colors">{{ 'AUTH.FORGOT_PASSWORD' | translate }}</a>
+        </div>
+
+        <button (click)="handleLogin()"
+          class="w-full bg-primary hover:bg-green-400 text-background-dark py-3 rounded-xl font-bold shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all hover:scale-[1.02] active:scale-95">
+          {{ 'AUTH.SIGN_IN' | translate }}
+        </button>
+      </div>
+    </div>
+    }
+    <!-- Registration Form -->
+    @if(mode() == "signup") {
+    <div id="signupForm" class="animate-fade-in">
+      <h3 class="text-lg font-semibold mb-6 text-center text-gray-900 dark:text-white">
+        {{ 'AUTH.SIGNUP_WELCOME' | translate }}
+      </h3>
+
+      <div class="space-y-4">
+        <!-- Role Selection -->
+        <div>
+          <label class="block font-medium mb-3 text-gray-900 dark:text-white">{{ 'AUTH.REGISTER_AS' | translate }}</label>
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" (click)="setRole('USER')"
+              [class]="registerModel().role === 'USER' ? 'bg-primary text-white border-primary' : 'bg-gray-50 dark:bg-surface-card text-gray-900 dark:text-white border-gray-200 dark:border-white/10'"
+              class="px-4 py-3 rounded-xl border-2 font-semibold transition-all hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary">
+              {{ 'AUTH.USER' | translate }}
+            </button>
+            <button type="button" (click)="setRole('MANAGER')"
+              [class]="registerModel().role === 'MANAGER' ? 'bg-primary text-white border-primary' : 'bg-gray-50 dark:bg-surface-card text-gray-900 dark:text-white border-gray-200 dark:border-white/10'"
+              class="px-4 py-3 rounded-xl border-2 font-semibold transition-all hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary">
+              {{ 'AUTH.MANAGER' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-medium mb-2 text-gray-900 dark:text-white">{{ 'AUTH.FIRST_NAME' | translate }}</label>
+            <input type="text" [placeholder]="'AUTH.FIRST_NAME' | translate" [field]="registerForm.firstName"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-surface-card border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+          </div>
+          <div>
+            <label class="block font-medium mb-2 text-gray-900 dark:text-white">{{ 'AUTH.LAST_NAME' | translate }}</label>
+            <input type="text" [placeholder]="'AUTH.LAST_NAME' | translate" [field]="registerForm.lastName"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-surface-card border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-medium mb-2 text-gray-900 dark:text-white">{{ 'AUTH.EMAIL' | translate }}</label>
+          <input type="email" [placeholder]="'AUTH.EMAIL_PLACEHOLDER' | translate" [field]="registerForm.email"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-surface-card border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        </div>
+
+        <div>
+          <label class="block font-medium mb-2 text-gray-900 dark:text-white">{{ 'AUTH.PHONE' | translate }}</label>
+          <input type="text" [placeholder]="'AUTH.PHONE_PLACEHOLDER' | translate" [field]="registerForm.phone"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-surface-card border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"/>
+        </div>
+
+        <div>
+          <label class="block font-medium mb-2 text-gray-900 dark:text-white">{{ 'AUTH.PASSWORD' | translate }}</label>
+          <input type="password" [placeholder]="'AUTH.CREATE_PASSWORD' | translate" [field]="registerForm.password"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-surface-card border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        </div>
+
+        <button (click)="handleSignup()"
+          class="w-full bg-primary hover:bg-green-400 text-background-dark py-3 rounded-xl font-bold shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all hover:scale-[1.02] active:scale-95">
+          {{ 'AUTH.CREATE_ACCOUNT' | translate }}
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+</div>

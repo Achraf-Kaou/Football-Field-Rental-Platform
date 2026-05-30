@@ -1,0 +1,237 @@
+<app-manager-layout>
+    <main class="flex-1 flex flex-col items-center py-8 px-4 md:px-10 lg:px-20 overflow-x-hidden">
+        <div class="w-full max-w-[1200px] flex flex-col gap-8">
+            <!-- Page Heading -->
+            <div class="flex flex-wrap justify-between items-end gap-4 pb-2 border-b border-[#2c4724]/50">
+                <div class="flex flex-col gap-2">
+                    <h1
+                        class="text-black dark:text-white text-3xl md:text-4xl font-black"
+                        *ngIf="complex() as c; else loadingTitle"
+                        >
+                        {{ 'managerBooking.title' | translate:{ name: c.name } }}
+                    </h1>
+
+                    <ng-template #loadingTitle>
+                        {{ 'managerBooking.title' | translate:{ name: ('common.complex' | translate) } }}
+                    </ng-template>
+                    <p class="text-[#9fc893] text-base font-normal leading-normal">
+                        {{ 'managerBooking.subtitle' | translate }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
+                    <div class="flex justify-between items-start">
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">{{ 'stats.today' | translate }}</p>
+                        <span class="material-icons text-primary">calendar_today</span>
+                    </div>
+                    <div class="flex items-end gap-2 mt-2">
+                        <p class="text-black dark:text-white text-3xl font-bold leading-none">{{ todayBookingsCount() }}</p>
+                        <p class="text-primary text-sm font-medium mb-1">{{ 'stats.active' | translate }}</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
+                    <div class="flex justify-between items-start">
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">{{ 'stats.activeFields' | translate }}</p>
+                        <span class="material-icons text-primary">stadium</span>
+                    </div>
+                    <div class="flex items-end gap-2 mt-2">
+                        <p class="text-black dark:text-white text-3xl font-bold leading-none">{{ activeFieldsCount() }}/{{ fields().length }}</p>
+                        <p class="text-gray-400 text-sm font-medium mb-1">
+                            {{ fields().length > 0 ? ((activeFieldsCount() / fields().length) * 100).toFixed(0) : 0 }}% {{ 'stats.utilization' | translate }}
+                        </p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 rounded-xl p-6 border border-[#2c4724] bg-surface-dark bg-gradient-to-br from-[#2c4724]/20 to-transparent">
+                    <div class="flex justify-between items-start">
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">{{ 'stats.revenueEst' | translate }}</p>
+                        <span class="material-icons text-primary">payments</span>
+                    </div>
+                    <div class="flex items-end gap-2 mt-2">
+                        <p class="text-black dark:text-white text-3xl font-bold leading-none">${{ totalRevenue() }}</p>
+                        <p class="text-primary text-sm font-medium mb-1">{{ 'stats.confirmed' | translate }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters & Search Toolbar -->
+            <div class="flex flex-col lg:flex-row gap-4 p-4 rounded-xl bg-surface-dark border border-[#2c4724]">
+                <!-- Search -->
+                <div class="flex-1 min-w-[300px]">
+                    <label class="flex flex-col h-full">
+                        <span class="sr-only">{{ 'filters.search' | translate }}</span>
+                        <div class="flex w-full items-center rounded-lg bg-input-dark border border-transparent focus-within:border-primary transition-colors h-12">
+                            <div class="flex items-center justify-center pl-4 text-[#9fc893]">
+                                <span class="material-icons">search</span>
+                            </div>
+                            <input
+                                class="w-full bg-transparent border-none text-black dark:text-white placeholder:text-[#9fc893] focus:ring-0 px-3 text-base"
+                                [placeholder]="'filters.searchPlaceholder' | translate"
+                                [value]="search()"
+                                (input)="updateSearch($event.target.value)" />
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Date Filter -->
+                <div class="lg:w-48">
+                    <div class="relative flex items-center h-12 w-full rounded-lg bg-input-dark border border-transparent focus-within:border-primary px-3 cursor-pointer group">
+                        <span class="material-icons text-[#9fc893] group-hover:text-primary transition-colors mr-2">calendar_month</span>
+                        <input
+                            class="bg-transparent border-none p-0 text-black dark:text-white placeholder:text-[#9fc893] focus:ring-0 w-full text-sm font-medium cursor-pointer"
+                            [placeholder]="'filters.selectDate' | translate"
+                            type="date"
+                            [value]="selectedDate()"
+                            (change)="updateDate($event.target.value)" />
+                    </div>
+                </div>
+
+                <!-- Field Filter -->
+                <div class="lg:w-48">
+                    <div class="relative flex items-center h-12 w-full rounded-lg bg-input-dark border border-transparent focus-within:border-primary px-3 cursor-pointer">
+                        <span class="material-icons text-[#9fc893] mr-2">grass</span>
+                        <select
+                            class="bg-transparent border-none p-0 text-black dark:text-white focus:ring-0 w-full text-sm font-medium cursor-pointer appearance-none"
+                            (change)="updateFieldFilter($event)">
+                            <option value="all">{{ 'filters.allFields' | translate }}</option>
+                            @for (field of fields(); track field.id) {
+                                <option [value]="field.id">{{ field.name }}</option>
+                            }
+                        </select>
+                        <span class="material-icons text-[#9fc893] absolute right-3 pointer-events-none">arrow_drop_down</span>
+                    </div>
+                </div>
+
+                <!-- Status Filter -->
+                <div class="lg:w-48">
+                    <div class="relative flex items-center h-12 w-full rounded-lg bg-input-dark border border-transparent focus-within:border-primary px-3 cursor-pointer">
+                        <span class="material-icons text-[#9fc893] mr-2">filter_alt</span>
+                        <select
+                            class="bg-transparent border-none p-0 text-black dark:text-white focus:ring-0 w-full text-sm font-medium cursor-pointer appearance-none"
+                            (change)="updateStatusFilter($event)">
+                            <option value="all">{{ 'filters.allStatuses' | translate }}</option>
+                            <option value="pending">{{ 'status.pending' | translate }}</option>
+                            <option value="cancelled">{{ 'status.cancelled' | translate }}</option>
+                            <option value="completed">{{ 'status.completed' | translate }}</option>
+
+                        </select>
+                        <span class="material-icons text-[#9fc893] absolute right-3 pointer-events-none">arrow_drop_down</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookings Table -->
+            <div class="w-full overflow-hidden rounded-xl border border-[#2c4724] bg-surface-dark shadow-xl">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-input-dark/50 border-b border-[#2c4724]">
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">{{ 'table.bookingDetails' | translate }}</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">{{ 'table.dateTime' | translate }}</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">{{ 'table.customer' | translate }}</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider">{{ 'table.status' | translate }}</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider text-right">{{ 'table.price' | translate }}</th>
+                                <th class="p-4 text-xs font-bold text-[#9fc893] uppercase tracking-wider text-center">{{ 'table.action' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-[#2c4724]">
+                            @if (paginatedBookings().length === 0) {
+                                <tr>
+                                    <td colspan="6" class="p-8 text-center">
+                                        <div class="flex flex-col items-center gap-3">
+                                            <span class="material-icons text-gray-500 text-5xl">event_busy</span>
+                                            <p class="text-gray-400 text-base">{{ 'table.noBookings' | translate }}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            @for (booking of paginatedBookings(); track booking.id) {
+                                <tr class="group hover:bg-white/5 transition-colors">
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="size-10 rounded bg-[#2c4724] flex items-center justify-center text-black dark:text-white font-bold">
+                                                {{ getFieldName(booking.fieldId).charAt(0).toUpperCase() }}
+                                            </div>
+                                            <div>
+                                                <p class="text-black dark:text-white font-bold text-sm">{{ getFieldName(booking.fieldId) }}</p>
+                                                <p class="text-gray-400 text-xs">{{ getFieldType(booking.fieldId) }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <p class="text-black dark:text-white text-sm font-medium">{{ formatDate(booking.startAt) }}</p>
+                                        <p class="text-gray-400 text-xs">{{ formatTime(booking.startAt) }} - {{ formatTime(booking.endAt) }}</p>
+                                    </td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="size-6 rounded-full bg-primary/20 flex items-center justify-center">
+                                                <span class="material-icons text-primary text-[14px]">person</span>
+                                            </div>
+                                            <span class="text-black dark:text-white text-sm">{{ booking.user.firstName }} {{ booking.user.lastName }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span [class]="'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ' + getStatusClass(booking.status)">
+                                            <span [class]="'size-1.5 rounded-full ' + getStatusDotClass(booking.status)"></span>
+                                            {{ ('status.' + booking.status) | translate }}
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <p class="text-black dark:text-white font-bold">${{ booking.price || 60 }}.00</p>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <button
+                                            (click)="viewBookingDetails(booking.id)"
+                                            class="text-gray-400 hover:text-black dark:text-white p-1 rounded-md hover:bg-[#2c4724] transition-colors">
+                                            <span class="material-icons">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex items-center justify-between border-t border-[#2c4724] bg-input-dark/30 p-4">
+                    <p class="text-sm text-gray-400">
+                        {{ 'pagination.showing' | translate }} <span class="font-bold text-black dark:text-white">{{ startIndex() }}</span>
+                        {{ 'pagination.to' | translate }} <span class="font-bold text-black dark:text-white">{{ endIndex() }}</span>
+                        {{ 'pagination.of' | translate }} <span class="font-bold text-black dark:text-white">{{ filteredBookings().length }}</span> {{ 'pagination.bookings' | translate }}
+                    </p>
+                    <div class="flex gap-2">
+                        <button
+                            (click)="prevPage()"
+                            [disabled]="page() === 1"
+                            class="flex items-center justify-center px-3 py-1.5 rounded-md border border-[#2c4724] text-gray-300 hover:bg-[#2c4724] hover:text-black dark:text-white transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                            {{ 'pagination.previous' | translate }}
+                        </button>
+                        
+                        @for (pageNum of generateRange(1, totalPages()); track pageNum) {
+                            @if (totalPages() <= 5 || pageNum === 1 || pageNum === totalPages() || (pageNum >= page() - 1 && pageNum <= page() + 1)) {
+                                <button
+                                    (click)="handlePageChange(pageNum)"
+                                    [class]="pageNum === page() 
+                                        ? 'flex items-center justify-center px-3 py-1.5 rounded-md bg-primary text-black font-bold transition-colors text-sm'
+                                        : 'flex items-center justify-center px-3 py-1.5 rounded-md border border-[#2c4724] text-gray-300 hover:bg-[#2c4724] hover:text-black dark:text-white transition-colors text-sm font-medium'">
+                                    {{ pageNum }}
+                                </button>
+                            } @else if (pageNum === page() - 2 || pageNum === page() + 2) {
+                                <span class="flex items-center px-2 text-gray-400">...</span>
+                            }
+                        }
+                        
+                        <button
+                            (click)="nextPage()"
+                            [disabled]="page() === totalPages()"
+                            class="flex items-center justify-center px-3 py-1.5 rounded-md border border-[#2c4724] text-gray-300 hover:bg-[#2c4724] hover:text-black dark:text-white transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                            {{ 'pagination.next' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</app-manager-layout>

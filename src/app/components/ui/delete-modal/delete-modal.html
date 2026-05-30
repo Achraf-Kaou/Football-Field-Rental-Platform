@@ -1,0 +1,25 @@
+<div class="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50">
+    <div
+        class="flex flex-col items-center bg-background shadow-xl rounded-xl py-6 px-5 md:w-[460px] w-[370px] border border-gray-200"
+    >
+        <div [class]="'flex items-center justify-center p-4 bg-'+color()+'-200 rounded-full'">
+            <span [class]="'material-icons text-'+color()+'-600'">{{ icon() }}</span>
+        </div>
+        <h2 class="text-secondary font-semibold mt-4 text-xl">{{title()}}</h2>
+        <p class="text-sm text-gray-600 mt-2 text-center">
+            {{message()}}
+        </p>
+        <div class="flex items-center justify-center gap-4 mt-5 w-full">
+            <button type="button"
+                class="w-full md:w-36 h-10 rounded-md border border-gray-300 bg-white text-white dark:text-black font-medium text-sm hover:bg-gray-100 active:scale-95 transition"
+                (click)="handleCancel()">
+                {{cancelText()}}
+            </button>
+            <button type="button"
+                [class]="'w-full md:w-36 h-10 rounded-md text-white bg-'+color()+'-600 font-medium text-sm hover:bg-'+color()+'-700 active:scale-95 transition'"
+                (click)="handleConfirm()">
+                {{confirmText()}}
+            </button>
+        </div>
+    </div>
+</div>

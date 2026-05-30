@@ -1,0 +1,523 @@
+{
+  "navbar": {
+    "home": "Accueil",
+    "fields": "Terrains",
+    "bookings": "Mes Réservations",
+    "chat": "Discussion",
+    "signup": "S'inscrire",
+    "signin": "Se connecter",
+    "logout": "Déconnexion",
+    "profile": "Profil"
+  },
+  "dashboard": {
+    "title": "Vue d'ensemble",
+    "liveUpdates": "Mises à jour en direct",
+    "today": "Aujourd'hui",
+    "week": "Semaine",
+    "month": "Mois",
+    "searchPlaceholder": "Rechercher des réservations, clients ou terrains...",
+    "refresh": "Actualiser",
+    "newComplex": "Nouveau Complexe",
+    
+    "totalRevenue": "Revenu Total",
+    "occupancyRate": "Taux d'Occupation",
+    "todayBookings": "Réservations du Jour",
+    "newCustomers": "Nouveaux Clients",
+    
+    "vsLastWeek": "vs semaine dernière",
+    "peakHours": "Heures de pointe",
+    "slotsLeft": "créneaux restants",
+    "highRetention": "Fidélisation élevée",
+    
+    "revenueOccupancy": "Revenu & Occupation",
+    "weeklyTrend": "Analyse des tendances hebdomadaires",
+    "revenue": "Revenu",
+    "occupancy": "Occupation",
+    
+    "liveFieldStatus": "État des Terrains en Direct",
+    "viewAllFields": "Voir Tous les Terrains",
+    "bookNow": "Réserver",
+    "left": "restant",
+    "noFieldsAvailable": "Aucun terrain disponible",
+    
+    "upcomingMatches": "Matchs à Venir",
+    "paymentPending": "Paiement en attente",
+    "noUpcomingBookings": "Aucune réservation à venir",
+    "viewFullSchedule": "Voir le Calendrier Complet",
+    
+    "status": {
+      "LIVE": "En cours",
+      "VACANT": "Libre",
+      "MAINTENANCE": "Maint."
+    }
+  }, 
+  "chat": {
+    "messages": "Messages",
+    "newMessage": "Nouveau Message",
+    "searchConversations": "Rechercher des conversations...",
+    "loadingConversations": "Chargement des conversations...",
+    "noConversationsFound": "Aucune conversation trouvée",
+    "noMessagesYet": "Aucun message pour le moment",
+    "selectConversation": "Sélectionner une conversation",
+    "selectConversationDesc": "Choisissez une conversation dans la liste pour commencer à discuter",
+    "typeMessage": "Tapez un message...",
+    "send": "Envoyer",
+    "justNow": "À l'instant",
+    "yesterday": "Hier",
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "noMessages": "Aucun message pour le moment. Commencez la conversation !",
+    "startConversation": "Démarrer une conversation",
+    "searchUsers": "Rechercher des utilisateurs par nom ou email...",
+    "to": "À :",
+    "messageOptional": "Message (optionnel) :",
+    "typeYourMessage": "Tapez votre message...",
+    "cancel": "Annuler",
+    "startChat": "Commencer la Discussion",
+    "noUsersFound": "Aucun utilisateur trouvé",
+    "searchingUsers": "Recherche d'utilisateurs...",
+    "you": "Vous",
+    "sent": "Envoyé",
+    "delivered": "Livré",
+    "read": "Lu"
+  },
+  "CHATBOT": {
+    "TITLE": "Assistant Chatbot IA",
+    "WELCOME": "Bonjour! 👋 Je suis votre assistant IA. Comment puis-je vous aider aujourd'hui?",
+    "PLACEHOLDER": "Tapez votre message ici...",
+    "SEND": "Envoyer",
+    "CLEAR": "Effacer le chat",
+    "CONFIRM_CLEAR": "Êtes-vous sûr de vouloir effacer l'historique du chat?",
+    "ERROR": "Désolé, une erreur s'est produite",
+    "TYPING": "Le bot tape...",
+    "CONNECTED": "Connecté",
+    "DISCONNECTED": "Déconnecté"
+  },
+  "sidebar": {
+    "mainNavigation": "Navigation Principale",
+    "primaryNavigation": "Navigation Primaire",
+    "expandSidebar": "Développer la barre latérale",
+    "collapseSidebar": "Réduire la barre latérale",
+    "closeSidebar": "Fermer la barre latérale",
+    "dashboard": "Tableau de bord",
+    "complexes": "Complexes",
+    "bookings": "Réservations",
+    "availability": "Disponibilité",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "switchToLightMode": "Passer en mode clair",
+    "switchToDarkMode": "Passer en mode sombre",
+    "changeLanguage": "Changer de langue",
+    "loading": "Chargement...",
+    "noComplexes": "Aucun complexe trouvé",
+    "chat": "Discussion",
+    "profile": "Profil"
+  },
+  "user": {
+    "profile": "Profil",
+    "account": "Compte",
+    "preferences": "Préférences"
+  },
+  "languages": {
+    "english": "Anglais",
+    "french": "Français",
+    "arabic": "Arabe"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "loading": "Chargement...",
+    "noResults": "Aucun résultat trouvé",
+    "error": "Une erreur s'est produite",
+    "success": "Opération réussie",
+    "complex": "Complexe",
+    "unknownField": "Terrain inconnu",
+    "unknown": "Inconnu"
+  },
+  "auth": {
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "logoutSuccess": "Déconnexion réussie",
+    "logoutError": "Erreur lors de la déconnexion. Veuillez réessayer."
+  },
+  "COMPLEX_LIST": {
+    "TITLE": "Complexes Gérés",
+    "SUBTITLE": "Consultez et gérez toutes les installations de football disponibles à la réservation.",
+    "ADD_COMPLEX": "Ajouter un Nouveau Complexe",
+    "SEARCH_PLACEHOLDER": "Rechercher par nom de complexe, ville",
+    "SORT_BY": "Trier par",
+    "REVIEW": "avis",
+    "REVIEWS": "avis",
+    "STATUS": {
+      "ALL": "Tous",
+      "OPEN": "Ouvert",
+      "CLOSED": "Fermé"
+    },
+    "ACTIONS": {
+      "BOOKINGS": "Réservations",
+      "VIEW_DETAILS": "Voir les détails",
+      "AVAILABILITY": "Calendrier de disponibilité",
+      "EDIT": "Modifier",
+      "DELETE": "Supprimer"
+    },
+    "PAGINATION": {
+      "SHOWING": "Affichage de",
+      "TO": "à",
+      "OF": "sur",
+      "RESULTS": "résultats",
+      "PREVIOUS": "Précédent",
+      "NEXT": "Suivant"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Supprimer le Complexe",
+      "MESSAGE": "Êtes-vous sûr de vouloir supprimer ce complexe ? Cette action est irréversible.",
+      "CANCEL": "Annuler",
+      "CONFIRM": "Supprimer"
+    }
+  },
+  "COMPLEX_OVERVIEW": {
+    "EDIT_DETAILS": "Modifier les détails",
+    "TOTAL_FIELDS": "Total des Terrains",
+    "OPENING_TIME": "Heure d'ouverture",
+    "CLOSING_TIME": "Heure de fermeture",
+    "OVERALL_RATING": "Note Globale",
+    "NO_REVIEWS": "Aucun avis",
+    "REVIEW": "avis",
+    "REVIEWS": "avis",
+    "MANAGE_FIELDS": "Gérer les Terrains",
+    "SEARCH_FIELDS": "Rechercher des terrains...",
+    "ADD_FIELD": "Ajouter un Terrain",
+    "NO_FIELDS": "Aucun terrain disponible.",
+    "NO_RATING": "Pas de note",
+    "FILTERS": {
+      "ALL_STATUSES": "Tous les statuts",
+      "AVAILABLE": "Disponible",
+      "MAINTENANCE": "Maintenance",
+      "CLOSED": "Fermé",
+      "ALL_TYPES": "Tous les types"
+    },
+    "STATUS": {
+      "AVAILABLE": "Disponible",
+      "MAINTENANCE": "Maintenance",
+      "CLOSED": "Fermé"
+    },
+    "TABLE": {
+      "FIELD_NAME": "Nom du Terrain",
+      "TYPE": "Type",
+      "SURFACE": "Surface",
+      "PRICE": "Prix / Heure",
+      "RATING": "Note",
+      "STATUS": "Statut",
+      "ACTIONS": "Actions"
+    },
+    "ACTIONS": {
+      "EDIT": "Modifier",
+      "DELETE": "Supprimer"
+    },
+    "PAGINATION": {
+      "SHOWING": "Affichage de",
+      "TO": "à",
+      "OF": "sur",
+      "RESULTS": "résultats",
+      "PREVIOUS": "Précédent",
+      "NEXT": "Suivant"
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Supprimer le Terrain",
+      "MESSAGE": "Êtes-vous sûr de vouloir supprimer ce terrain ? Cette action est irréversible.",
+      "CANCEL": "Annuler",
+      "CONFIRM": "Supprimer"
+    }
+  },
+  "actions": {
+    "export": "Exporter"
+  },
+  "managerBooking": {
+    "title": "Réservations de {{name}}",
+    "subtitle": "Voir et gérer toutes les réservations et plannings des terrains"
+  },
+  "stats": {
+    "today": "Réservations du jour",
+    "active": "actives",
+    "activeFields": "Terrains actifs",
+    "utilization": "Utilisation",
+    "revenueEst": "Revenu (estim.)",
+    "confirmed": "confirmées"
+  },
+  "filters": {
+    "search": "Recherche",
+    "searchPlaceholder": "Rechercher par nom client ou ID de réservation...",
+    "selectDate": "Sélectionner une date",
+    "allFields": "Tous les terrains",
+    "allStatuses": "Tous les statuts"
+  },
+  "status": {
+    "confirmed": "Confirmée",
+    "pending": "En attente",
+    "cancelled": "Annulée",
+    "completed": "Terminée"
+  },
+  "table": {
+    "bookingDetails": "Détails de la réservation",
+    "dateTime": "Date & heure",
+    "customer": "Client",
+    "status": "Statut",
+    "price": "Prix",
+    "action": "Action",
+    "noBookings": "Aucune réservation trouvée"
+  },
+  "pagination": {
+    "showing": "Affichage de",
+    "to": "à",
+    "of": "sur",
+    "bookings": "réservations",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "AUTH": {
+    "LOGIN": "Connexion",
+    "REGISTER": "S'inscrire",
+    "LOGIN_WELCOME": "Bon retour ! Veuillez vous connecter pour continuer",
+    "SIGNUP_WELCOME": "Bienvenue ! Veuillez vous inscrire pour continuer",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Entrez votre email",
+    "PASSWORD": "Mot de passe",
+    "PASSWORD_PLACEHOLDER": "Entrez votre mot de passe",
+    "CREATE_PASSWORD": "Créer un mot de passe",
+    "REMEMBER_ME": "Se souvenir de moi",
+    "FORGOT_PASSWORD": "Mot de passe oublié ?",
+    "SIGN_IN": "Se connecter",
+    "REGISTER_AS": "S'inscrire en tant que",
+    "USER": "Utilisateur",
+    "MANAGER": "Gestionnaire",
+    "FIRST_NAME": "Prénom",
+    "LAST_NAME": "Nom",
+    "PHONE": "Numéro de téléphone",
+    "PHONE_PLACEHOLDER": "Entrez votre numéro de téléphone",
+    "CREATE_ACCOUNT": "Créer un compte"
+  },
+  "SCHEDULES": {
+    "TITLE": "Gérer les horaires des terrains complexe",
+    "SUBTITLE": "Configurez les heures d'ouverture et gérez la disponibilité de vos terrains",
+    "SELECT_DATE": "Sélectionner la date",
+    "FIELDS": "Terrains",
+    "SELECTED": "Sélectionné",
+    "LEGEND": "Légende",
+    "STATUS": {
+      "AVAILABLE": "Disponible",
+      "MAINTENANCE": "Maintenance",
+      "BLOCKED": "Bloqué"
+    },
+    "SELECT_FIELD_MESSAGE": "Sélectionnez un terrain pour commencer",
+    "SELECT_FIELD_TO_VIEW": "Sélectionnez un terrain pour voir et gérer les créneaux horaires",
+    "ADD_TIME_SLOT": "Ajouter un créneau",
+    "EDIT": "Modifier",
+    "ADD": "Ajouter",
+    "TIME_SLOT": "Créneau horaire",
+    "START_TIME": "Heure de début",
+    "END_TIME": "Heure de fin",
+    "STATUS_LABEL": "Statut",
+    "NOTES": "Notes (Optionnel)",
+    "NOTES_PLACEHOLDER": "Ajouter des notes...",
+    "CANCEL": "Annuler",
+    "UPDATE": "Mettre à jour",
+    "SLOT": "Créneau"
+  },
+  "MANAGER_DASHBOARD": {
+    "TITLE": "Tableau de bord du gestionnaire",
+    "SUBTITLE": "Gérez vos complexes, terrains et réservations",
+    "SEARCH_PLACEHOLDER": "Rechercher un complexe...",
+    "COMPLEXES": "complexes",
+    "FIELDS": "terrains",
+    "BOOKINGS": "réservations",
+    "SELECT_COMPLEX": "Sélectionnez un complexe pour voir les détails",
+    "NO_COMPLEXES": "Aucun complexe disponible",
+    "ERROR_LOADING": "Erreur lors du chargement des données",
+    "ACCESS_DENIED": "Accès refusé : vous devez être un GESTIONNAIRE",
+    "USER_NOT_CONNECTED": "Utilisateur non connecté"
+  },
+  "USER_COMPLEX_LIST": {
+    "TITLE": "Complexes Disponibles",
+    "SUBTITLE": "Parcourir et réserver des terrains de football",
+    "SEARCH_PLACEHOLDER": "Rechercher par nom de complexe, ville...",
+    "FILTER": "Filtrer",
+    "CLEAR_FILTERS": "Effacer les filtres",
+    "MOBILE_FILTERS": "Filtres",
+    "NO_COMPLEXES": "Aucun complexe trouvé",
+    "LOADING": "Chargement...",
+    "VIEW_FIELDS": "Voir les terrains",
+    "RESULTS": "résultats",
+    "SHOWING": "Affichage de"
+  },
+  "COMMON": {
+    "LOADING": "Chargement...",
+    "ERROR_GENERIC": "Une erreur est survenue",
+    "SEARCH": "Rechercher",
+    "FILTERS": "Filtres",
+    "APPLY_FILTERS": "Appliquer les filtres",
+    "CLEAR_FILTERS": "Effacer les filtres",
+    "CANCEL": "Annuler",
+    "SAVE_CHANGES": "Enregistrer les modifications",
+    "SAVING": "Enregistrement...",
+    "PHONE": "Téléphone",
+    "EMAIL": "Email"
+  },
+  "DASHBOARD": {
+    "TITLE": "Tableau de bord manager",
+    "SUBTITLE": "Gérez vos complexes, terrains et réservations.",
+    "PILLS": {
+      "COMPLEXES": "{{count}} complexes",
+      "FIELDS": "{{count}} terrains"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "Rechercher un complexe..."
+    },
+    "STATS": {
+      "COMPLEXES": "Complexes",
+      "FIELDS": "Terrains",
+      "BOOKINGS": "Réservations"
+    },
+    "MY_COMPLEXES": "Mes complexes",
+    "TOTAL": "{{count}} total",
+    "NONE_FOUND": "Aucun complexe trouvé.",
+    "SELECTED": "Sélectionné",
+    "VIEW": "Voir",
+    "COMPLEX_PREFIX": "Complexe {{name}}",
+    "FIELDS_SECTION": "Terrains",
+    "TABLE": {
+      "NAME": "Nom",
+      "TYPE": "Type",
+      "STATUS": "Statut",
+      "PRICE": "Prix",
+      "REVIEWS": "Avis"
+    },
+    "NO_FIELDS": "Aucun terrain pour ce complexe.",
+    "BOOKINGS_SECTION": "Réservations",
+    "BOOKING_PREFIX": "Réservation #{{id}}",
+    "FIELD_LABEL": "Terrain: {{name}}",
+    "NO_BOOKINGS": "Aucune réservation pour ce complexe.",
+    "NO_COMPLEX_FOR_MANAGER": "Aucun complexe trouvé pour ce manager."
+  },
+  "COMPLEX_LIST_USER": {
+    "TITLE": "Catalogue des complexes",
+    "SUBTITLE": "Découvrez des complexes sportifs et leurs terrains disponibles",
+    "SEARCH_PLACEHOLDER": "Rechercher par nom ou localisation...",
+    "STATUS": {
+      "LABEL": "Statut",
+      "ALL": "Tous les statuts",
+      "OPEN": "Ouvert",
+      "CLOSED": "Fermé"
+    },
+    "RESULTS_FOUND": "{{count}} {{count, plural, =1 {complexe trouvé} other {complexes trouvés}}}",
+    "CLEAR_FILTERS": "Effacer les filtres",
+    "VIEW_FIELDS": "Voir les terrains",
+    "FIELDS_COUNT": "{{count}} {{count, plural, =1 {terrain} other {terrains}}}",
+    "SCHEDULE": "{{open}} - {{close}}",
+    "PAGINATION": {
+      "SHOWING": "Affichage de",
+      "TO": "à",
+      "OF": "sur",
+      "RESULTS": "résultats"
+    },
+    "EMPTY": {
+      "TITLE": "Aucun complexe trouvé",
+      "SUBTITLE": "Essayez d'ajuster vos critères de recherche",
+      "CLEAR_ALL": "Tout effacer"
+    }
+  },
+  "PROFILE": {
+    "TITLE": "Modifier le profil",
+    "SUBTITLE": "Mettez à jour vos informations personnelles",
+    "ROLE": "Rôle",
+    "FIRST_NAME": "Prénom",
+    "LAST_NAME": "Nom",
+    "EMAIL": "Adresse email",
+    "PHONE": "Numéro de téléphone",
+    "REQUIRED": "*",
+    "PLACEHOLDERS": {
+      "FIRST_NAME": "Entrez votre prénom",
+      "LAST_NAME": "Entrez votre nom",
+      "EMAIL": "Entrez votre adresse email",
+      "PHONE": "Entrez votre numéro de téléphone"
+    }
+  },
+  "HOME": {
+    "HERO": {
+      "TITLE_LINE_1": "Le terrain est à vous.",
+      "TITLE_LINE_2": "À tout moment. Partout.",
+      "DESCRIPTION": "La plateforme ultime pour réserver des matchs 5v5 et 6v6. Trouvez votre match ou gérez votre terrain en toute simplicité.",
+      "CTA_PLAY": "Je veux jouer",
+      "CTA_OWNER": "Je possède un terrain",
+      "SEARCH_PLACEHOLDER": "Où voulez-vous jouer ?"
+    },
+    "PLAYERS": {
+      "TITLE": "Pour les joueurs",
+      "DESCRIPTION": "Tout ce dont vous avez besoin pour lancer un match sans prise de tête.",
+      "CTA_FIND_FIELD": "Trouver un terrain",
+      "CARDS": {
+        "REALTIME": {
+          "TITLE": "Disponibilités en temps réel",
+          "DESCRIPTION": "Voyez quels terrains sont libres maintenant et réservez instantanément sans appels."
+        },
+        "SPLIT_PAYMENTS": {
+          "TITLE": "Paiement partagé",
+          "DESCRIPTION": "Partagez facilement le coût avec votre équipe directement dans l’application avant le match."
+        },
+        "CONFIRMATION": {
+          "TITLE": "Confirmation instantanée",
+          "DESCRIPTION": "Réservez en quelques secondes et recevez immédiatement vos billets numériques."
+        }
+      }
+    },
+    "MANAGERS": {
+      "TITLE": "Pour les managers",
+      "DESCRIPTION": "Optimisez le taux d’occupation de vos terrains et simplifiez votre gestion.",
+      "CTA_LIST_COMPLEX": "Ajouter votre complexe",
+      "CARDS": {
+        "CALENDAR": {
+          "TITLE": "Gestion du calendrier",
+          "DESCRIPTION": "Centralisez toutes vos réservations et évitez les doubles réservations facilement."
+        },
+        "ANALYTICS": {
+          "TITLE": "Tableau de bord analytique",
+          "DESCRIPTION": "Suivez vos performances, heures de pointe et revenus grâce à des graphiques détaillés."
+        },
+        "PAYMENTS": {
+          "TITLE": "Paiements automatisés",
+          "DESCRIPTION": "Soyez payé plus vite, gérez les remboursements et sécurisez vos revenus avec la facturation automatique."
+        }
+      }
+    },
+    "REVIEWS": {
+      "TITLE": "Avis de la communauté",
+      "BADGE_MANAGER": "Manager",
+      "ROLES": {
+        "PLAYER": "Joueur",
+        "OWNER": "Propriétaire"
+      },
+      "ITEMS": {
+        "ALEX": {
+          "NAME": "Alex Johnson",
+          "ROLE": "Joueur",
+          "QUOTE": "\"Super appli ! J’ai trouvé un terrain en quelques minutes pour notre 5 contre 5. Le paiement partagé m’a évité de courir après l’argent.\""
+        },
+        "MARIA": {
+          "NAME": "Maria Garcia",
+          "ROLE": "Propriétaire",
+          "QUOTE": "\"En tant que propriétaire, gérer les réservations est devenu beaucoup plus simple. Plus de doubles réservations et les analytics sont très utiles.\""
+        },
+        "LIAM": {
+          "NAME": "Liam Smith",
+          "ROLE": "Joueur",
+          "QUOTE": "\"Très bonne expérience. Interface clean et réservation fluide. J’aimerais voir plus de terrains ajoutés près de chez moi.\""
+        }
+      }
+    }
+  }
+}

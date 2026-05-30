@@ -1,0 +1,215 @@
+<aside #sidebar 
+    class="sidebar" 
+    [class.collapsed]="isCollapsed()"
+    role="navigation"
+    [attr.aria-label]="'sidebar.mainNavigation' | translate"
+    [attr.aria-expanded]="!isCollapsed()">
+    
+    <header>
+        <button 
+            type="button" 
+            class="sidebar-toggle" 
+            (click)="toggleCollapse()"
+            [attr.aria-label]="isCollapsed() ? ('sidebar.expandSidebar' | translate) : ('sidebar.collapseSidebar' | translate)"
+            [attr.aria-expanded]="!isCollapsed()"
+            aria-controls="sidebar-nav">
+            <span class="material-icons" aria-hidden="true">
+                {{ isCollapsed() ? 'menu' : 'menu_open' }}
+            </span>
+        </button>
+        
+        @if(!isCollapsed()) {
+            @if(isDarkMode()) {
+                <img src="whitelogo.png" alt="Takwirti" class="logo" />
+            } @else {
+                <img src="blacklogo.png" alt="Takwirti" class="logo" />
+            }
+            
+            <div class="brand-name" aria-hidden="true">Takwirti</div>
+        }
+    </header>
+    
+    <nav #nav id="sidebar-nav" class="menu" role="menubar" [attr.aria-label]="'sidebar.primaryNavigation' | translate">
+        @for(item of menu(); track item.id; let i = $index) {
+            <div class="menu-item-wrapper">
+                <!-- Main Menu Button -->
+                <button 
+                    #navButton 
+                    type="button" 
+                    role="menuitem"
+                    (click)="onButtonClick(item.id, item.path, item.hasDropdown)" 
+                    (keydown)="onKeyDown($event, i)"
+                    [attr.aria-label]="item.name | translate"
+                    [attr.data-tooltip]="item.name | translate"
+                    [attr.aria-current]="item.active ? 'page' : null"
+                    [attr.aria-expanded]="item.hasDropdown ? (item.id === 2 ? showBookingsDropdown() : item.id === 3 ? showAvailabilityDropdown() : false) : null"
+                    [class.active]="item.active"
+                    [class.has-dropdown]="item.hasDropdown"
+                    tabindex="0">
+                    <span class="material-icons" aria-hidden="true">{{ item.icon }}</span>
+                    @if(!isCollapsed()) {
+                        <p>{{ item.name | translate }}</p>
+                        @if(item.hasDropdown) {
+                            <span class="material-icons expand-icon ml-auto text-[18px] transition-transform" 
+                                [class.rotate-180]="item.id === 2 ? showBookingsDropdown() : item.id === 3 ? showAvailabilityDropdown() : false">
+                                expand_more
+                            </span>
+                        }
+                    }
+                </button>
+
+                <!-- Dropdown for Bookings -->
+                @if(item.id === 2 && showBookingsDropdown() && !isCollapsed()) {
+                    <div class="dropdown-submenu" (click)="$event.stopPropagation()">
+                        @if(loadingComplexes()) {
+                            <div class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                                <span class="material-icons animate-spin text-[16px]">refresh</span>
+                                {{ 'sidebar.loading' | translate }}
+                            </div>
+                        } @else if(userComplexes().length === 0) {
+                            <div class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
+                                {{ 'sidebar.noComplexes' | translate }}
+                            </div>
+                        } @else {
+                            @for(complex of userComplexes(); track complex.id) {
+                                <button 
+                                    type="button"
+                                    (click)="navigateToBooking(complex.id)"
+                                    class="w-full px-4 py-2.5 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2c4724] transition-colors flex items-center gap-2 group">
+                                    <span class="material-icons text-[16px] text-gray-400 group-hover:text-primary">stadium</span>
+                                    <span class="truncate">{{ complex.name }}</span>
+                                </button>
+                            }
+                        }
+                    </div>
+                }
+
+                <!-- Dropdown for Availability -->
+                @if(item.id === 3 && showAvailabilityDropdown() && !isCollapsed()) {
+                    <div class="dropdown-submenu" (click)="$event.stopPropagation()">
+                        @if(loadingComplexes()) {
+                            <div class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                                <span class="material-icons animate-spin text-[16px]">refresh</span>
+                                {{ 'sidebar.loading' | translate }}
+                            </div>
+                        } @else if(userComplexes().length === 0) {
+                            <div class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
+                                {{ 'sidebar.noComplexes' | translate }}
+                            </div>
+                        } @else {
+                            @for(complex of userComplexes(); track complex.id) {
+                                <button 
+                                    type="button"
+                                    (click)="navigateToAvailability(complex.id)"
+                                    class="w-full px-4 py-2.5 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2c4724] transition-colors flex items-center gap-2 group">
+                                    <span class="material-icons text-[16px] text-gray-400 group-hover:text-primary">event_available</span>
+                                    <span class="truncate">{{ complex.name }}</span>
+                                </button>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </nav>
+
+    <footer class="sidebar-footer">
+        <!-- User Section -->
+        <div class="user-section" (click)="toggleUserMenu()">
+            <div class="user-avatar">
+                {{ user()?.firstName?.charAt(0) || 'U' }}
+            </div>
+            
+            @if(!isCollapsed()) {
+                <div class="user-info">
+                    <span class="user-name">{{user()?.firstName}} {{user()?.lastName}}</span>
+                </div>
+
+                <span class="material-icons expand-icon">
+                    {{ showUserMenu() ? 'expand_less' : 'expand_more' }}
+                </span>
+            }
+        </div>
+
+        <!-- User Dropdown -->
+        @if (showUserMenu()) {
+        <div class="dropdown-menu user-menu" (click)="$event.stopPropagation()">
+            <div class="dropdown-header">
+                <p class="dropdown-user-name">
+                    {{ user()?.firstName }} {{ user()?.lastName }}
+                </p>
+                <p class="dropdown-user-email">
+                    {{ user()?.email }}
+                </p>
+            </div>
+
+            <button (click)="logout()" class="dropdown-item logout-item">
+                <span class="material-icons">logout</span>
+                <span>{{ 'sidebar.logout' | translate }}</span>
+            </button>
+        </div>
+        }
+
+        <!-- Action Buttons -->
+        <div class="action-buttons" [class.collapsed]="isCollapsed()">
+            <!-- Theme Toggle -->
+            <button 
+                (click)="toggleTheme()"
+                class="action-button"
+                [attr.aria-label]="isDarkMode() ? ('sidebar.switchToLightMode' | translate) : ('sidebar.switchToDarkMode' | translate)"
+                type="button">
+                @if (isDarkMode()) {
+                    <span class="material-icons" aria-hidden="true">light_mode</span>
+                } @else {
+                    <span class="material-icons" aria-hidden="true">dark_mode</span>
+                }
+            </button>
+
+            <!-- Language Selector -->
+            <div class="language-wrapper">
+                <button 
+                    (click)="toggleLanguageMenu(); $event.stopPropagation()"
+                    class="action-button text-gray-900 dark:text-gray-100"
+                    [attr.aria-label]="'sidebar.changeLanguage' | translate"
+                    type="button">
+                    <span class="language-flag">{{ getCurrentLanguageOption().flag }}</span>
+                </button>
+
+                <!-- Language Dropdown -->
+                @if (showLanguageMenu()) {
+                <div class="absolute left-0 bottom-full mb-2 w-48 text-gray-600 dark:text-gray-300 bg-white dark:bg-surface-card rounded-xl shadow-xl border border-gray-200 dark:border-white/10 overflow-hidden animate-fade-in z-[1002]">
+                    @for (lang of languages; track lang.code) {
+                    <button (click)="changeLanguage(lang.code); $event.stopPropagation()"
+                        [class.bg-primary/10]="currentLanguage() === lang.code"
+                        [class.text-primary]="currentLanguage() === lang.code"
+                        class="text-gray-600 dark:text-gray-300 w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-surface-dark transition-colors flex items-center gap-3">
+                        <span class="text-xl">{{ lang.flag }}</span>
+                        <span class="font-medium text-sm text-gray-600 dark:text-gray-300">{{ lang.name }}</span>
+                        @if (currentLanguage() === lang.code) {
+                        <span class="material-icons text-sm ml-auto">check</span>
+                        }
+                    </button>
+                    }
+                </div>
+                }
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Mobile Overlay -->
+    @if (!isCollapsed() && isMobile()) {
+        <div 
+            class="sidebar-overlay" 
+            (click)="toggleCollapse()"
+            role="button"
+            tabindex="0"
+            (keydown.enter)="toggleCollapse()"
+            (keydown.space)="toggleCollapse()"
+            [attr.aria-label]="'sidebar.closeSidebar' | translate"></div>
+    }
+</aside>
+
+<!-- Click outside to close menus -->
+@if (showLanguageMenu() || showUserMenu() || showBookingsDropdown() || showAvailabilityDropdown()) {
+<div class="menu-overlay" (click)="closeMenus(); $event.stopPropagation()"></div>
+}

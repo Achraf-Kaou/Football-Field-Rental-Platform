@@ -1,0 +1,147 @@
+<app-navbar-main></app-navbar-main>
+<div class="min-h-screen pt-24 bg-white dark:bg-background transition-colors duration-300">
+    <!-- Hero Section -->
+    <section class="relative text-background py-20 md:py-32 overflow-hidden"
+        style="background-image: url('hero-section.png');">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-6xl font-black text-white mb-6 drop-shadow-2xl animate-fade-in">
+                    Find Your Perfect Field
+                </h1>
+                <p class="mb-8 text-lg md:text-xl font-medium text-white">
+                    Book football fields instantly. Play anywhere, anytime.
+                </p>
+
+                <!-- Search Bar -->
+                <app-card>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="relative">
+                            <app-input [placeholder]="'Location'" [(value)]="searchLocation">
+                            </app-input>
+                        </div>
+                        <app-button [variant]="'primary'" class="w-full h-12" (click)="search()">
+                            <span class="material-icons mr-2">search</span>
+                            Search Fields
+                        </app-button>
+                    </div>
+                </app-card>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Fields -->
+    <section class="py-16 bg-gray-50 dark:bg-surface-card border-y border-gray-200 dark:border-white/5">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-black mb-12 text-center text-gray-900 dark:text-white">
+                Featured Fields
+            </h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @for(field of featuredFields(); track field.id) {
+                <app-card>
+                    <div class="overflow-hidden rounded-t-2xl">
+                        <img [src]="field.images[0]" [alt]="field.name"
+                            class="w-full h-48 object-cover transition-transform duration-300 hover:scale-110" />
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+                                {{ field.name }}
+                            </h3>
+                            <div class="flex items-center gap-1 text-primary bg-primary/10 px-2 py-1 rounded-lg">
+                                <span class="material-icons text-sm">star</span>
+                                <span class="font-bold text-sm">{{ getFormattedFieldRating(field.id) }}</span>
+                                @if(getFieldReviewCount(field.id) > 0) {
+                                    <span class="text-xs text-gray-600 dark:text-gray-400">({{ getFieldReviewCount(field.id) }})</span>
+                                }
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 flex items-center gap-2">
+                            Complex : {{ field.complex?.name }}
+                        </p>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 flex items-center gap-2">
+                            <span class="material-icons text-lg">location_on</span>
+                            {{ field.complex?.address }}
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-bold text-primary">
+                                {{ field.price }}
+                                <span class="text-sm text-gray-500 dark:text-gray-400 font-normal">/hour</span>
+                            </div>
+                            <app-button [variant]="'primary'" (click)="goToBooking(field.id)">
+                                Book Now
+                                <span class="material-icons ml-2">arrow_forward</span>
+                            </app-button>
+                        </div>
+                    </div>
+                </app-card>
+                }
+            </div>
+
+            <div class="text-center mt-12">
+                <app-button [variant]="'outline'" [size]="'lg'" (click)="goToFields()">
+                    View All Fields
+                    <span class="material-icons ml-2">arrow_forward</span>
+                </app-button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Complexes -->
+    <section class="py-16 bg-gray-50 dark:bg-surface-card border-y border-gray-200 dark:border-white/5">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-black mb-12 text-center text-gray-900 dark:text-white">
+                Featured Complexes
+            </h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @for(complex of featuredComplexes(); track complex.id) {
+                <app-card>
+                    <div class="overflow-hidden rounded-t-2xl">
+                        <img [src]="complex.images[0]" [alt]="complex.name"
+                            class="w-full h-48 object-cover transition-transform duration-300 hover:scale-110" />
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+                                {{ complex.name }}
+                            </h3>
+                            <div class="flex items-center gap-1 text-primary bg-primary/10 px-2 py-1 rounded-lg">
+                                <span class="material-icons text-sm">star</span>
+                                <span class="font-bold text-sm">{{ getFormattedComplexRating(complex.id) }}</span>
+                                @if(getComplexReviewCount(complex.id) > 0) {
+                                    <span class="text-xs text-gray-600 dark:text-gray-400">({{ getComplexReviewCount(complex.id) }})</span>
+                                }
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 flex items-center gap-2">
+                            {{ complex.description }}
+                        </p>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 flex items-center gap-2">
+                            <span class="material-icons text-lg">location_on</span>
+                            {{ complex.address }}
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-lg font-bold text-primary">
+                                {{ complex.openAt }} - {{ complex.closeAt }}
+                            </div>
+                            <app-button [variant]="'primary'" (click)="goToComplex(complex.id)">
+                                View Complex
+                                <span class="material-icons ml-2">arrow_forward</span>
+                            </app-button>
+                        </div>
+                    </div>
+                </app-card>
+                }
+            </div>
+
+            <div class="text-center mt-12">
+                <app-button [variant]="'outline'" [size]="'lg'" (click)="goToComplexes()">
+                    View All Complexes
+                    <span class="material-icons ml-2">arrow_forward</span>
+                </app-button>
+            </div>
+        </div>
+    </section>
+</div>
+<app-footer-main></app-footer-main>
