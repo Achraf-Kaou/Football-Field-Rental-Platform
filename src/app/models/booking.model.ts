@@ -6,6 +6,6 @@ export interface Booking {
     fieldId: number;
     startAt: string;
     endAt: string;
-    status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+    status: 'pending' | 'confirmed' | 'cancelled' | 'COMPLETED';
     field: FieldModel
 }

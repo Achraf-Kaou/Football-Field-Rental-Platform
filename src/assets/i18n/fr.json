@@ -446,5 +446,78 @@
       "EMAIL": "Entrez votre adresse email",
       "PHONE": "Entrez votre numéro de téléphone"
     }
+  },
+  "HOME": {
+    "HERO": {
+      "TITLE_LINE_1": "Le terrain est à vous.",
+      "TITLE_LINE_2": "À tout moment. Partout.",
+      "DESCRIPTION": "La plateforme ultime pour réserver des matchs 5v5 et 6v6. Trouvez votre match ou gérez votre terrain en toute simplicité.",
+      "CTA_PLAY": "Je veux jouer",
+      "CTA_OWNER": "Je possède un terrain",
+      "SEARCH_PLACEHOLDER": "Où voulez-vous jouer ?"
+    },
+    "PLAYERS": {
+      "TITLE": "Pour les joueurs",
+      "DESCRIPTION": "Tout ce dont vous avez besoin pour lancer un match sans prise de tête.",
+      "CTA_FIND_FIELD": "Trouver un terrain",
+      "CARDS": {
+        "REALTIME": {
+          "TITLE": "Disponibilités en temps réel",
+          "DESCRIPTION": "Voyez quels terrains sont libres maintenant et réservez instantanément sans appels."
+        },
+        "SPLIT_PAYMENTS": {
+          "TITLE": "Paiement partagé",
+          "DESCRIPTION": "Partagez facilement le coût avec votre équipe directement dans l’application avant le match."
+        },
+        "CONFIRMATION": {
+          "TITLE": "Confirmation instantanée",
+          "DESCRIPTION": "Réservez en quelques secondes et recevez immédiatement vos billets numériques."
+        }
+      }
+    },
+    "MANAGERS": {
+      "TITLE": "Pour les managers",
+      "DESCRIPTION": "Optimisez le taux d’occupation de vos terrains et simplifiez votre gestion.",
+      "CTA_LIST_COMPLEX": "Ajouter votre complexe",
+      "CARDS": {
+        "CALENDAR": {
+          "TITLE": "Gestion du calendrier",
+          "DESCRIPTION": "Centralisez toutes vos réservations et évitez les doubles réservations facilement."
+        },
+        "ANALYTICS": {
+          "TITLE": "Tableau de bord analytique",
+          "DESCRIPTION": "Suivez vos performances, heures de pointe et revenus grâce à des graphiques détaillés."
+        },
+        "PAYMENTS": {
+          "TITLE": "Paiements automatisés",
+          "DESCRIPTION": "Soyez payé plus vite, gérez les remboursements et sécurisez vos revenus avec la facturation automatique."
+        }
+      }
+    },
+    "REVIEWS": {
+      "TITLE": "Avis de la communauté",
+      "BADGE_MANAGER": "Manager",
+      "ROLES": {
+        "PLAYER": "Joueur",
+        "OWNER": "Propriétaire"
+      },
+      "ITEMS": {
+        "ALEX": {
+          "NAME": "Alex Johnson",
+          "ROLE": "Joueur",
+          "QUOTE": "\"Super appli ! J’ai trouvé un terrain en quelques minutes pour notre 5 contre 5. Le paiement partagé m’a évité de courir après l’argent.\""
+        },
+        "MARIA": {
+          "NAME": "Maria Garcia",
+          "ROLE": "Propriétaire",
+          "QUOTE": "\"En tant que propriétaire, gérer les réservations est devenu beaucoup plus simple. Plus de doubles réservations et les analytics sont très utiles.\""
+        },
+        "LIAM": {
+          "NAME": "Liam Smith",
+          "ROLE": "Joueur",
+          "QUOTE": "\"Très bonne expérience. Interface clean et réservation fluide. J’aimerais voir plus de terrains ajoutés près de chez moi.\""
+        }
+      }
+    }
   }
 }

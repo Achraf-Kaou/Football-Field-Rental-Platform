@@ -446,5 +446,78 @@
       "EMAIL": "Enter your email address",
       "PHONE": "Enter your phone number"
     }
+  },
+  "HOME": {
+    "HERO": {
+      "TITLE_LINE_1": "The Field is Yours.",
+      "TITLE_LINE_2": "Anytime. Anywhere.",
+      "DESCRIPTION": "The ultimate platform for 5vs5 and 6vs6 match bookings. Find your game or manage your turf with ease.",
+      "CTA_PLAY": "I want to Play",
+      "CTA_OWNER": "I own a Field",
+      "SEARCH_PLACEHOLDER": "Where do you want to play?"
+    },
+    "PLAYERS": {
+      "TITLE": "For Players",
+      "DESCRIPTION": "Everything you need to get the game going without the hassle.",
+      "CTA_FIND_FIELD": "Find a Field",
+      "CARDS": {
+        "REALTIME": {
+          "TITLE": "Real-time Availability",
+          "DESCRIPTION": "See which fields are free right now and book instantly without phone calls."
+        },
+        "SPLIT_PAYMENTS": {
+          "TITLE": "Split Payments",
+          "DESCRIPTION": "Share the cost with your team easily directly through the app before the game."
+        },
+        "CONFIRMATION": {
+          "TITLE": "Instant Confirmation",
+          "DESCRIPTION": "Book your spot in seconds and receive digital tickets immediately."
+        }
+      }
+    },
+    "MANAGERS": {
+      "TITLE": "For Managers",
+      "DESCRIPTION": "Maximize your field occupancy and simplify your business operations.",
+      "CTA_LIST_COMPLEX": "List Your Complex",
+      "CARDS": {
+        "CALENDAR": {
+          "TITLE": "Calendar Management",
+          "DESCRIPTION": "Organize all your bookings in one view and prevent double bookings effortlessly."
+        },
+        "ANALYTICS": {
+          "TITLE": "Analytics Dashboard",
+          "DESCRIPTION": "Track your business performance, peak hours, and revenue growth with detailed charts."
+        },
+        "PAYMENTS": {
+          "TITLE": "Automated Payments",
+          "DESCRIPTION": "Get paid faster, handle refunds easily, and secure your revenue with auto-invoicing."
+        }
+      }
+    },
+    "REVIEWS": {
+      "TITLE": "Community Reviews",
+      "BADGE_MANAGER": "Manager",
+      "ROLES": {
+        "PLAYER": "Player",
+        "OWNER": "Owner"
+      },
+      "ITEMS": {
+        "ALEX": {
+          "NAME": "Alex Johnson",
+          "ROLE": "Player",
+          "QUOTE": "\"Great app! Found a field in minutes for our 5-a-side game. The split payment feature saved me so much hassle collecting money.\""
+        },
+        "MARIA": {
+          "NAME": "Maria Garcia",
+          "ROLE": "Owner",
+          "QUOTE": "\"As a complex owner, this has made managing bookings so much easier. No more double bookings and the analytics are super helpful.\""
+        },
+        "LIAM": {
+          "NAME": "Liam Smith",
+          "ROLE": "Player",
+          "QUOTE": "\"Solid experience. The interface is clean and booking is smooth. Would love to see more venues added in my area soon.\""
+        }
+      }
+    }
   }
 }

@@ -216,7 +216,7 @@ export class UserBookings implements OnInit {
       comment: formData.comment || undefined,
       userId: this.user()!.id
     };
-
+    console.log('Submitting review:', reviewDto);
     this.reviewService.createReview(reviewDto).subscribe({
       next: (review) => {
         this.toastService.success('Review submitted successfully!', 3000);
